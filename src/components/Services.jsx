@@ -23,12 +23,17 @@ function Services() {
         initial="hidden"
         whileInView={"show"}
         viewport={{ once: false, amount: 0.5 }}
-        className="text-primary font-bold text-center capitalize text-4xl phone:text-xl mtab:text-2xl btablet:text-3xl laptop:text-4xl my-6 phone:my-2 tablet:my-4 laptop:my-6 mt-8"
+        className="z-[-1] absolute top-6 left-1/4 transform -translate-x-1/2 text-[#E6EAEC] font-bold text-6xl text-center leading-none"
       >
-        Key features and services
+        what golden delight provides
       </motion.h1>
-      <div className="w-full flex justify-center">
-        <p className="w-[600px]">
+      <div className="relative z-0 w-full flex justify-center">
+        <p className="w-[600px] text-center text-4xl font-bold">
+          key feaures and services
+        </p>
+      </div>
+      <div className="w-full flex justify-center ">
+        <p className="text-center max-w-xl text-[#949fa9]">
           Connects job seekers with employers based on skills and requirements,
           fostering meaningful employment opportunities.
         </p>
