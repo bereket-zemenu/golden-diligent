@@ -1,9 +1,12 @@
 import Header from "../components/Header";
+// import AutoSlider from "../components/AutoSlider";
+import InfiniteScroll from "../components/InfiniteScroll";
 
 function Home() {
   return (
-    <div>
+    <div className="">
       <Header />
+      <InfiniteScroll />
     </div>
   );
 }

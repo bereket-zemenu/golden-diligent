@@ -37,7 +37,7 @@ function PageNav() {
   return (
     <>
       <div
-        className={`fixed top-0 left-0 w-full z-[100000] flex justify-between px-12 phone:px-2 mdphone:px-4 ptab:px-6 mtab:px-8 tablet:px-10 laptop:px-12 pt-6 pb-2 content-center items-center overflow-hidden bg-[#f1f1f1] ${
+        className={`fixed top-0 left-0 w-full z-[9999999999] bg-white flex justify-between px-12 phone:px-2 mdphone:px-4 ptab:px-6 mtab:px-8 tablet:px-10 laptop:px-12 pt-6 pb-2 content-center items-center overflow-hidden ${
           isSticky ? "shadow-bottom-only" : ""
         }`}
       >

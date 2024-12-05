@@ -4,13 +4,14 @@ import { motion } from "framer-motion";
 import { fadeIn } from "../variants";
 import { MdOutlineArrowRightAlt } from "react-icons/md";
 import { FaVideo } from "react-icons/fa";
+// import MySvg from "../assets/images/pic-1.svg";
 
 // import Navbar from "./Navbar";
 // import cube from "../assets/images/cube.png";
 
 function Header() {
   return (
-    <div className="relative h-screen bg-[#f1f1f1] overflow-hidden">
+    <div className="relative h-screen overflow-hidden">
       {" "}
       <PageNav />
       {/* <Navbar /> */}
@@ -59,11 +60,22 @@ function Header() {
           </button>
         </motion.div>
       </div>
-      <img src="/pic-1.svg" className="z-[999999] w-[350px] absolute -top-[20px] right-[270px]" />
-      <img src="/pic-2.svg" className="z-[999999] w-[250px] absolute top-[120px] right-[10px]" />
-      <img src="/pic-3.svg" className="z-[999999] w-[350px] absolute bottom-0 right-[0px]" />
-      <img src="/pic-4.svg" className="z-[999999] w-[350px] absolute bottom-[60px] right-[350px]" />
-      
+      <img
+        src="/pic-1.svg"
+        className="z-[999999] w-[350px] absolute -top-[20px] right-[270px]"
+      />
+      <img
+        src="/pic-2.svg"
+        className="z-[999999] w-[250px] absolute top-[120px] right-[10px]"
+      />
+      <img
+        src="/pic-3.svg"
+        className="z-[999999] w-[350px] absolute bottom-0 right-[0px]"
+      />
+      <img
+        src="/pic-4.svg"
+        className="z-[999999] w-[350px] absolute bottom-[60px] right-[350px]"
+      />
     </div>
   );
 }
