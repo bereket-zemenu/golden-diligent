@@ -1,4 +1,5 @@
 import About from "../components/About";
+import Gallery from "../components/Gallery";
 import Header from "../components/Header";
 // import AutoSlider from "../components/AutoSlider";
 import InfiniteScroll from "../components/InfiniteScroll";
@@ -11,6 +12,7 @@ function Home() {
       <InfiniteScroll />
       <Services />
       <About />
+      <Gallery />
     </div>
   );
 }
