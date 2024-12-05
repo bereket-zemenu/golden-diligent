@@ -1,3 +1,4 @@
+import About from "../components/About";
 import Header from "../components/Header";
 // import AutoSlider from "../components/AutoSlider";
 import InfiniteScroll from "../components/InfiniteScroll";
@@ -9,6 +10,7 @@ function Home() {
       <Header />
       <InfiniteScroll />
       <Services />
+      <About />
     </div>
   );
 }
