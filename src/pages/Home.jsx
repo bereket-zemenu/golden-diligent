@@ -4,6 +4,7 @@ import Gallery from "../components/Gallery";
 import Header from "../components/Header";
 // import AutoSlider from "../components/AutoSlider";
 import InfiniteScroll from "../components/InfiniteScroll";
+import Locations from "../components/Locations";
 import Services from "../components/Services";
 
 function Home() {
@@ -15,6 +16,7 @@ function Home() {
       <About />
       <Gallery />
       <DownloadSection />
+      <Locations />
     </div>
   );
 }

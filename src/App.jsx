@@ -2,6 +2,7 @@
 import { Route, Routes } from "react-router-dom";
 import { StoreProvider } from "./contexts/storeContext";
 import Home from "./pages/home";
+// import "leaflet/dist/leaflet.css";
 
 function App() {
   return (
