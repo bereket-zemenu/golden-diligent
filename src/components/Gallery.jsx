@@ -34,7 +34,7 @@ function Gallery() {
         <div className="rounded-lg overflow-hidden">
           <img src={gallery1} className="object-cover h-full w-full" />
         </div>
-        <div className="row-span-2">
+        <div className="row-span-2 rounded-lg overflow-hidden">
           <img src={gallery2} className="object-cover h-full" />
         </div>
         <div className="rounded-lg overflow-hidden">
