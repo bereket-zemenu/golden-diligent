@@ -26,7 +26,7 @@ function Map() {
   );
 
   return (
-    <div className="h-screen w-[100%]">
+    <div className="h-screen w-[90%] m-auto py-20">
       <MapContainer
         center={mapPosition}
         zoom={14}
