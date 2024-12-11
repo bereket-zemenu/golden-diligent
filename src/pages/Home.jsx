@@ -1,5 +1,6 @@
 import About from "../components/About";
 import DownloadSection from "../components/DownloadSection";
+import Footer from "../components/Footer";
 import Gallery from "../components/Gallery";
 import Header from "../components/Header";
 // import AutoSlider from "../components/AutoSlider";
@@ -17,6 +18,7 @@ function Home() {
       <Gallery />
       <DownloadSection />
       <Locations />
+      <Footer />
     </div>
   );
 }
