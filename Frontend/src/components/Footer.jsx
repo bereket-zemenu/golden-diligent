@@ -25,11 +25,11 @@ const Footer = () => {
                 Subscribe Now
               </button>
             </div>
-            <img
+            {/* <img
               src="/ministry-logo.png" // Replace with the appropriate path for the Ministry of Labor logo
               alt="Ministry of Labor"
               className="h-10 mt-4"
-            />
+            /> */}
           </div>
 
           {/* Right Sections */}
