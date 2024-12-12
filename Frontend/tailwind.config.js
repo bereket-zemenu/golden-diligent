@@ -12,6 +12,9 @@ export default {
           "100%": { transform: "translateX(-100%)" },
         },
       },
+      backgroundImage: {
+        "footer-image": "url('./assets/images/ethio.png')",
+      },
     },
     plugins: [],
   },

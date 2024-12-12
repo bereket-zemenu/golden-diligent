@@ -2,7 +2,7 @@ import { IoHeadsetSharp } from "react-icons/io5";
 
 const Footer = () => {
   return (
-    <footer className="relative bg-[#0b1727] mt-10 py-10 px-6">
+    <footer className="relative bg-[#0b1727] mt-10 py-16 px-6">
       {/* <div className="absolute">kaleab</div> */}
       <div className="max-w-5xl m-auto">
         <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start space-y-10 lg:space-y-0">
