@@ -37,12 +37,12 @@ function PageNav() {
   return (
     <>
       <div
-        className={`fixed top-0 left-0 w-full z-[9999999999] bg-white flex justify-between px-12 phone:px-2 mdphone:px-4 ptab:px-6 mtab:px-8 tablet:px-10 laptop:px-12 pt-6 pb-2 content-center items-center overflow-hidden ${
+        className={`fixed top-0 left-0 w-full z-[9999999999] bg-white flex justify-between items-center px-12 phone:px-2 mdphone:px-4 ptab:px-6 mtab:px-8 tablet:px-10 laptop:px-12 pt-6 pb-2 content-center items-center overflow-hidden ${
           isSticky ? "shadow-bottom-only" : ""
         }`}
       >
         <div className="">
-          <img src="logo.png" className="h-[70px] w-[250px]" />
+          <img src="logo.png" className="h-10 mb-4" />
         </div>
         <ul
           className={`flex gap-20 justify-center items-center visible ${
