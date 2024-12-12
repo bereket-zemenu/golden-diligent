@@ -1,7 +1,10 @@
 import { Player } from "@lottiefiles/react-lottie-player";
 import animationData from "../assets/images/animation.json";
+import { useStores } from "../contexts/storeContext";
 
 const MyAnimation = () => {
+  const { move } = useStores();
+
   return (
     <div>
       <Player
@@ -12,7 +15,7 @@ const MyAnimation = () => {
           color: "red",
           height: "180px",
           width: "400px",
-          transform: "rotate(180deg)",
+          transform: move ? "none" : "rotate(180deg)", // Conditional rotation
         }}
       ></Player>
     </div>

@@ -2,14 +2,22 @@ import { useState } from "react";
 import { HiEyeOff } from "react-icons/hi";
 import { HiEye } from "react-icons/hi";
 import MyAnimation from "./MyAnimation";
+import { useStores } from "../contexts/storeContext";
 
 const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { move, setMove } = useStores();
   return (
     <div className="flex h-screen bg-gray-100">
-      <div className="w-[63%] h-[85%] m-auto flex gap-2">
+      <div className="relative w-[63%] h-[85%] m-auto flex gap-2">
         {/* Left Section */}
-        <div className="relative w-1/2 bg-white flex flex-col items-center p-8 pt-16 rounded-lg">
+        <div
+          className={`z-[10] absolute h-full w-1/2 bg-white flex flex-col items-center p-8 pt-16 rounded-lg ${
+            move
+              ? "transform translate-x-full transition-all duration-1000 ml-2"
+              : "transform translate-x-0 transition-all duration-1000 -ml-2"
+          }`}
+        >
           <div className="absolute bottom-[165px] w-[72%] p-[1px] bg-gray-200"></div>
 
           <h2 className="text-xl font-bold mb-2 text-blue-500 font-Poppins">
@@ -17,7 +25,14 @@ const Login = () => {
           </h2>
           <p className="mb-6 text-sm text-gray-400">
             Don&apos;t You Have An Account?{" "}
-            <span className="text-blue-500">Sign Up</span>
+            <span
+              onClick={() => {
+                setMove(!move);
+              }}
+              className="text-blue-500 cursor-pointer"
+            >
+              Sign Up
+            </span>
           </p>
           <form className="space-y-4 w-80">
             <div>
@@ -75,7 +90,13 @@ const Login = () => {
           </div>
         </div>
         {/* Right Section */}
-        <div className="relative w-1/2 bg-blue-900 text-white flex flex-col gap-2 items-center p-8 rounded-lg">
+        <div
+          className={`z-[20] absolute h-full w-1/2 bg-blue-900 text-white flex flex-col gap-2 items-center p-8 rounded-lg ${
+            move
+              ? "transform -translate-x-0 transition-all duration-1000 -ml-2"
+              : "transform translate-x-full transition-all duration-1000 "
+          }`}
+        >
           <div className="absolute z-[0] bottom-0 w-full h-[90px] bg-footer-image bg-cover bg-no-repeat bg-scroll bg-center phone:bg-center"></div>
           <div className="">
             <img
@@ -84,7 +105,7 @@ const Login = () => {
               className="h-12"
             />
           </div>
-          <p className="text-white opacity-[0.70] w-1/2 text-center font-Poppins">
+          <p className="text-white opacity-[0.70] w-1/2 text-center text-sm font-Poppins">
             Ethiopian Labor Market Information System
           </p>
           <MyAnimation />
