@@ -7,6 +7,7 @@ function StoreProvider({ children }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showPages, setShowPages] = useState(false);
   const [move, setMove] = useState(false);
+  const [currState, setCurrState] = useState("Login");
 
   console.log(isOpen);
   function handleIsOpen() {
@@ -22,6 +23,8 @@ function StoreProvider({ children }) {
         setMove,
         showPages,
         setShowPages,
+        currState,
+        setCurrState,
       }}
     >
       {children}
