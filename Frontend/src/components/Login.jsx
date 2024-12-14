@@ -17,6 +17,7 @@ const Login = () => {
   const [isPhoneFocused, setIsPhoneFocused] = useState(false);
   const [isPassFocused, setIsPassFocused] = useState(false);
   const [isConfirmPassFocused, setIsConfirmPassFocused] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
   const [errMessage, setErrMessage] = useState("");
   const [loginError, setLoginError] = useState("");
   const [data, setData] = useState({
@@ -42,7 +43,7 @@ const Login = () => {
       if (response.data.success) {
         setToken(response.data.token);
         localStorage.setItem("token", response.data.token);
-        // setShowLogin(false);
+        setRegMessage("");
       } else {
         setErrMessage("");
         setRegMessage("");
@@ -148,9 +149,15 @@ const Login = () => {
                   {currState === "signUp" && <FlagImoji countryCode="ET" />}
                   <input
                     name="phone"
-                    onChange={(e) =>
-                      setData({ ...data, phone: e.target.value })
-                    }
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (/^\d*$/.test(value)) {
+                        setData({ ...data, phone: value });
+                        setPhoneError(""); // Clear error message if valid input
+                      } else {
+                        setPhoneError("Please enter numbers only.");
+                      }
+                    }}
                     onBlur={(e) => {
                       if (!e.target.value) {
                         setIsPhoneFocused(false);
@@ -163,7 +170,6 @@ const Login = () => {
                     placeholder=" "
                     className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
-
                   {/* Floating Label */}
                   <label
                     htmlFor="phone"
@@ -177,6 +183,11 @@ const Login = () => {
                   >
                     Phone Number
                   </label>
+                  {phoneError && (
+                    <p className="absolute bottom-[-15px] left-8 text-red-500 text-xs mt-1">
+                      {phoneError}
+                    </p>
+                  )}
                 </div>
 
                 {/* Floating Label */}

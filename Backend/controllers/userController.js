@@ -11,20 +11,21 @@ const createToken = (id) => {
 //logic for user login
 const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await userModel.findOne({ email });
+    const { phone, password } = req.body; // Use phone instead of email
+    const user = await userModel.findOne({ phone }); // Find user by phone
+
     if (!user) {
-      return res.json({ sucess: false, message: "User doesn't exist" });
+      return res.json({ success: false, message: "User doesn't exist" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.json({ sucess: false, message: "Invalid credentials" });
+      return res.json({ success: false, message: "Invalid credentials" });
     }
 
-    const token = createToken(user._id);
-    res.json({ success: true, token });
+    const token = createToken(user._id); // Create token using user ID
+    res.json({ success: true, token }); // Respond with success and token
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: "Error" });
