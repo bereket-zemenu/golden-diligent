@@ -2,6 +2,7 @@ import express from "express";
 import "dotenv/config";
 import cors from "cors";
 import { connectDB } from "./config/db.js";
+import userRouter from "./routes/userRoute.js";
 
 // Initialize Express app
 const app = express();
@@ -13,9 +14,12 @@ app.use(cors());
 //db connection
 connectDB();
 
+//api end point
+app.use("/api/user", userRouter);
+
 // Define a route
 app.get("/", (req, res) => {
-  res.send("Welcome to the Node.js Backend!");
+  res.send("API working");
 });
 
 // Start the server

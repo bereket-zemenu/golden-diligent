@@ -1,14 +1,66 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { HiEyeOff } from "react-icons/hi";
 import { HiEye } from "react-icons/hi";
 import MyAnimation from "./MyAnimation";
 import { useStores } from "../contexts/storeContext";
 import FlagImoji from "./FlagImoji";
+import axios from "axios";
 
 const Login = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const { move, setMove, currState, setCurrState } = useStores();
+  const { url, setToken } = useStores();
+  const [regMessage, setRegMessage] = useState("");
+  const [isFocused, setIsFocused] = useState(false);
+  const [isPhoneFocused, setIsPhoneFocused] = useState(false);
+  const [isPassFocused, setIsPassFocused] = useState(false);
+  const [isConfirmPassFocused, setIsConfirmPassFocused] = useState(false);
+  const [errMessage, setErrMessage] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmpassword: "",
+  });
+
+  const onChangeHandler = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setData((data) => ({ ...data, [name]: value }));
+  };
+  const onLogin = async (e) => {
+    e.preventDefault();
+    let newUrl = url;
+    let response;
+    if (currState === "Login") {
+      newUrl += "/api/user/login";
+      response = await axios.post(newUrl, data);
+      if (response.data.success) {
+        setToken(response.data.token);
+        localStorage.setItem("token", response.data.token);
+        // setShowLogin(false);
+      } else {
+        setErrMessage("");
+        setRegMessage("");
+        setLoginError(response.data.message);
+      }
+    } else {
+      newUrl += "/api/user/register";
+      response = await axios.post(newUrl, data);
+      if (response.data.success) {
+        setRegMessage("registered successfully");
+        setMove(!move);
+        setCurrState("Login");
+        setErrMessage("");
+      } else {
+        setErrMessage(response.data.message);
+      }
+    }
+  };
   return (
     <div className="flex h-screen bg-gray-100">
       <div className="relative w-[63%] h-[85%] m-auto flex gap-2">
@@ -21,7 +73,7 @@ const Login = () => {
           }`}
         >
           <div className="absolute bottom-[165px] w-[72%] p-[1px] bg-gray-200"></div>
-
+          {regMessage ? regMessage : ""}
           <h2 className="text-xl font-bold mb-2 text-blue-500 font-Poppins">
             {currState}
           </h2>
@@ -52,27 +104,40 @@ const Login = () => {
               </span>
             </p>
           )}
-          <form className="space-y-4 w-80">
+          <form onSubmit={onLogin} className="space-y-4 w-80">
             <div>
               {currState === "signUp" ? (
                 <div className="relative z-1 mb-4">
                   {/* Input Field */}
                   <input
+                    name="email"
+                    onChange={(e) =>
+                      setData({ ...data, email: e.target.value })
+                    }
+                    onBlur={(e) => {
+                      if (!e.target.value) {
+                        setIsFocused(false);
+                      }
+                    }}
+                    onFocus={() => setIsFocused(true)}
+                    value={data.email}
                     type="text"
                     id="email"
                     placeholder=" "
-                    className="relative peer z-1 w-full py-2 pl-[0px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
 
                   {/* Floating Label */}
                   <label
-                    htmlFor="password"
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm transition-all peer-placeholder-shown:translate-y-[-50%] peer-placeholder-shown:text-gray-400 peer-focus:top-[-2px] peer-focus:bg-white peer-focus:px-1 peer-focus:left-[10px] peer-focus:text-blue-500 peer-focus:text-xs"
+                    htmlFor="email"
+                    className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                      isFocused || data.email
+                        ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                        : "top-1/2 -translate-y-1/2"
+                    }`}
                   >
                     Email
                   </label>
-
-                  {/* Country Code */}
                 </div>
               ) : (
                 ""
@@ -82,19 +147,33 @@ const Login = () => {
                 <div className="flex items-center gap-2">
                   {currState === "signUp" && <FlagImoji countryCode="ET" />}
                   <input
+                    name="phone"
+                    onChange={(e) =>
+                      setData({ ...data, phone: e.target.value })
+                    }
+                    onBlur={(e) => {
+                      if (!e.target.value) {
+                        setIsPhoneFocused(false);
+                      }
+                    }}
+                    onFocus={() => setIsPhoneFocused(true)}
+                    value={data.phone}
                     type="text"
                     id="phone"
                     placeholder=" "
                     className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
+
+                  {/* Floating Label */}
                   <label
                     htmlFor="phone"
                     className={`absolute z-10 ${
                       currState === "Login" ? "left-[50px]" : "left-[90px]"
-                    } top-1/2 transform -translate-y-1/2 text-gray-500 text-sm transition-all duration-200 
-    peer-placeholder-shown:translate-y-[-50%] peer-placeholder-shown:text-gray-400 
-    peer-focus:top-[-2px] peer-focus:bg-white peer-focus:px-1 
-    peer-focus:left-[45px] peer-focus:text-blue-500 peer-focus:text-xs`}
+                    } transform transition-all text-gray-500 text-sm ${
+                      isPhoneFocused || data.phone
+                        ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                        : "top-1/2 -translate-y-1/2"
+                    }`}
                   >
                     Phone Number
                   </label>
@@ -133,6 +212,15 @@ const Login = () => {
 
               {/* Input Field */}
               <input
+                name="password"
+                onChange={onChangeHandler}
+                onBlur={(e) => {
+                  if (!e.target.value) {
+                    setIsPassFocused(false);
+                  }
+                }}
+                onFocus={() => setIsPassFocused(true)}
+                value={data.password}
                 type={isOpen ? "text" : "password"}
                 id="password"
                 placeholder=" "
@@ -142,7 +230,13 @@ const Login = () => {
               {/* Floating Label */}
               <label
                 htmlFor="password"
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm transition-all peer-placeholder-shown:translate-y-[-50%] peer-placeholder-shown:text-gray-400 peer-focus:top-[-2px] peer-focus:bg-white peer-focus:px-1 peer-focus:left-[10px] peer-focus:text-blue-500 peer-focus:text-xs"
+                className={`absolute z-10 ${
+                  currState === "Login" ? "left-[20px]" : "left-[20px]"
+                } transform transition-all text-gray-500 text-sm ${
+                  isPassFocused || data.password
+                    ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                    : "top-1/2 -translate-y-1/2"
+                }`}
               >
                 Password
               </label>
@@ -168,7 +262,16 @@ const Login = () => {
 
                 {/* Input Field */}
                 <input
-                  type={isOpen ? "text" : "password"}
+                  name="confirmpassword"
+                  onChange={onChangeHandler}
+                  onBlur={(e) => {
+                    if (!e.target.value) {
+                      setIsConfirmPassFocused(false);
+                    }
+                  }}
+                  onFocus={() => setIsConfirmPassFocused(true)}
+                  value={data.confirmpassword}
+                  type={isConfirmOpen ? "text" : "password"}
                   id="confirmpassword"
                   placeholder=" "
                   className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -177,7 +280,13 @@ const Login = () => {
                 {/* Floating Label */}
                 <label
                   htmlFor="confirmpassword"
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm transition-all peer-placeholder-shown:translate-y-[-50%] peer-placeholder-shown:text-gray-400 peer-focus:top-[-2px] peer-focus:bg-white peer-focus:px-1 peer-focus:left-[10px] peer-focus:text-blue-500 peer-focus:text-xs"
+                  className={`absolute z-10 ${
+                    currState === "Login" ? "left-[20px]" : "left-[20px]"
+                  } transform transition-all text-gray-500 text-sm ${
+                    isConfirmPassFocused || data.confirmpassword
+                      ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                      : "top-1/2 -translate-y-1/2"
+                  }`}
                 >
                   Confirm Password
                 </label>

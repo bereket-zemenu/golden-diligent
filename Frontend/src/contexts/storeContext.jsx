@@ -8,6 +8,8 @@ function StoreProvider({ children }) {
   const [showPages, setShowPages] = useState(false);
   const [move, setMove] = useState(false);
   const [currState, setCurrState] = useState("Login");
+  const [token, setToken] = useState("");
+  const url = "http://localhost:4000";
 
   console.log(isOpen);
   function handleIsOpen() {
@@ -25,6 +27,9 @@ function StoreProvider({ children }) {
         setShowPages,
         currState,
         setCurrState,
+        token,
+        setToken,
+        url,
       }}
     >
       {children}

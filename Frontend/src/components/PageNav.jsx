@@ -86,9 +86,12 @@ function PageNav() {
           </li>
         </ul>
         <div className="flex gap-4 ml-8">
-          <button className="px-8 py-2 border-2 border-[#000080] text-[#000080] rounded-lg">
+          <NavLink
+            to="/auth"
+            className="px-8 py-2 border-2 border-[#000080] text-[#000080] rounded-lg"
+          >
             login
-          </button>
+          </NavLink>
           <button className="px-4 py-2 bg-[#000080]  opacity-[0.6] hover:opacity-[0.7] transition-200 text-white rounded-lg">
             Download App
           </button>
