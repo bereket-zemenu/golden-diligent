@@ -108,7 +108,7 @@ const Login = () => {
   };
   return (
     <div className="flex h-screen bg-gray-100">
-      <div className="relative w-[63%] h-[85%] m-auto flex gap-2">
+      <div className="relative w-[63%] h-[90%] m-auto flex gap-2">
         {/* Left Section */}
         <div
           className={`z-[10] absolute h-full w-1/2 bg-white flex flex-col items-center p-8 pt-4 rounded-lg shadow-md ${
@@ -117,7 +117,9 @@ const Login = () => {
               : "transform translate-x-0 transition-all duration-1000 -ml-2"
           }`}
         >
-          <div className="absolute bottom-[165px] w-[72%] p-[1px] bg-gray-200"></div>
+          {currState === "Login" && (
+            <div className="absolute bottom-[165px] w-[72%] p-[1px] bg-gray-200"></div>
+          )}
           {regMessage ? regMessage : ""}
           <h2 className="text-xl font-bold mb-2 text-blue-500 font-Poppins">
             {currState}
@@ -153,8 +155,7 @@ const Login = () => {
             {step === 1 && (
               <>
                 <div>
-                  {currState === "signUp" ? (
-                    <div className="relative z-1 mb-4">
+                <div className="relative z-1 mb-4">
                       {/* Input Field */}
                       <input
                         name="email"
@@ -163,10 +164,10 @@ const Login = () => {
                         }
                         onBlur={(e) => {
                           if (!e.target.value) {
-                            setIsEmailFocused(false);
+                            setIsFocused(false);
                           }
                         }}
-                        onFocus={() => setIsEmailFocused(true)}
+                        onFocus={() => setIsFocused(true)}
                         value={data.email}
                         type="text"
                         id="email"
@@ -178,7 +179,7 @@ const Login = () => {
                       <label
                         htmlFor="email"
                         className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isEmailFocused || data.email
+                          isFocused || data.email
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -186,9 +187,6 @@ const Login = () => {
                         Email
                       </label>
                     </div>
-                  ) : (
-                    ""
-                  )}
                   {currState === "signUp" ? (
                     <div className="relative z-1 mb-4">
                       {/* Input Field */}
@@ -227,45 +225,50 @@ const Login = () => {
                   )}
 
                   {/* Phone Input */}
-                  <div className="relative z-0">
-                    <div className="flex items-center gap-2">
-                      {/* {currState === "signUp" && <FlagImoji countryCode="ET" />} */}
-                      <input
-                        name="fatherName"
-                        onChange={(e) =>
-                          setData({ ...data, fatherName: e.target.value })
-                        }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPhoneFocused(false);
+                  {currState === "signUp" && (
+                    <div className="relative z-0">
+                      <div className="flex items-center gap-2">
+                        {/* {currState === "signUp" && <FlagImoji countryCode="ET" />} */}
+                        <input
+                          name="fatherName"
+                          onChange={(e) =>
+                            setData({ ...data, fatherName: e.target.value })
                           }
-                        }}
-                        onFocus={() => setIsPhoneFocused(true)}
-                        value={data.fatherName}
-                        type="text"
-                        id="fatherName"
-                        placeholder=" "
-                        className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
+                          onBlur={(e) => {
+                            if (!e.target.value) {
+                              setIsPhoneFocused(false);
+                            }
+                          }}
+                          onFocus={() => setIsPhoneFocused(true)}
+                          value={data.fatherName}
+                          type="text"
+                          id="fatherName"
+                          placeholder=" "
+                          className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
 
-                      {/* Floating Label */}
-                      <label
-                        htmlFor="phone"
-                        className={`absolute z-10 ${
-                          currState === "Login" ? "left-[50px]" : "left-[10px]"
-                        } transform transition-all text-gray-500 text-sm ${
-                          isPhoneFocused || data.fatherName
-                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                            : "top-1/2 -translate-y-1/2"
-                        }`}
-                      >
-                        Father Name
-                      </label>
+                        {/* Floating Label */}
+                        <label
+                          htmlFor="fatherName"
+                          className={`absolute z-10 ${
+                            currState === "Login"
+                              ? "left-[50px]"
+                              : "left-[10px]"
+                          } transform transition-all text-gray-500 text-sm ${
+                            isPhoneFocused || data.fatherName
+                              ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                              : "top-1/2 -translate-y-1/2"
+                          }`}
+                        >
+                          Father Name
+                        </label>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
 
                 {/* Password Input */}
+                
                 <div className="relative z-1">
                   {isOpen ? (
                     <HiEye
@@ -301,7 +304,7 @@ const Login = () => {
 
                   <label
                     htmlFor="password"
-                    className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
+                    className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
                       isPassFocused || data.password
                         ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                         : "top-1/2 -translate-y-1/2"
@@ -390,8 +393,8 @@ const Login = () => {
 
             {step === 2 && (
               <>
-                <div>
-                  {currState === "signUp" ? (
+                {currState === "signUp" ? (
+                  <div>
                     <div className="relative z-1 mb-4">
                       {/* Input Field */}
                       <input
@@ -424,54 +427,180 @@ const Login = () => {
                         Grand Father Name
                       </label>
                     </div>
-                  ) : (
-                    ""
-                  )}
+                    <div className="relative z-0 mb-4">
+                      <div className="flex items-center gap-2">
+                        <input
+                          name="nickName"
+                          onBlur={(e) => {
+                            if (!e.target.value) {
+                              setIsPhoneFocused(false);
+                            }
+                          }}
+                          onFocus={() => setIsPhoneFocused(true)}
+                          value={data.nickName}
+                          type="text"
+                          id="nickName"
+                          placeholder=" "
+                          className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
 
-                  {/* Phone Input */}
-                  <div className="relative z-0">
-                    <div className="flex items-center gap-2">
+                        {/* Floating Label */}
+                        <label
+                          htmlFor="nickName"
+                          className={`absolute z-10 ${
+                            currState === "Login"
+                              ? "left-[10px]"
+                              : "left-[10px]"
+                          } transform transition-all text-gray-500 text-sm ${
+                            isPhoneFocused || data.nickName
+                              ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                              : "top-1/2 -translate-y-1/2"
+                          }`}
+                        >
+                          Nick Name
+                        </label>
+                      </div>
+                    </div>
+                    <div className="border border-blue-500 rounded-sm mb-8">
+                      <p className="pl-4 font-Poppins text-xl text-gray-700 mb-2">
+                        sex
+                      </p>
+                      <div className="flex gap-2 pl-4">
+                        <div className="flex gap-2">
+                          <input
+                            name="sex"
+                            onChange={onChangeHandler}
+                            onBlur={(e) => {
+                              if (!e.target.value) {
+                                setIsPassFocused(false);
+                              }
+                            }}
+                            onFocus={() => setIsPassFocused(true)}
+                            value={data.sex}
+                            type="radio"
+                            id="sex"
+                            placeholder=" "
+                            className="relative peer z-1 w-full py-2 px-3"
+                          />
+
+                          <label htmlFor="password" className="text-gray-400">
+                            Male
+                          </label>
+                        </div>
+                        <div className="flex gap-2">
+                          <input
+                            name="sex"
+                            onChange={onChangeHandler}
+                            onBlur={(e) => {
+                              if (!e.target.value) {
+                                setIsConfirmPassFocused(false);
+                              }
+                            }}
+                            onFocus={() => setIsConfirmPassFocused(true)}
+                            value={data.dateOfBirth}
+                            type="radio"
+                            id="sex"
+                            placeholder=" "
+                            className="relative peer z-1 w-full py-2 px-3"
+                          />
+
+                          <label
+                            htmlFor="confirmpassword"
+                            className="text-gray-400"
+                          >
+                            Female
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="relative z-0 mb-4">
+                      <div className="flex items-center gap-2">
+                        <input
+                          name="placeOfBirth"
+                          onBlur={(e) => {
+                            if (!e.target.value) {
+                              setIsPhoneFocused(false);
+                            }
+                          }}
+                          onFocus={() => setIsPhoneFocused(true)}
+                          value={data.placeOfBirth}
+                          type="date"
+                          id="placeOfBirth"
+                          placeholder=" "
+                          className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+
+                        {/* Floating Label */}
+                        <label
+                          htmlFor="placeOfBirth"
+                          className={`absolute z-10 ${
+                            currState === "Login"
+                              ? "left-[20px]"
+                              : "left-[20px]"
+                          } transform transition-all text-gray-500 text-sm ${
+                            isPhoneFocused || data.placeOfBirth
+                              ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                              : "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          }`}
+                        >
+                          DATE OF BIRTH
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div className="relative z-1 mb-4">
+                      {/* Input Field */}
                       <input
-                        name="nickName"
+                        name="email"
+                        onChange={(e) =>
+                          setData({ ...data, email: e.target.value })
+                        }
                         onBlur={(e) => {
                           if (!e.target.value) {
-                            setIsPhoneFocused(false);
+                            setIsEmailFocused(false);
                           }
                         }}
-                        onFocus={() => setIsPhoneFocused(true)}
-                        value={data.nickName}
+                        onFocus={() => setIsEmailFocused(true)}
+                        value={data.email}
                         type="text"
-                        id="nickName"
+                        id="email"
                         placeholder=" "
-                        className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
 
                       {/* Floating Label */}
                       <label
-                        htmlFor="nickName"
-                        className={`absolute z-10 ${
-                          currState === "Login" ? "left-[10px]" : "left-[10px]"
-                        } transform transition-all text-gray-500 text-sm ${
-                          isPhoneFocused || data.nickName
+                        htmlFor="email"
+                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                          isEmailFocused || data.email
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
                       >
-                        Nick Name
+                        Email
                       </label>
                     </div>
-                  </div>
-                </div>
+                    <div className="relative z-1">
+                      {isOpen ? (
+                        <HiEye
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      ) : (
+                        <HiEyeOff
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      )}
 
-                {/* Password Input */}
-                <div className="border border-blue-500 rounded-sm">
-                  <p className="pl-4 font-Poppins text-xl text-gray-700 mb-2">
-                    sex
-                  </p>
-                  <div className="flex gap-2 pl-4">
-                    <div className="flex gap-2">
                       <input
-                        name="sex"
+                        name="password"
                         onChange={onChangeHandler}
                         onBlur={(e) => {
                           if (!e.target.value) {
@@ -479,87 +608,36 @@ const Login = () => {
                           }
                         }}
                         onFocus={() => setIsPassFocused(true)}
-                        value={data.sex}
-                        type="radio"
-                        id="sex"
+                        value={data.password}
+                        type={isOpen ? "text" : "password"}
+                        id="password"
                         placeholder=" "
-                        className="relative peer z-1 w-full py-2 px-3"
-                      />
-
-                      <label htmlFor="password" className="text-gray-400">
-                        Male
-                      </label>
-                    </div>
-                    <div className="flex gap-2">
-                      <input
-                        name="sex"
-                        onChange={onChangeHandler}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsConfirmPassFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsConfirmPassFocused(true)}
-                        value={data.dateOfBirth}
-                        type="radio"
-                        id="sex"
-                        placeholder=" "
-                        className="relative peer z-1 w-full py-2 px-3"
+                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
 
                       <label
-                        htmlFor="confirmpassword"
-                        className="text-gray-400"
+                        htmlFor="password"
+                        className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
+                          isPassFocused || data.password
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
                       >
-                        Female
+                        Password
                       </label>
                     </div>
-                  </div>
-                </div>
-                <div className="relative z-0">
-                  <div className="flex items-center gap-2">
-                    <input
-                      name="placeOfBirth"
-                      onBlur={(e) => {
-                        if (!e.target.value) {
-                          setIsPhoneFocused(false);
-                        }
-                      }}
-                      onFocus={() => setIsPhoneFocused(true)}
-                      value={data.placeOfBirth}
-                      type="date"
-                      id="placeOfBirth"
-                      placeholder=" "
-                      className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
+                  </>
+                )}
 
-                    {/* Floating Label */}
-                    <label
-                      htmlFor="placeOfBirth"
-                      className={`absolute z-10 ${
-                        currState === "Login" ? "left-[20px]" : "left-[20px]"
-                      } transform transition-all text-gray-500 text-sm ${
-                        isPhoneFocused || data.placeOfBirth
-                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                          : "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                      }`}
-                    >
-                      DATE OF BIRTH
-                    </label>
-                  </div>
-                </div>
-
-                {/* Submit Button */}
                 <p className="text-right text-[10px] text-blue-800">
                   Forgot Password?
                 </p>
-                {/* <button
+                {currState=="Login"?<button
                   type="submit"
-                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
+                  className="w-full bg-blue-800 text-white py-2 px-4 rounded hover:bg-blue-500"
                 >
                   {currState}
-                </button> */}
-                <div className="flex justify-between">
+                </button>: <div className="flex justify-between">
                   <button
                     type="button"
                     onClick={onPrevious}
@@ -574,11 +652,12 @@ const Login = () => {
                   >
                     Next2
                   </button>
-                </div>
+                </div>}
               </>
             )}
             {step === 3 && (
               <>
+              {currState==="signUp"?<>
                 <div>
                   <h1 className="font-Poppins  text-gray-600 font-medium text-md mb-2">
                     PLACE OF BIRTH /IF IT IS IN ETHIOPIA/
@@ -777,11 +856,100 @@ const Login = () => {
                     Next3
                   </button>
                 </div>
+              </>:<>
+                    <div className="relative z-1 mb-4">
+                      {/* Input Field */}
+                      <input
+                        name="email"
+                        onChange={(e) =>
+                          setData({ ...data, email: e.target.value })
+                        }
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsEmailFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsEmailFocused(true)}
+                        value={data.email}
+                        type="text"
+                        id="email"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      {/* Floating Label */}
+                      <label
+                        htmlFor="email"
+                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                          isEmailFocused || data.email
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Email
+                      </label>
+                    </div>
+                    <div className="relative z-1">
+                      {isOpen ? (
+                        <HiEye
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      ) : (
+                        <HiEyeOff
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      )}
+
+                      <input
+                        name="password"
+                        onChange={onChangeHandler}
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsPassFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsPassFocused(true)}
+                        value={data.password}
+                        type={isOpen ? "text" : "password"}
+                        id="password"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      <label
+                        htmlFor="password"
+                        className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
+                          isPassFocused || data.password
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Password
+                      </label>
+                    </div>
+                    {/* Submit Button */}
+                <p className="text-right text-[10px] text-blue-800">
+                  Forgot Password?
+                </p>
+                <button
+                  type="submit"
+                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
+                >
+                  {currState}
+                </button>
+                  </>}
               </>
             )}
 
             {step === 4 && (
-              <>
+            <>
+            {currState==="signUp"?  <>
                 <div>
                   <h1 className="font-Poppins  text-gray-600 font-medium text-md mb-2">
                     PLACE OF BIRTH /IF IT IS ABROAD/
@@ -980,82 +1148,171 @@ const Login = () => {
                     Next4
                   </button>
                 </div>
-              </>
+              </>:<>
+                    <div className="relative z-1 mb-4">
+                      {/* Input Field */}
+                      <input
+                        name="email"
+                        onChange={(e) =>
+                          setData({ ...data, email: e.target.value })
+                        }
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsEmailFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsEmailFocused(true)}
+                        value={data.email}
+                        type="text"
+                        id="email"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      {/* Floating Label */}
+                      <label
+                        htmlFor="email"
+                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                          isEmailFocused || data.email
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Email
+                      </label>
+                    </div>
+                    <div className="relative z-1">
+                      {isOpen ? (
+                        <HiEye
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      ) : (
+                        <HiEyeOff
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      )}
+
+                      <input
+                        name="password"
+                        onChange={onChangeHandler}
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsPassFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsPassFocused(true)}
+                        value={data.password}
+                        type={isOpen ? "text" : "password"}
+                        id="password"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      <label
+                        htmlFor="password"
+                        className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
+                          isPassFocused || data.password
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Password
+                      </label>
+                    </div>
+                    {/* Submit Button */}
+                <p className="text-right text-[10px] text-blue-800">
+                  Forgot Password?
+                </p>
+                <button
+                  type="submit"
+                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
+                >
+                  {currState}
+                </button>
+                  </>}
+            </>
             )}
 
             {step === 5 && (
               <>
-                <div>
-                  <h3 className="font-semibold text-lg mb-2">
-                    6. ዜግነት <span className="text-gray-500">/NATIONALITY</span>
-                  </h3>
+              {currState==="signUp"?<>
+                {currState === "signUp" && (
+                  <div>
+                    <h3 className="font-semibold text-sm mb-2">
+                      6. ዜግነት{" "}
+                      <span className="text-gray-500">/NATIONALITY</span>
+                    </h3>
 
-                  {/* Former Nationality */}
-                  <div className="mb-4">
-                    <label className="block font-medium mb-1">
-                      ሀ. ቀድሞው / <span className="text-gray-500">FORMER</span>
-                    </label>
-                    <div className="flex gap-4">
-                      {[0, 1, 2].map((_, index) => (
-                        <input
-                          key={index}
-                          type="text"
-                          value={formData.formerNationalities[index]}
-                          onChange={(e) =>
-                            handleNationalityChange(e, index, "former")
-                          }
-                          placeholder={`${index + 1}`}
-                          className="w-1/3 border rounded-md px-2 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                        />
-                      ))}
+                    {/* Former Nationality */}
+                    <div className="mb-2">
+                      <label className="block font-medium mb-1 text-sm">
+                        ሀ. ቀድሞው / <span className="text-gray-500">FORMER</span>
+                      </label>
+                      <div className="flex gap-2 flex flex-col">
+                        {[0, 1, 2].map((_, index) => (
+                          <input
+                            key={index}
+                            type="text"
+                            value={formData.formerNationalities[index]}
+                            onChange={(e) =>
+                              handleNationalityChange(e, index, "former")
+                            }
+                            placeholder={`${index + 1}`}
+                            className="w-full border border-blue-300 rounded-sm px-2 py-[2x] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Present Nationality */}
-                  <div className="mb-4">
-                    <label className="block font-medium mb-1">
-                      ለ. አሁን / <span className="text-gray-500">PRESENT</span>
-                    </label>
-                    <div className="flex gap-4">
-                      {[0, 1, 2].map((_, index) => (
-                        <input
-                          key={index}
-                          type="text"
-                          value={formData.presentNationalities[index]}
-                          onChange={(e) =>
-                            handleNationalityChange(e, index, "present")
-                          }
-                          placeholder={`${index + 1}`}
-                          className="w-1/3 border rounded-md px-2 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                        />
-                      ))}
+                    {/* Present Nationality */}
+                    <div className="mb-2">
+                      <label className="block font-medium mb-1 text-sm">
+                        ለ. አሁን / <span className="text-gray-500">PRESENT</span>
+                      </label>
+                      <div className="flex gap-2 flex flex-col">
+                        {[0, 1, 2].map((_, index) => (
+                          <input
+                            key={index}
+                            type="text"
+                            value={formData.presentNationalities[index]}
+                            onChange={(e) =>
+                              handleNationalityChange(e, index, "present")
+                            }
+                            placeholder={`${index + 1}`}
+                            className="w-full border border-blue-300 rounded-sm px-2 py-[2px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Ethnic Group */}
-                  <div className="mb-4">
-                    <label className="block font-medium mb-1">
-                      ሐ. ብሄር/ብሄረሰብ{" "}
-                      <span className="text-gray-500">/ETHNIC GROUP</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.ethnicGroup}
-                      onChange={(e) => handleNationalityChange(e, null, "ethnic")}
-                      placeholder="Ethnic Group"
-                      className="w-full border rounded-md px-2 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                    />
-                  </div>
+                    {/* Ethnic Group */}
+                    <div className="mb-2 ">
+                      <label className="block font-medium mb-1 text-sm">
+                        ሐ. ብሄር/ብሄረሰብ{" "}
+                        <span className="text-gray-500">/ETHNIC GROUP</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.ethnicGroup}
+                        onChange={(e) =>
+                          handleNationalityChange(e, null, "ethnic")
+                        }
+                        placeholder="Ethnic Group"
+                        className="w-full border border-blue-300 rounded-sm px-2 py-[2px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
 
-                  {/* Debug Output */}
-                  
-                </div>
+                    {/* Debug Output */}
+                  </div>
+                )}
 
                 {/* Password Input */}
-
-                
-                
-                
 
                 {/* Submit Button */}
                 <p className="text-right text-[10px] text-blue-800">
@@ -1083,11 +1340,100 @@ const Login = () => {
                     Next5
                   </button>
                 </div>
+              </>:<>
+                    <div className="relative z-1 mb-4">
+                      {/* Input Field */}
+                      <input
+                        name="email"
+                        onChange={(e) =>
+                          setData({ ...data, email: e.target.value })
+                        }
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsEmailFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsEmailFocused(true)}
+                        value={data.email}
+                        type="text"
+                        id="email"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      {/* Floating Label */}
+                      <label
+                        htmlFor="email"
+                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                          isEmailFocused || data.email
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Email
+                      </label>
+                    </div>
+                    <div className="relative z-1">
+                      {isOpen ? (
+                        <HiEye
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      ) : (
+                        <HiEyeOff
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      )}
+
+                      <input
+                        name="password"
+                        onChange={onChangeHandler}
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsPassFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsPassFocused(true)}
+                        value={data.password}
+                        type={isOpen ? "text" : "password"}
+                        id="password"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      <label
+                        htmlFor="password"
+                        className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
+                          isPassFocused || data.password
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Password
+                      </label>
+                    </div>
+                    {/* Submit Button */}
+                <p className="text-right text-[10px] text-blue-800">
+                  Forgot Password?
+                </p>
+                <button
+                  type="submit"
+                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
+                >
+                  {currState}
+                </button>
+                  </>}
               </>
             )}
 
             {step === 6 && (
               <>
+              {currState==="signUp"?<>
                 <div className="relative z-1">
                   <input
                     name="height"
@@ -1244,10 +1590,99 @@ const Login = () => {
                     Next6
                   </button>
                 </div>
+              </>:<>
+                    <div className="relative z-1 mb-4">
+                      {/* Input Field */}
+                      <input
+                        name="email"
+                        onChange={(e) =>
+                          setData({ ...data, email: e.target.value })
+                        }
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsEmailFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsEmailFocused(true)}
+                        value={data.email}
+                        type="text"
+                        id="email"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      {/* Floating Label */}
+                      <label
+                        htmlFor="email"
+                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                          isEmailFocused || data.email
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Email
+                      </label>
+                    </div>
+                    <div className="relative z-1">
+                      {isOpen ? (
+                        <HiEye
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      ) : (
+                        <HiEyeOff
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      )}
+
+                      <input
+                        name="password"
+                        onChange={onChangeHandler}
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsPassFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsPassFocused(true)}
+                        value={data.password}
+                        type={isOpen ? "text" : "password"}
+                        id="password"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      <label
+                        htmlFor="password"
+                        className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
+                          isPassFocused || data.password
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Password
+                      </label>
+                    </div>
+                    {/* Submit Button */}
+                <p className="text-right text-[10px] text-blue-800">
+                  Forgot Password?
+                </p>
+                <button
+                  type="submit"
+                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
+                >
+                  {currState}
+                </button>
+                  </>}
               </>
             )}
             {step === 7 && (
               <>
+              {currState==="signUp"?<>
                 <div className="relative z-0">
                   <div className="flex items-center gap-2">
                     <input
@@ -1453,10 +1888,99 @@ const Login = () => {
                     Next7
                   </button>
                 </div>
+              </>:<>
+                    <div className="relative z-1 mb-4">
+                      {/* Input Field */}
+                      <input
+                        name="email"
+                        onChange={(e) =>
+                          setData({ ...data, email: e.target.value })
+                        }
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsEmailFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsEmailFocused(true)}
+                        value={data.email}
+                        type="text"
+                        id="email"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      {/* Floating Label */}
+                      <label
+                        htmlFor="email"
+                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                          isEmailFocused || data.email
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Email
+                      </label>
+                    </div>
+                    <div className="relative z-1">
+                      {isOpen ? (
+                        <HiEye
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      ) : (
+                        <HiEyeOff
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      )}
+
+                      <input
+                        name="password"
+                        onChange={onChangeHandler}
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsPassFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsPassFocused(true)}
+                        value={data.password}
+                        type={isOpen ? "text" : "password"}
+                        id="password"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      <label
+                        htmlFor="password"
+                        className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
+                          isPassFocused || data.password
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Password
+                      </label>
+                    </div>
+                    {/* Submit Button */}
+                <p className="text-right text-[10px] text-blue-800">
+                  Forgot Password?
+                </p>
+                <button
+                  type="submit"
+                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
+                >
+                  {currState}
+                </button>
+                  </>}
               </>
             )}
             {step === 8 && (
               <>
+              {currState==="signUp"?<>
                 <h1 className="text-sm font-medium text-gray-800 font-Poppins uppercase">
                   Birth Cirtification
                 </h1>
@@ -1612,10 +2136,99 @@ const Login = () => {
                     Next8
                   </button>
                 </div>
+              </>:<>
+                    <div className="relative z-1 mb-4">
+                      {/* Input Field */}
+                      <input
+                        name="email"
+                        onChange={(e) =>
+                          setData({ ...data, email: e.target.value })
+                        }
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsEmailFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsEmailFocused(true)}
+                        value={data.email}
+                        type="text"
+                        id="email"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      {/* Floating Label */}
+                      <label
+                        htmlFor="email"
+                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                          isEmailFocused || data.email
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Email
+                      </label>
+                    </div>
+                    <div className="relative z-1">
+                      {isOpen ? (
+                        <HiEye
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      ) : (
+                        <HiEyeOff
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      )}
+
+                      <input
+                        name="password"
+                        onChange={onChangeHandler}
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsPassFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsPassFocused(true)}
+                        value={data.password}
+                        type={isOpen ? "text" : "password"}
+                        id="password"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      <label
+                        htmlFor="password"
+                        className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
+                          isPassFocused || data.password
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Password
+                      </label>
+                    </div>
+                    {/* Submit Button */}
+                <p className="text-right text-[10px] text-blue-800">
+                  Forgot Password?
+                </p>
+                <button
+                  type="submit"
+                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
+                >
+                  {currState}
+                </button>
+                  </>}
               </>
             )}
             {step === 9 && (
-              <>
+             <>
+             {currState==="signUp"? <>
                 <h1 className="text-sm font-medium text-gray-800 font-Poppins uppercase">
                   OTHER DOCUMENT CERTIFYING ETHIOPIAN ORIGIN (IF APPLICABLE)
                 </h1>
@@ -1830,10 +2443,99 @@ const Login = () => {
                     Next9
                   </button>
                 </div>
-              </>
+              </>:<>
+                    <div className="relative z-1 mb-4">
+                      {/* Input Field */}
+                      <input
+                        name="email"
+                        onChange={(e) =>
+                          setData({ ...data, email: e.target.value })
+                        }
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsEmailFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsEmailFocused(true)}
+                        value={data.email}
+                        type="text"
+                        id="email"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      {/* Floating Label */}
+                      <label
+                        htmlFor="email"
+                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                          isEmailFocused || data.email
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Email
+                      </label>
+                    </div>
+                    <div className="relative z-1">
+                      {isOpen ? (
+                        <HiEye
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      ) : (
+                        <HiEyeOff
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      )}
+
+                      <input
+                        name="password"
+                        onChange={onChangeHandler}
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsPassFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsPassFocused(true)}
+                        value={data.password}
+                        type={isOpen ? "text" : "password"}
+                        id="password"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      <label
+                        htmlFor="password"
+                        className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
+                          isPassFocused || data.password
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Password
+                      </label>
+                    </div>
+                    {/* Submit Button */}
+                <p className="text-right text-[10px] text-blue-800">
+                  Forgot Password?
+                </p>
+                <button
+                  type="submit"
+                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
+                >
+                  {currState}
+                </button>
+                  </>}
+             </>
             )}
             {step === 10 && (
               <>
+              {currState==="signUp"?<>
                 <div>
                   {currState === "signUp" ? (
                     <div className="relative z-1 mb-4">
@@ -2046,11 +2748,100 @@ const Login = () => {
                     Next10
                   </button>
                 </div>
+              </>:<>
+                    <div className="relative z-1 mb-4">
+                      {/* Input Field */}
+                      <input
+                        name="email"
+                        onChange={(e) =>
+                          setData({ ...data, email: e.target.value })
+                        }
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsEmailFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsEmailFocused(true)}
+                        value={data.email}
+                        type="text"
+                        id="email"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      {/* Floating Label */}
+                      <label
+                        htmlFor="email"
+                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                          isEmailFocused || data.email
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Email
+                      </label>
+                    </div>
+                    <div className="relative z-1">
+                      {isOpen ? (
+                        <HiEye
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      ) : (
+                        <HiEyeOff
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      )}
+
+                      <input
+                        name="password"
+                        onChange={onChangeHandler}
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsPassFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsPassFocused(true)}
+                        value={data.password}
+                        type={isOpen ? "text" : "password"}
+                        id="password"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      <label
+                        htmlFor="password"
+                        className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
+                          isPassFocused || data.password
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Password
+                      </label>
+                    </div>
+                    {/* Submit Button */}
+                <p className="text-right text-[10px] text-blue-800">
+                  Forgot Password?
+                </p>
+                <button
+                  type="submit"
+                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
+                >
+                  {currState}
+                </button>
+                  </>}
               </>
             )}
 
             {step === 11 && (
               <>
+              {currState==="signUp"?<>
                 <div className="flex flex-col gap-2 py-2 pl-2 border border-blue-500 rounded-sm">
                   <p>
                     Through which family line do applicants claim the
@@ -2161,10 +2952,99 @@ const Login = () => {
                     Next11
                   </button>
                 </div>
+              </>:<>
+                    <div className="relative z-1 mb-4">
+                      {/* Input Field */}
+                      <input
+                        name="email"
+                        onChange={(e) =>
+                          setData({ ...data, email: e.target.value })
+                        }
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsEmailFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsEmailFocused(true)}
+                        value={data.email}
+                        type="text"
+                        id="email"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      {/* Floating Label */}
+                      <label
+                        htmlFor="email"
+                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                          isEmailFocused || data.email
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Email
+                      </label>
+                    </div>
+                    <div className="relative z-1">
+                      {isOpen ? (
+                        <HiEye
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      ) : (
+                        <HiEyeOff
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      )}
+
+                      <input
+                        name="password"
+                        onChange={onChangeHandler}
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsPassFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsPassFocused(true)}
+                        value={data.password}
+                        type={isOpen ? "text" : "password"}
+                        id="password"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      <label
+                        htmlFor="password"
+                        className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
+                          isPassFocused || data.password
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Password
+                      </label>
+                    </div>
+                    {/* Submit Button */}
+                <p className="text-right text-[10px] text-blue-800">
+                  Forgot Password?
+                </p>
+                <button
+                  type="submit"
+                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
+                >
+                  {currState}
+                </button>
+                  </> }
               </>
             )}
             {step === 12 && (
-              <>
+             <>
+             {currState==="signUp"? <>
                 <p>Familly Document</p>
                 <div className="relative z-0 mb-4">
                   <div className="flex items-center gap-2">
@@ -2365,7 +3245,95 @@ const Login = () => {
                     {currState}
                   </button>
                 </div>
-              </>
+              </>:<>
+                    <div className="relative z-1 mb-4">
+                      {/* Input Field */}
+                      <input
+                        name="email"
+                        onChange={(e) =>
+                          setData({ ...data, email: e.target.value })
+                        }
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsEmailFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsEmailFocused(true)}
+                        value={data.email}
+                        type="text"
+                        id="email"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      {/* Floating Label */}
+                      <label
+                        htmlFor="email"
+                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                          isEmailFocused || data.email
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Email
+                      </label>
+                    </div>
+                    <div className="relative z-1">
+                      {isOpen ? (
+                        <HiEye
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      ) : (
+                        <HiEyeOff
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
+                      )}
+
+                      <input
+                        name="password"
+                        onChange={onChangeHandler}
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsPassFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsPassFocused(true)}
+                        value={data.password}
+                        type={isOpen ? "text" : "password"}
+                        id="password"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      <label
+                        htmlFor="password"
+                        className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
+                          isPassFocused || data.password
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Password
+                      </label>
+                    </div>
+                    {/* Submit Button */}
+                <p className="text-right text-[10px] text-blue-800">
+                  Forgot Password?
+                </p>
+                <button
+                  type="submit"
+                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
+                >
+                  {currState}
+                </button>
+                  </>}
+             </>
             )}
           </form>
 
