@@ -17,6 +17,9 @@ const Login = () => {
   const [isPhoneFocused, setIsPhoneFocused] = useState(false);
   const [isPassFocused, setIsPassFocused] = useState(false);
   const [isConfirmPassFocused, setIsConfirmPassFocused] = useState(false);
+  const [selectedLine, setSelectedLine] = useState("");
+  // State to hold the input field label dynamically
+  const [inputLabel, setInputLabel] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [errMessage, setErrMessage] = useState("");
   const [loginError, setLoginError] = useState("");
@@ -27,7 +30,37 @@ const Login = () => {
     phone: "",
     password: "",
     confirmpassword: "",
+    familyName: "",
+    familyDocumentType: "",
   });
+  const [formData, setFormData] = useState({
+    formerNationalities: ["", "", ""],
+    presentNationalities: ["", "", ""],
+    ethnicGroup: "",
+  });
+
+  const handleRadioChange = (e) => {
+    setSelectedLine(e.target.value); // Set the selected family line
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setData({ ...data, [name]: value }); // Update input fields
+  };
+  const handleNationalityChange = (e, index, type) => {
+    const value = e.target.value;
+    if (type === "former") {
+      const updatedFormer = [...formData.formerNationalities];
+      updatedFormer[index] = value;
+      setFormData({ ...formData, formerNationalities: updatedFormer });
+    } else if (type === "present") {
+      const updatedPresent = [...formData.presentNationalities];
+      updatedPresent[index] = value;
+      setFormData({ ...formData, presentNationalities: updatedPresent });
+    } else if (type === "ethnic") {
+      setFormData({ ...formData, ethnicGroup: value });
+    }
+  };
 
   const onChangeHandler = (event) => {
     const name = event.target.name;
@@ -511,7 +544,7 @@ const Login = () => {
                           : "top-[-10px] bg-white px-1 text-xs text-blue-500"
                       }`}
                     >
-                      Place Of Birth
+                      DATE OF BIRTH
                     </label>
                   </div>
                 </div>
@@ -547,6 +580,9 @@ const Login = () => {
             {step === 3 && (
               <>
                 <div>
+                  <h1 className="font-Poppins  text-gray-600 font-medium text-md mb-2">
+                    PLACE OF BIRTH /IF IT IS IN ETHIOPIA/
+                  </h1>
                   {currState === "signUp" ? (
                     <div className="relative z-1 mb-4">
                       {/* Input Field */}
@@ -743,7 +779,314 @@ const Login = () => {
                 </div>
               </>
             )}
+
             {step === 4 && (
+              <>
+                <div>
+                  <h1 className="font-Poppins  text-gray-600 font-medium text-md mb-2">
+                    PLACE OF BIRTH /IF IT IS ABROAD/
+                  </h1>
+                  {currState === "signUp" ? (
+                    <div className="relative z-1 mb-4">
+                      {/* Input Field */}
+                      <input
+                        name="country"
+                        onChange={(e) =>
+                          setData({ ...data, country: e.target.value })
+                        }
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsFocused(true)}
+                        value={data.country}
+                        type="text"
+                        id="country"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      {/* Floating Label */}
+                      <label
+                        htmlFor="country"
+                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                          isFocused || data.country
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        country
+                      </label>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+
+                  {/* Phone Input */}
+                  <div className="relative z-0">
+                    <div className="flex items-center gap-2">
+                      <input
+                        name="address"
+                        onChange={(e) =>
+                          setData({ ...data, address: e.target.value })
+                        }
+                        onBlur={(e) => {
+                          if (!e.target.value) {
+                            setIsPhoneFocused(false);
+                          }
+                        }}
+                        onFocus={() => setIsPhoneFocused(true)}
+                        value={data.address}
+                        type="text"
+                        id="address"
+                        placeholder=" "
+                        className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      {/* Floating Label */}
+                      <label
+                        htmlFor="address"
+                        className={`absolute z-10 ${
+                          currState === "Login" ? "left-[20px]" : "left-[20px]"
+                        } transform transition-all text-gray-500 text-sm ${
+                          isPhoneFocused || data.address
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        address
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Password Input */}
+
+                {currState === "signUp" && (
+                  <div className="relative z-1">
+                    <input
+                      name="city"
+                      onChange={onChangeHandler}
+                      onBlur={(e) => {
+                        if (!e.target.value) {
+                          setIsConfirmPassFocused(false);
+                        }
+                      }}
+                      onFocus={() => setIsConfirmPassFocused(true)}
+                      value={data.city}
+                      type="text"
+                      id="city"
+                      placeholder=" "
+                      className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+
+                    <label
+                      htmlFor="city"
+                      className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
+                        isConfirmPassFocused || data.city
+                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          : "top-1/2 -translate-y-1/2"
+                      }`}
+                    >
+                      city
+                    </label>
+                  </div>
+                )}
+                {currState === "signUp" && (
+                  <div className="relative z-1">
+                    <input
+                      name="state"
+                      onChange={onChangeHandler}
+                      onBlur={(e) => {
+                        if (!e.target.value) {
+                          setIsConfirmPassFocused(false);
+                        }
+                      }}
+                      onFocus={() => setIsConfirmPassFocused(true)}
+                      value={data.state}
+                      type="text"
+                      id="state"
+                      placeholder=" "
+                      className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+
+                    <label
+                      htmlFor="state"
+                      className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
+                        isConfirmPassFocused || data.state
+                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          : "top-1/2 -translate-y-1/2"
+                      }`}
+                    >
+                      state
+                    </label>
+                  </div>
+                )}
+                {currState === "signUp" && (
+                  <div className="relative z-1">
+                    <input
+                      name="zipCode"
+                      onChange={onChangeHandler}
+                      onBlur={(e) => {
+                        if (!e.target.value) {
+                          setIsConfirmPassFocused(false);
+                        }
+                      }}
+                      onFocus={() => setIsConfirmPassFocused(true)}
+                      value={data.zipCode}
+                      type="text"
+                      id="zipCode"
+                      placeholder=" "
+                      className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+
+                    <label
+                      htmlFor="zipCode"
+                      className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
+                        isConfirmPassFocused || data.zipCode
+                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          : "top-1/2 -translate-y-1/2"
+                      }`}
+                    >
+                      zip code
+                    </label>
+                  </div>
+                )}
+
+                {/* Submit Button */}
+                <p className="text-right text-[10px] text-blue-800">
+                  Forgot Password?
+                </p>
+                {/* <button
+                  type="submit"
+                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
+                >
+                  {currState}
+                </button> */}
+                <div className="flex justify-between">
+                  <button
+                    type="button"
+                    onClick={onPrevious}
+                    className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    onClick={onNext}
+                    className="bg-blue-800 text-white py-2 px-4 rounded hover:bg-blue-500"
+                  >
+                    Next4
+                  </button>
+                </div>
+              </>
+            )}
+
+            {step === 5 && (
+              <>
+                <div>
+                  <h3 className="font-semibold text-lg mb-2">
+                    6. ዜግነት <span className="text-gray-500">/NATIONALITY</span>
+                  </h3>
+
+                  {/* Former Nationality */}
+                  <div className="mb-4">
+                    <label className="block font-medium mb-1">
+                      ሀ. ቀድሞው / <span className="text-gray-500">FORMER</span>
+                    </label>
+                    <div className="flex gap-4">
+                      {[0, 1, 2].map((_, index) => (
+                        <input
+                          key={index}
+                          type="text"
+                          value={formData.formerNationalities[index]}
+                          onChange={(e) =>
+                            handleNationalityChange(e, index, "former")
+                          }
+                          placeholder={`${index + 1}`}
+                          className="w-1/3 border rounded-md px-2 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Present Nationality */}
+                  <div className="mb-4">
+                    <label className="block font-medium mb-1">
+                      ለ. አሁን / <span className="text-gray-500">PRESENT</span>
+                    </label>
+                    <div className="flex gap-4">
+                      {[0, 1, 2].map((_, index) => (
+                        <input
+                          key={index}
+                          type="text"
+                          value={formData.presentNationalities[index]}
+                          onChange={(e) =>
+                            handleNationalityChange(e, index, "present")
+                          }
+                          placeholder={`${index + 1}`}
+                          className="w-1/3 border rounded-md px-2 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Ethnic Group */}
+                  <div className="mb-4">
+                    <label className="block font-medium mb-1">
+                      ሐ. ብሄር/ብሄረሰብ{" "}
+                      <span className="text-gray-500">/ETHNIC GROUP</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.ethnicGroup}
+                      onChange={(e) => handleNationalityChange(e, null, "ethnic")}
+                      placeholder="Ethnic Group"
+                      className="w-full border rounded-md px-2 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                    />
+                  </div>
+
+                  {/* Debug Output */}
+                  
+                </div>
+
+                {/* Password Input */}
+
+                
+                
+                
+
+                {/* Submit Button */}
+                <p className="text-right text-[10px] text-blue-800">
+                  Forgot Password?
+                </p>
+                {/* <button
+                  type="submit"
+                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
+                >
+                  {currState}
+                </button> */}
+                <div className="flex justify-between">
+                  <button
+                    type="button"
+                    onClick={onPrevious}
+                    className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    onClick={onNext}
+                    className="bg-blue-800 text-white py-2 px-4 rounded hover:bg-blue-500"
+                  >
+                    Next5
+                  </button>
+                </div>
+              </>
+            )}
+
+            {step === 6 && (
               <>
                 <div className="relative z-1">
                   <input
@@ -898,12 +1241,12 @@ const Login = () => {
                     onClick={onNext}
                     className="bg-blue-800 text-white py-2 px-4 rounded hover:bg-blue-500"
                   >
-                    Next4
+                    Next6
                   </button>
                 </div>
               </>
             )}
-            {step === 5 && (
+            {step === 7 && (
               <>
                 <div className="relative z-0">
                   <div className="flex items-center gap-2">
@@ -1107,72 +1450,20 @@ const Login = () => {
                     onClick={onNext}
                     className="bg-blue-800 text-white py-2 px-4 rounded hover:bg-blue-500"
                   >
-                    Next5
+                    Next7
                   </button>
                 </div>
               </>
             )}
-            {step === 6 && (
+            {step === 8 && (
               <>
-                <div className="flex flex-col gap-2 pl-2">
-                  <p>
-                    Through which family line do applicants claiming the
-                    certification card
-                  </p>
-                  <div className="flex items-center gap-2">
-                    <input
-                      name="familyLine"
-                      onChange={(e) => {
-                        const value = e.target.value;
-                      }}
-                      value={data.fatherLine}
-                      type="radio"
-                      id="fatherLine"
-                      placeholder=" "
-                      className="w-4 h-4 outline-2 outline-blue-500"
-                    />
-
-                    {/* Floating Label */}
-                    <label htmlFor="fatherLine" className="text-gray-500">
-                      Father&apos;s Line
-                    </label>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <input
-                      name="familyLine"
-                      onChange={onChangeHandler}
-                      value={data.motherLine}
-                      type="radio"
-                      id="motherLine"
-                      placeholder=""
-                      className="w-4 h-4"
-                    />
-
-                    <label htmlFor="motherLine" className="text-gray-500">
-                      Mother&apos;s Line
-                    </label>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <input
-                      name="familyLine"
-                      onChange={onChangeHandler}
-                      value={data.grandFatherLine}
-                      type="radio"
-                      id="grandFatherLine"
-                      placeholder=" "
-                      className="w-4 h-4"
-                    />
-
-                    <label htmlFor="grandFatherLine" className="text-gray-500">
-                      Grand Father&apos;s Line
-                    </label>
-                  </div>
-                </div>
-
+                <h1 className="text-sm font-medium text-gray-800 font-Poppins uppercase">
+                  Birth Cirtification
+                </h1>
                 {currState === "signUp" && (
                   <div className="relative z-1">
                     <input
-                      name="famillyFullName"
+                      name="certificationNumber"
                       onChange={onChangeHandler}
                       onBlur={(e) => {
                         if (!e.target.value) {
@@ -1180,26 +1471,369 @@ const Login = () => {
                         }
                       }}
                       onFocus={() => setIsConfirmPassFocused(true)}
-                      value={data.famillyFullName}
+                      value={data.certificationNumber}
                       type="text"
-                      id="famillyFullName"
+                      id="certificationNumber"
                       placeholder=" "
                       className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
 
                     <label
-                      htmlFor="confirmpassword"
+                      htmlFor="certificationNumber"
                       className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                        isConfirmPassFocused || data.famillyFullName
+                        isConfirmPassFocused || data.certificationNumber
                           ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                           : "top-1/2 -translate-y-1/2"
                       }`}
                     >
-                      Familly Full Name
+                      certification number
+                    </label>
+                  </div>
+                )}
+                {currState === "signUp" && (
+                  <div className="relative z-1">
+                    <input
+                      name="certificationPlace"
+                      onChange={onChangeHandler}
+                      onBlur={(e) => {
+                        if (!e.target.value) {
+                          setIsConfirmPassFocused(false);
+                        }
+                      }}
+                      onFocus={() => setIsConfirmPassFocused(true)}
+                      value={data.certificationPlace}
+                      type="text"
+                      id="certificationPlace"
+                      placeholder=" "
+                      className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+
+                    <label
+                      htmlFor="certificationPlace"
+                      className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
+                        isConfirmPassFocused || data.certificationPlace
+                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          : "top-1/2 -translate-y-1/2"
+                      }`}
+                    >
+                      Certification Place
+                    </label>
+                  </div>
+                )}
+                {currState === "signUp" && (
+                  <div className="relative z-1">
+                    <input
+                      name="certificationIssuingAuthority"
+                      onChange={onChangeHandler}
+                      onBlur={(e) => {
+                        if (!e.target.value) {
+                          setIsConfirmPassFocused(false);
+                        }
+                      }}
+                      onFocus={() => setIsConfirmPassFocused(true)}
+                      value={data.certificationIssuingAuthority}
+                      type="text"
+                      id="certificationIssuingAuthority"
+                      placeholder=" "
+                      className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+
+                    <label
+                      htmlFor="certificationIssuingAuthority"
+                      className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
+                        isConfirmPassFocused ||
+                        data.certificationIssuingAuthority
+                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          : "top-1/2 -translate-y-1/2"
+                      }`}
+                    >
+                      Issuing Authority
+                    </label>
+                  </div>
+                )}
+                {currState === "signUp" && (
+                  <div className="relative z-1">
+                    <input
+                      name="certificationExpiry"
+                      onChange={onChangeHandler}
+                      onBlur={(e) => {
+                        if (!e.target.value) {
+                          setIsConfirmPassFocused(false);
+                        }
+                      }}
+                      onFocus={() => setIsConfirmPassFocused(true)}
+                      value={data.certificationExpiry}
+                      type="text"
+                      id="certificationExpiry"
+                      placeholder=" "
+                      className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+
+                    <label
+                      htmlFor="certificationExpiry"
+                      className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
+                        isConfirmPassFocused || data.certificationExpiry
+                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          : "top-1/2 -translate-y-1/2"
+                      }`}
+                    >
+                      Date Of Expiry
                     </label>
                   </div>
                 )}
 
+                {/* Password Input */}
+
+                {/* Confirm Password Input */}
+
+                {/* Submit Button */}
+                <p className="text-right text-[10px] text-blue-800">
+                  Forgot Password?
+                </p>
+                {/* <button
+                  type="submit"
+                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
+                >
+                  {currState}
+                </button> */}
+                <div className="flex justify-between">
+                  <button
+                    type="button"
+                    onClick={onPrevious}
+                    className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    onClick={onNext}
+                    className="bg-blue-800 text-white py-2 px-4 rounded hover:bg-blue-500"
+                  >
+                    Next8
+                  </button>
+                </div>
+              </>
+            )}
+            {step === 9 && (
+              <>
+                <h1 className="text-sm font-medium text-gray-800 font-Poppins uppercase">
+                  OTHER DOCUMENT CERTIFYING ETHIOPIAN ORIGIN (IF APPLICABLE)
+                </h1>
+                {currState === "signUp" && (
+                  <div className="relative z-1">
+                    <input
+                      name="otherDocumentType"
+                      onChange={onChangeHandler}
+                      onBlur={(e) => {
+                        if (!e.target.value) {
+                          setIsConfirmPassFocused(false);
+                        }
+                      }}
+                      onFocus={() => setIsConfirmPassFocused(true)}
+                      value={data.otherDocumentType}
+                      type="text"
+                      id="otherDocumentType"
+                      placeholder=" "
+                      className="relative peer z-1 w-full py-[6px] px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+
+                    <label
+                      htmlFor="certificationNumber"
+                      className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-xs ${
+                        isConfirmPassFocused || data.otherDocumentType
+                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          : "top-1/2 -translate-y-1/2"
+                      }`}
+                    >
+                      Document Type
+                    </label>
+                  </div>
+                )}
+                {currState === "signUp" && (
+                  <div className="relative z-1">
+                    <input
+                      name="otherDocumentNumber"
+                      onChange={onChangeHandler}
+                      onBlur={(e) => {
+                        if (!e.target.value) {
+                          setIsConfirmPassFocused(false);
+                        }
+                      }}
+                      onFocus={() => setIsConfirmPassFocused(true)}
+                      value={data.otherDocumentNumber}
+                      type="text"
+                      id="otherDocumentNumber"
+                      placeholder=" "
+                      className="relative peer z-1 w-full py-[6px] px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+
+                    <label
+                      htmlFor="otherDocumentNumber"
+                      className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-xs ${
+                        isConfirmPassFocused || data.otherDocumentNumber
+                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          : "top-1/2 -translate-y-1/2"
+                      }`}
+                    >
+                      Number
+                    </label>
+                  </div>
+                )}
+                {currState === "signUp" && (
+                  <div className="relative z-1">
+                    <input
+                      name="certificationPlace"
+                      onChange={onChangeHandler}
+                      onBlur={(e) => {
+                        if (!e.target.value) {
+                          setIsConfirmPassFocused(false);
+                        }
+                      }}
+                      onFocus={() => setIsConfirmPassFocused(true)}
+                      value={data.certificationPlace}
+                      type="text"
+                      id="certificationPlace"
+                      placeholder=" "
+                      className="relative peer z-1 w-full py-[6px] px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+
+                    <label
+                      htmlFor="certificationPlace"
+                      className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-xs ${
+                        isConfirmPassFocused || data.certificationPlace
+                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          : "top-1/2 -translate-y-1/2"
+                      }`}
+                    >
+                      Certification Place
+                    </label>
+                  </div>
+                )}
+                {currState === "signUp" && (
+                  <div className="relative z-1">
+                    <input
+                      name="otherDocumentPlace"
+                      onChange={onChangeHandler}
+                      onBlur={(e) => {
+                        if (!e.target.value) {
+                          setIsConfirmPassFocused(false);
+                        }
+                      }}
+                      onFocus={() => setIsConfirmPassFocused(true)}
+                      value={data.otherDocumentPlace}
+                      type="text"
+                      id="otherDocumentPlace"
+                      placeholder=" "
+                      className="relative peer z-1 w-full py-[6px] px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+
+                    <label
+                      htmlFor="otherDocumentPlace"
+                      className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-xs ${
+                        isConfirmPassFocused || data.otherDocumentPlace
+                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          : "top-1/2 -translate-y-1/2"
+                      }`}
+                    >
+                      Place Of Issue
+                    </label>
+                  </div>
+                )}
+                {currState === "signUp" && (
+                  <div className="relative z-1">
+                    <input
+                      name="otherDocumentDate"
+                      onChange={onChangeHandler}
+                      onBlur={(e) => {
+                        if (!e.target.value) {
+                          setIsConfirmPassFocused(false);
+                        }
+                      }}
+                      onFocus={() => setIsConfirmPassFocused(true)}
+                      value={data.otherDocumentDate}
+                      type="text"
+                      id="otherDocumentDate"
+                      placeholder=" "
+                      className="relative peer z-1 w-full py-[6px] px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+
+                    <label
+                      htmlFor="otherDocumentDate"
+                      className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-xs ${
+                        isConfirmPassFocused || data.otherDocumentDate
+                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          : "top-1/2 -translate-y-1/2"
+                      }`}
+                    >
+                      Date Of Issue
+                    </label>
+                  </div>
+                )}
+                {currState === "signUp" && (
+                  <div className="relative z-1">
+                    <input
+                      name="certificationExpiry"
+                      onChange={onChangeHandler}
+                      onBlur={(e) => {
+                        if (!e.target.value) {
+                          setIsConfirmPassFocused(false);
+                        }
+                      }}
+                      onFocus={() => setIsConfirmPassFocused(true)}
+                      value={data.certificationExpiry}
+                      type="text"
+                      id="certificationExpiry"
+                      placeholder=" "
+                      className="relative peer z-1 w-full py-[6px] px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+
+                    <label
+                      htmlFor="certificationExpiry"
+                      className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-xs ${
+                        isConfirmPassFocused || data.certificationExpiry
+                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          : "top-1/2 -translate-y-1/2"
+                      }`}
+                    >
+                      Date Of Expiry
+                    </label>
+                  </div>
+                )}
+
+                {/* Password Input */}
+
+                {/* Confirm Password Input */}
+
+                {/* Submit Button */}
+                <p className="text-right text-[10px] text-blue-800">
+                  Forgot Password?
+                </p>
+                {/* <button
+                  type="submit"
+                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
+                >
+                  {currState}
+                </button> */}
+                <div className="flex justify-between">
+                  <button
+                    type="button"
+                    onClick={onPrevious}
+                    className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400"
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    onClick={onNext}
+                    className="bg-blue-800 text-white py-2 px-4 rounded hover:bg-blue-500"
+                  >
+                    Next9
+                  </button>
+                </div>
+              </>
+            )}
+            {step === 10 && (
+              <>
                 <div>
                   {currState === "signUp" ? (
                     <div className="relative z-1 mb-4">
@@ -1237,17 +1871,14 @@ const Login = () => {
                   ) : (
                     ""
                   )}
-
-                  {/* Phone Input */}
-                  <div className="relative z-0">
+                  <div className="relative z-0 mb-4">
                     <div className="flex items-center gap-2">
-                      {currState === "signUp" && <FlagImoji countryCode="ET" />}
                       <input
-                        name="number"
+                        name="phone"
                         onChange={(e) => {
                           const value = e.target.value;
                           if (/^\d*$/.test(value)) {
-                            setData({ ...data, number: value });
+                            setData({ ...data, phone: value });
                             setPhoneError("");
                           } else {
                             setPhoneError("Please enter numbers only.");
@@ -1259,25 +1890,25 @@ const Login = () => {
                           }
                         }}
                         onFocus={() => setIsPhoneFocused(true)}
-                        value={data.number}
+                        value={data.phone}
                         type="text"
-                        id="number"
+                        id="phone"
                         placeholder=" "
                         className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
 
                       {/* Floating Label */}
                       <label
-                        htmlFor="number"
+                        htmlFor="phone"
                         className={`absolute z-10 ${
-                          currState === "Login" ? "left-[20px]" : "left-[80px]"
+                          currState === "Login" ? "left-[20px]" : "left-[20px]"
                         } transform transition-all text-gray-500 text-sm ${
-                          isPhoneFocused || data.number
+                          isPhoneFocused || data.phone
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
                       >
-                        Familly Number
+                        Number
                       </label>
                       {phoneError && (
                         <p className="absolute bottom-[-15px] left-8 text-red-500 text-xs mt-1">
@@ -1285,20 +1916,15 @@ const Login = () => {
                         </p>
                       )}
                     </div>
-                    <span
-                      className={`absolute z-10 ${
-                        currState === "Login" ? "left-2" : "left-10"
-                      } top-1/2 transform -translate-y-1/2 text-gray-600 text-sm`}
-                    >
-                      +251
-                    </span>
                   </div>
+
+                  {/* Phone Input */}
                 </div>
 
                 {/* Password Input */}
                 <div className="relative z-1">
                   <input
-                    name="familyPlaceIssue"
+                    name="placeOfIssue"
                     onChange={onChangeHandler}
                     onBlur={(e) => {
                       if (!e.target.value) {
@@ -1306,9 +1932,9 @@ const Login = () => {
                       }
                     }}
                     onFocus={() => setIsPassFocused(true)}
-                    value={data.familyPlaceIssue}
+                    value={data.placeOfIssue}
                     type="text"
-                    id="familyPlaceIssue"
+                    id="placeOfIssue"
                     placeholder=" "
                     className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -1316,12 +1942,12 @@ const Login = () => {
                   <label
                     htmlFor="password"
                     className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                      isPassFocused || data.familyPlaceIssue
+                      isPassFocused || data.placeOfIssue
                         ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                         : "top-1/2 -translate-y-1/2"
                     }`}
                   >
-                    Family Place Of Issue
+                    Place Of Issue
                   </label>
                 </div>
 
@@ -1329,7 +1955,7 @@ const Login = () => {
                 {currState === "signUp" && (
                   <div className="relative z-1">
                     <input
-                      name="familyDateIssue"
+                      name="dateOfIssue"
                       onChange={onChangeHandler}
                       onBlur={(e) => {
                         if (!e.target.value) {
@@ -1337,24 +1963,61 @@ const Login = () => {
                         }
                       }}
                       onFocus={() => setIsConfirmPassFocused(true)}
-                      value={data.familyDateIssue}
+                      value={data.dateOfIssue}
                       type="date"
-                      id="familyDateIssue"
+                      id="dateOfIssue"
                       placeholder=" "
                       className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
 
                     <label
-                      htmlFor="familyDateIssue"
+                      htmlFor="confirmpassword"
                       className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                        isConfirmPassFocused || data.familyDateIssue
+                        isConfirmPassFocused || data.dateOfIssue
                           ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                           : "top-[-10px] bg-white px-1 text-xs text-blue-500"
                       }`}
                     >
-                      Family Date Of Issue
+                      Date Of Issue
                     </label>
                   </div>
+                )}
+
+                {currState === "signUp" ? (
+                  <div className="relative z-1 mb-4">
+                    {/* Input Field */}
+                    <input
+                      name="issuingAuthority"
+                      onChange={(e) =>
+                        setData({ ...data, issuingAuthority: e.target.value })
+                      }
+                      onBlur={(e) => {
+                        if (!e.target.value) {
+                          setIsFocused(false);
+                        }
+                      }}
+                      onFocus={() => setIsFocused(true)}
+                      value={data.issuingAuthority}
+                      type="text"
+                      id="issuingAuthority"
+                      placeholder=" "
+                      className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+
+                    {/* Floating Label */}
+                    <label
+                      htmlFor="email"
+                      className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                        isFocused || data.issuingAuthority
+                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          : "top-1/2 -translate-y-1/2"
+                      }`}
+                    >
+                      Issuing Authority
+                    </label>
+                  </div>
+                ) : (
+                  ""
                 )}
 
                 {/* Submit Button */}
@@ -1380,213 +2043,109 @@ const Login = () => {
                     onClick={onNext}
                     className="bg-blue-800 text-white py-2 px-4 rounded hover:bg-blue-500"
                   >
-                    Next6
+                    Next10
                   </button>
                 </div>
               </>
             )}
-            {step === 7 && (
+
+            {step === 11 && (
               <>
-                <div>
-                  {currState === "signUp" ? (
-                    <div className="relative z-1 mb-4">
-                      {/* Input Field */}
-                      <input
-                        name="issuingAuthority"
-                        onChange={(e) =>
-                          setData({ ...data, issuingAuthority: e.target.value })
-                        }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsFocused(true)}
-                        value={data.issuingAuthority}
-                        type="text"
-                        id="issuingAuthority"
-                        placeholder=" "
-                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-
-                      {/* Floating Label */}
-                      <label
-                        htmlFor="email"
-                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isFocused || data.issuingAuthority
-                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                            : "top-1/2 -translate-y-1/2"
-                        }`}
-                      >
-                        Issuing Authority
-                      </label>
-                    </div>
-                  ) : (
-                    ""
-                  )}
-
-                  {/* Phone Input */}
-                  <div className="relative z-0">
-                    <div className="flex items-center gap-2">
-                      {currState === "signUp" && <FlagImoji countryCode="ET" />}
-                      <input
-                        name="phone"
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          if (/^\d*$/.test(value)) {
-                            setData({ ...data, phone: value });
-                            setPhoneError("");
-                          } else {
-                            setPhoneError("Please enter numbers only.");
-                          }
-                        }}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPhoneFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPhoneFocused(true)}
-                        value={data.phone}
-                        type="text"
-                        id="phone"
-                        placeholder=" "
-                        className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-
-                      {/* Floating Label */}
-                      <label
-                        htmlFor="phone"
-                        className={`absolute z-10 ${
-                          currState === "Login" ? "left-[50px]" : "left-[90px]"
-                        } transform transition-all text-gray-500 text-sm ${
-                          isPhoneFocused || data.phone
-                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                            : "top-1/2 -translate-y-1/2"
-                        }`}
-                      >
-                        Phone Number
-                      </label>
-                      {phoneError && (
-                        <p className="absolute bottom-[-15px] left-8 text-red-500 text-xs mt-1">
-                          {phoneError}
-                        </p>
-                      )}
-                    </div>
-                    <span
-                      className={`absolute z-10 ${
-                        currState === "Login" ? "left-2" : "left-10"
-                      } top-1/2 transform -translate-y-1/2 text-gray-600 text-sm`}
-                    >
-                      +251
-                    </span>
+                <div className="flex flex-col gap-2 py-2 pl-2 border border-blue-500 rounded-sm">
+                  <p>
+                    Through which family line do applicants claim the
+                    certification card?
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <input
+                      name="familyLine"
+                      value="father"
+                      type="radio"
+                      id="fatherLine"
+                      onChange={handleRadioChange}
+                      checked={selectedLine === "father"}
+                      className="w-4 h-4 outline-2 outline-blue-500"
+                    />
+                    <label htmlFor="fatherLine" className="text-gray-500">
+                      Father&apos;s Line
+                    </label>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <input
+                      name="familyLine"
+                      value="mother"
+                      type="radio"
+                      id="motherLine"
+                      onChange={handleRadioChange}
+                      checked={selectedLine === "mother"}
+                      className="w-4 h-4"
+                    />
+                    <label htmlFor="motherLine" className="text-gray-500">
+                      Mother&apos;s Line
+                    </label>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <input
+                      name="familyLine"
+                      value="grandfather"
+                      type="radio"
+                      id="grandFatherLine"
+                      onChange={handleRadioChange}
+                      checked={selectedLine === "grandfather"}
+                      className="w-4 h-4"
+                    />
+                    <label htmlFor="grandFatherLine" className="text-gray-500">
+                      Grand Father&apos;s Line
+                    </label>
                   </div>
                 </div>
 
-                {/* Password Input */}
-                <div className="relative z-1">
-                  {isOpen ? (
-                    <HiEye
-                      size={15}
-                      color="#3B82F6"
-                      onClick={() => setIsOpen(!isOpen)}
-                      className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                    />
-                  ) : (
-                    <HiEyeOff
-                      size={15}
-                      color="#3B82F6"
-                      onClick={() => setIsOpen(!isOpen)}
-                      className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                    />
-                  )}
-
+                {/* Dynamic Input */}
+                <div className="relative z-1 mt-4">
                   <input
-                    name="password"
-                    onChange={onChangeHandler}
-                    onBlur={(e) => {
-                      if (!e.target.value) {
-                        setIsPassFocused(false);
-                      }
-                    }}
-                    onFocus={() => setIsPassFocused(true)}
-                    value={data.password}
-                    type={isOpen ? "text" : "password"}
-                    id="password"
+                    name="familyName"
+                    onChange={handleInputChange}
+                    value={data.familyName}
+                    type="text"
+                    id="familyName"
                     placeholder=" "
                     className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
-
                   <label
-                    htmlFor="password"
-                    className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                      isPassFocused || data.password
-                        ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                        : "top-1/2 -translate-y-1/2"
-                    }`}
+                    htmlFor="familyName"
+                    className="absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm top-[-10px] bg-white px-1 text-xs text-blue-500"
                   >
-                    Password
+                    {selectedLine === "father"
+                      ? "Father Full Name"
+                      : selectedLine === "mother"
+                      ? "Mother Full Name"
+                      : selectedLine === "grandfather"
+                      ? "Grand Father Full Name"
+                      : "Family Full Name"}
                   </label>
                 </div>
 
-                {/* Confirm Password Input */}
-                {currState === "signUp" && (
-                  <div className="relative z-1">
-                    {isConfirmOpen ? (
-                      <HiEye
-                        size={15}
-                        color="#3B82F6"
-                        onClick={() => setIsConfirmOpen(!isConfirmOpen)}
-                        className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                      />
-                    ) : (
-                      <HiEyeOff
-                        size={15}
-                        color="#3B82F6"
-                        onClick={() => setIsConfirmOpen(!isConfirmOpen)}
-                        className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                      />
-                    )}
+                {/* Document Type Input */}
+                <div className="relative z-1 mt-4">
+                  <input
+                    name="familyDocumentType"
+                    onChange={handleInputChange}
+                    value={data.familyDocumentType}
+                    type="text"
+                    id="familyDocumentType"
+                    placeholder=" "
+                    className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <label
+                    htmlFor="familyDocumentType"
+                    className="absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm top-[-10px] bg-white px-1 text-xs text-blue-500"
+                  >
+                    Document Type
+                  </label>
+                </div>
 
-                    <input
-                      name="confirmpassword"
-                      onChange={onChangeHandler}
-                      onBlur={(e) => {
-                        if (!e.target.value) {
-                          setIsConfirmPassFocused(false);
-                        }
-                      }}
-                      onFocus={() => setIsConfirmPassFocused(true)}
-                      value={data.confirmpassword}
-                      type={isConfirmOpen ? "text" : "password"}
-                      id="confirmpassword"
-                      placeholder=" "
-                      className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-
-                    <label
-                      htmlFor="confirmpassword"
-                      className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                        isConfirmPassFocused || data.confirmpassword
-                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                          : "top-1/2 -translate-y-1/2"
-                      }`}
-                    >
-                      Confirm Password
-                    </label>
-                  </div>
-                )}
-
-                {/* Submit Button */}
-                <p className="text-right text-[10px] text-blue-800">
-                  Forgot Password?
-                </p>
-                {/* <button
-                  type="submit"
-                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
-                >
-                  {currState}
-                </button> */}
-                <div className="flex justify-between">
+                {/* Navigation Buttons */}
+                <div className="flex justify-between mt-4">
                   <button
                     type="button"
                     onClick={onPrevious}
@@ -1599,128 +2158,64 @@ const Login = () => {
                     onClick={onNext}
                     className="bg-blue-800 text-white py-2 px-4 rounded hover:bg-blue-500"
                   >
-                    Next7
+                    Next11
                   </button>
                 </div>
               </>
             )}
-            {step === 8 && (
+            {step === 12 && (
               <>
-                <div>
-                  {currState === "signUp" ? (
-                    <div className="relative z-1 mb-4">
-                      {/* Input Field */}
-                      <input
-                        name="email"
-                        onChange={(e) =>
-                          setData({ ...data, email: e.target.value })
+                <p>Familly Document</p>
+                <div className="relative z-0 mb-4">
+                  <div className="flex items-center gap-2">
+                    <input
+                      name="phone"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^\d*$/.test(value)) {
+                          setData({ ...data, phone: value });
+                          setPhoneError("");
+                        } else {
+                          setPhoneError("Please enter numbers only.");
                         }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsFocused(true)}
-                        value={data.email}
-                        type="text"
-                        id="email"
-                        placeholder=" "
-                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
+                      }}
+                      onBlur={(e) => {
+                        if (!e.target.value) {
+                          setIsPhoneFocused(false);
+                        }
+                      }}
+                      onFocus={() => setIsPhoneFocused(true)}
+                      value={data.phone}
+                      type="text"
+                      id="phone"
+                      placeholder=" "
+                      className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
 
-                      {/* Floating Label */}
-                      <label
-                        htmlFor="email"
-                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isFocused || data.email
-                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                            : "top-1/2 -translate-y-1/2"
-                        }`}
-                      >
-                        Email
-                      </label>
-                    </div>
-                  ) : (
-                    ""
-                  )}
-
-                  {/* Phone Input */}
-                  <div className="relative z-0">
-                    <div className="flex items-center gap-2">
-                      {currState === "signUp" && <FlagImoji countryCode="ET" />}
-                      <input
-                        name="phone"
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          if (/^\d*$/.test(value)) {
-                            setData({ ...data, phone: value });
-                            setPhoneError("");
-                          } else {
-                            setPhoneError("Please enter numbers only.");
-                          }
-                        }}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPhoneFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPhoneFocused(true)}
-                        value={data.phone}
-                        type="text"
-                        id="phone"
-                        placeholder=" "
-                        className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-
-                      {/* Floating Label */}
-                      <label
-                        htmlFor="phone"
-                        className={`absolute z-10 ${
-                          currState === "Login" ? "left-[50px]" : "left-[90px]"
-                        } transform transition-all text-gray-500 text-sm ${
-                          isPhoneFocused || data.phone
-                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                            : "top-1/2 -translate-y-1/2"
-                        }`}
-                      >
-                        Phone Number
-                      </label>
-                      {phoneError && (
-                        <p className="absolute bottom-[-15px] left-8 text-red-500 text-xs mt-1">
-                          {phoneError}
-                        </p>
-                      )}
-                    </div>
-                    <span
+                    {/* Floating Label */}
+                    <label
+                      htmlFor="familyDocumentNumber"
                       className={`absolute z-10 ${
-                        currState === "Login" ? "left-2" : "left-10"
-                      } top-1/2 transform -translate-y-1/2 text-gray-600 text-sm`}
+                        currState === "Login" ? "left-[20px]" : "left-[20px]"
+                      } transform transition-all text-gray-500 text-sm ${
+                        isPhoneFocused || data.familyDocumentNumber
+                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          : "top-1/2 -translate-y-1/2"
+                      }`}
                     >
-                      +251
-                    </span>
+                      Number
+                    </label>
+                    {phoneError && (
+                      <p className="absolute bottom-[-15px] left-8 text-red-500 text-xs mt-1">
+                        {phoneError}
+                      </p>
+                    )}
                   </div>
                 </div>
 
-                {/* Password Input */}
                 <div className="relative z-1">
-                  {isOpen ? (
-                    <HiEye
-                      size={15}
-                      color="#3B82F6"
-                      onClick={() => setIsOpen(!isOpen)}
-                      className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                    />
-                  ) : (
-                    <HiEyeOff
-                      size={15}
-                      color="#3B82F6"
-                      onClick={() => setIsOpen(!isOpen)}
-                      className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                    />
-                  )}
-
                   <input
-                    name="password"
+                    name="placeOfIssue"
                     onChange={onChangeHandler}
                     onBlur={(e) => {
                       if (!e.target.value) {
@@ -1728,9 +2223,9 @@ const Login = () => {
                       }
                     }}
                     onFocus={() => setIsPassFocused(true)}
-                    value={data.password}
-                    type={isOpen ? "text" : "password"}
-                    id="password"
+                    value={data.placeOfIssue}
+                    type="text"
+                    id="placeOfIssue"
                     placeholder=" "
                     className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -1738,36 +2233,20 @@ const Login = () => {
                   <label
                     htmlFor="password"
                     className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                      isPassFocused || data.password
+                      isPassFocused || data.placeOfIssue
                         ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                         : "top-1/2 -translate-y-1/2"
                     }`}
                   >
-                    Password
+                    Place Of Issue
                   </label>
                 </div>
 
                 {/* Confirm Password Input */}
                 {currState === "signUp" && (
                   <div className="relative z-1">
-                    {isConfirmOpen ? (
-                      <HiEye
-                        size={15}
-                        color="#3B82F6"
-                        onClick={() => setIsConfirmOpen(!isConfirmOpen)}
-                        className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                      />
-                    ) : (
-                      <HiEyeOff
-                        size={15}
-                        color="#3B82F6"
-                        onClick={() => setIsConfirmOpen(!isConfirmOpen)}
-                        className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                      />
-                    )}
-
                     <input
-                      name="confirmpassword"
+                      name="dateOfIssue"
                       onChange={onChangeHandler}
                       onBlur={(e) => {
                         if (!e.target.value) {
@@ -1775,9 +2254,9 @@ const Login = () => {
                         }
                       }}
                       onFocus={() => setIsConfirmPassFocused(true)}
-                      value={data.confirmpassword}
-                      type={isConfirmOpen ? "text" : "password"}
-                      id="confirmpassword"
+                      value={data.dateOfIssue}
+                      type="date"
+                      id="dateOfIssue"
                       placeholder=" "
                       className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
@@ -1785,208 +2264,56 @@ const Login = () => {
                     <label
                       htmlFor="confirmpassword"
                       className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                        isConfirmPassFocused || data.confirmpassword
+                        isConfirmPassFocused || data.dateOfIssue
                           ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                          : "top-1/2 -translate-y-1/2"
+                          : "top-[-10px] bg-white px-1 text-xs text-blue-500"
                       }`}
                     >
-                      Confirm Password
+                      Date Of Issue
                     </label>
                   </div>
                 )}
 
-                {/* Submit Button */}
-                <p className="text-right text-[10px] text-blue-800">
-                  Forgot Password?
-                </p>
-                {/* <button
-                  type="submit"
-                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
-                >
-                  {currState}
-                </button> */}
-                <div className="flex justify-between">
-                  <button
-                    type="button"
-                    onClick={onPrevious}
-                    className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400"
-                  >
-                    Back
-                  </button>
-                  <button
-                    type="button"
-                    onClick={onNext}
-                    className="bg-blue-800 text-white py-2 px-4 rounded hover:bg-blue-500"
-                  >
-                    Next8
-                  </button>
-                </div>
-              </>
-            )}
-            {step === 9 && (
-              <>
-                <div>
-                  {currState === "signUp" ? (
-                    <div className="relative z-1 mb-4">
-                      {/* Input Field */}
-                      <input
-                        name="email"
-                        onChange={(e) =>
-                          setData({ ...data, email: e.target.value })
-                        }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsFocused(true)}
-                        value={data.email}
-                        type="text"
-                        id="email"
-                        placeholder=" "
-                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-
-                      {/* Floating Label */}
-                      <label
-                        htmlFor="email"
-                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isFocused || data.email
-                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                            : "top-1/2 -translate-y-1/2"
-                        }`}
-                      >
-                        Email
-                      </label>
-                    </div>
-                  ) : (
-                    ""
-                  )}
-
-                  {/* Phone Input */}
-                  <div className="relative z-0">
-                    <div className="flex items-center gap-2">
-                      {currState === "signUp" && <FlagImoji countryCode="ET" />}
-                      <input
-                        name="phone"
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          if (/^\d*$/.test(value)) {
-                            setData({ ...data, phone: value });
-                            setPhoneError("");
-                          } else {
-                            setPhoneError("Please enter numbers only.");
-                          }
-                        }}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPhoneFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPhoneFocused(true)}
-                        value={data.phone}
-                        type="text"
-                        id="phone"
-                        placeholder=" "
-                        className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-
-                      {/* Floating Label */}
-                      <label
-                        htmlFor="phone"
-                        className={`absolute z-10 ${
-                          currState === "Login" ? "left-[50px]" : "left-[90px]"
-                        } transform transition-all text-gray-500 text-sm ${
-                          isPhoneFocused || data.phone
-                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                            : "top-1/2 -translate-y-1/2"
-                        }`}
-                      >
-                        Phone Number
-                      </label>
-                      {phoneError && (
-                        <p className="absolute bottom-[-15px] left-8 text-red-500 text-xs mt-1">
-                          {phoneError}
-                        </p>
-                      )}
-                    </div>
-                    <span
-                      className={`absolute z-10 ${
-                        currState === "Login" ? "left-2" : "left-10"
-                      } top-1/2 transform -translate-y-1/2 text-gray-600 text-sm`}
-                    >
-                      +251
-                    </span>
-                  </div>
-                </div>
-
-                {/* Password Input */}
-                <div className="relative z-1">
-                  {isOpen ? (
-                    <HiEye
-                      size={15}
-                      color="#3B82F6"
-                      onClick={() => setIsOpen(!isOpen)}
-                      className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                    />
-                  ) : (
-                    <HiEyeOff
-                      size={15}
-                      color="#3B82F6"
-                      onClick={() => setIsOpen(!isOpen)}
-                      className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                    />
-                  )}
-
-                  <input
-                    name="password"
-                    onChange={onChangeHandler}
-                    onBlur={(e) => {
-                      if (!e.target.value) {
-                        setIsPassFocused(false);
+                {currState === "signUp" ? (
+                  <div className="relative z-1 mb-4">
+                    {/* Input Field */}
+                    <input
+                      name="issuingAuthority"
+                      onChange={(e) =>
+                        setData({ ...data, issuingAuthority: e.target.value })
                       }
-                    }}
-                    onFocus={() => setIsPassFocused(true)}
-                    value={data.password}
-                    type={isOpen ? "text" : "password"}
-                    id="password"
-                    placeholder=" "
-                    className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
+                      onBlur={(e) => {
+                        if (!e.target.value) {
+                          setIsFocused(false);
+                        }
+                      }}
+                      onFocus={() => setIsFocused(true)}
+                      value={data.issuingAuthority}
+                      type="text"
+                      id="issuingAuthority"
+                      placeholder=" "
+                      className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
 
-                  <label
-                    htmlFor="password"
-                    className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                      isPassFocused || data.password
-                        ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                        : "top-1/2 -translate-y-1/2"
-                    }`}
-                  >
-                    Password
-                  </label>
-                </div>
-
-                {/* Confirm Password Input */}
+                    {/* Floating Label */}
+                    <label
+                      htmlFor="email"
+                      className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                        isFocused || data.issuingAuthority
+                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          : "top-1/2 -translate-y-1/2"
+                      }`}
+                    >
+                      Issuing Authority
+                    </label>
+                  </div>
+                ) : (
+                  ""
+                )}
                 {currState === "signUp" && (
                   <div className="relative z-1">
-                    {isConfirmOpen ? (
-                      <HiEye
-                        size={15}
-                        color="#3B82F6"
-                        onClick={() => setIsConfirmOpen(!isConfirmOpen)}
-                        className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                      />
-                    ) : (
-                      <HiEyeOff
-                        size={15}
-                        color="#3B82F6"
-                        onClick={() => setIsConfirmOpen(!isConfirmOpen)}
-                        className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                      />
-                    )}
-
                     <input
-                      name="confirmpassword"
+                      name="FamilydateOfExpiry"
                       onChange={onChangeHandler}
                       onBlur={(e) => {
                         if (!e.target.value) {
@@ -1994,245 +2321,25 @@ const Login = () => {
                         }
                       }}
                       onFocus={() => setIsConfirmPassFocused(true)}
-                      value={data.confirmpassword}
-                      type={isConfirmOpen ? "text" : "password"}
-                      id="confirmpassword"
+                      value={data.FamilydateOfExpiry}
+                      type="date"
+                      id="FamilydateOfExpiry"
                       placeholder=" "
                       className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
 
                     <label
-                      htmlFor="confirmpassword"
+                      htmlFor="FamilydateOfExpiry"
                       className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                        isConfirmPassFocused || data.confirmpassword
+                        isConfirmPassFocused || data.FamilydateOfExpiry
                           ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                          : "top-1/2 -translate-y-1/2"
+                          : "top-[-10px] bg-white px-1 text-xs text-blue-500"
                       }`}
                     >
-                      Confirm Password
+                      Date Of Expiry
                     </label>
                   </div>
                 )}
-
-                {/* Submit Button */}
-                <p className="text-right text-[10px] text-blue-800">
-                  Forgot Password?
-                </p>
-                {/* <button
-                  type="submit"
-                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
-                >
-                  {currState}
-                </button> */}
-                <div className="flex justify-between">
-                  <button
-                    type="button"
-                    onClick={onPrevious}
-                    className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400"
-                  >
-                    Back
-                  </button>
-                  <button
-                    type="button"
-                    onClick={onNext}
-                    className="bg-blue-800 text-white py-2 px-4 rounded hover:bg-blue-500"
-                  >
-                    Next9
-                  </button>
-                </div>
-              </>
-            )}
-            {step === 10 && (
-              <>
-                <div>
-                  {currState === "signUp" ? (
-                    <div className="relative z-1 mb-4">
-                      {/* Input Field */}
-                      <input
-                        name="email"
-                        onChange={(e) =>
-                          setData({ ...data, email: e.target.value })
-                        }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsFocused(true)}
-                        value={data.email}
-                        type="text"
-                        id="email"
-                        placeholder=" "
-                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-
-                      {/* Floating Label */}
-                      <label
-                        htmlFor="email"
-                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isFocused || data.email
-                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                            : "top-1/2 -translate-y-1/2"
-                        }`}
-                      >
-                        Email
-                      </label>
-                    </div>
-                  ) : (
-                    ""
-                  )}
-
-                  {/* Phone Input */}
-                  <div className="relative z-0">
-                    <div className="flex items-center gap-2">
-                      {currState === "signUp" && <FlagImoji countryCode="ET" />}
-                      <input
-                        name="phone"
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          if (/^\d*$/.test(value)) {
-                            setData({ ...data, phone: value });
-                            setPhoneError("");
-                          } else {
-                            setPhoneError("Please enter numbers only.");
-                          }
-                        }}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPhoneFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPhoneFocused(true)}
-                        value={data.phone}
-                        type="text"
-                        id="phone"
-                        placeholder=" "
-                        className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-
-                      {/* Floating Label */}
-                      <label
-                        htmlFor="phone"
-                        className={`absolute z-10 ${
-                          currState === "Login" ? "left-[50px]" : "left-[90px]"
-                        } transform transition-all text-gray-500 text-sm ${
-                          isPhoneFocused || data.phone
-                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                            : "top-1/2 -translate-y-1/2"
-                        }`}
-                      >
-                        Phone Number
-                      </label>
-                      {phoneError && (
-                        <p className="absolute bottom-[-15px] left-8 text-red-500 text-xs mt-1">
-                          {phoneError}
-                        </p>
-                      )}
-                    </div>
-                    <span
-                      className={`absolute z-10 ${
-                        currState === "Login" ? "left-2" : "left-10"
-                      } top-1/2 transform -translate-y-1/2 text-gray-600 text-sm`}
-                    >
-                      +251
-                    </span>
-                  </div>
-                </div>
-
-                {/* Password Input */}
-                <div className="relative z-1">
-                  {isOpen ? (
-                    <HiEye
-                      size={15}
-                      color="#3B82F6"
-                      onClick={() => setIsOpen(!isOpen)}
-                      className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                    />
-                  ) : (
-                    <HiEyeOff
-                      size={15}
-                      color="#3B82F6"
-                      onClick={() => setIsOpen(!isOpen)}
-                      className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                    />
-                  )}
-
-                  <input
-                    name="password"
-                    onChange={onChangeHandler}
-                    onBlur={(e) => {
-                      if (!e.target.value) {
-                        setIsPassFocused(false);
-                      }
-                    }}
-                    onFocus={() => setIsPassFocused(true)}
-                    value={data.password}
-                    type={isOpen ? "text" : "password"}
-                    id="password"
-                    placeholder=" "
-                    className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-
-                  <label
-                    htmlFor="password"
-                    className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                      isPassFocused || data.password
-                        ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                        : "top-1/2 -translate-y-1/2"
-                    }`}
-                  >
-                    Password
-                  </label>
-                </div>
-
-                {/* Confirm Password Input */}
-                {currState === "signUp" && (
-                  <div className="relative z-1">
-                    {isConfirmOpen ? (
-                      <HiEye
-                        size={15}
-                        color="#3B82F6"
-                        onClick={() => setIsConfirmOpen(!isConfirmOpen)}
-                        className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                      />
-                    ) : (
-                      <HiEyeOff
-                        size={15}
-                        color="#3B82F6"
-                        onClick={() => setIsConfirmOpen(!isConfirmOpen)}
-                        className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                      />
-                    )}
-
-                    <input
-                      name="confirmpassword"
-                      onChange={onChangeHandler}
-                      onBlur={(e) => {
-                        if (!e.target.value) {
-                          setIsConfirmPassFocused(false);
-                        }
-                      }}
-                      onFocus={() => setIsConfirmPassFocused(true)}
-                      value={data.confirmpassword}
-                      type={isConfirmOpen ? "text" : "password"}
-                      id="confirmpassword"
-                      placeholder=" "
-                      className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-
-                    <label
-                      htmlFor="confirmpassword"
-                      className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                        isConfirmPassFocused || data.confirmpassword
-                          ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                          : "top-1/2 -translate-y-1/2"
-                      }`}
-                    >
-                      Confirm Password
-                    </label>
-                  </div>
-                )}
-
                 {/* Submit Button */}
                 <p className="text-right text-[10px] text-blue-800">
                   Forgot Password?
@@ -2262,17 +2369,21 @@ const Login = () => {
             )}
           </form>
 
-          <div
-            className={`absolute ${
-              currState === "Login" ? "bottom-20" : "bottom-5"
-            }`}
-          >
-            <img
-              src="/logo.png"
-              alt="Ministry of Labor and Skills"
-              className="h-10"
-            />
-          </div>
+          {currState === "Login" ? (
+            <div
+              className={`absolute ${
+                currState === "Login" ? "bottom-20" : "bottom-5"
+              }`}
+            >
+              <img
+                src="/logo.png"
+                alt="Ministry of Labor and Skills"
+                className="h-10"
+              />
+            </div>
+          ) : (
+            ""
+          )}
         </div>
         {/* Right Section */}
         <div
