@@ -12,11 +12,61 @@ const Login = () => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const { move, setMove, currState, setCurrState, url, setToken } = useStores();
   const [regMessage, setRegMessage] = useState("");
-  const [isFocused, setIsFocused] = useState(false);
-  const [isEmailFocused, setIsEmailFocused] = useState(false);
-  const [isPhoneFocused, setIsPhoneFocused] = useState(false);
-  const [isPassFocused, setIsPassFocused] = useState(false);
-  const [isConfirmPassFocused, setIsConfirmPassFocused] = useState(false);
+  const [focusStates, setFocusStates] = useState({
+    isNameFocused: false,
+    isEmailFocused: false,
+    isPhoneFocused: false,
+    isPassFocused: false,
+    isConfirmPassFocused: false,
+    isFatherNameFocused: false,
+    isGrandFatherNameFocused: false,
+    isNickNameFocused: false,
+    isPlaceOfBirthFocused:false,
+    isRegionFocused:false,
+    isZoneFocused:false,
+    isWeredaFocused:false,
+    isCityFocused:false,
+    isKebeleFocused:false,
+    isCountryFocused:false,
+    isAdessFocused:false,
+    isCityAbroudFocused:false,
+    isStateFocused:false,
+    isZipCodeFocused:false,
+    isHeightFocused:false,
+    isColorOfEyesFocused:false,
+    isColorOfHairFocused:false,
+    isSpecialMarkFocused:false,
+    isPassportNoFocused:false,
+    isPassportPlaceFocused:false,
+    isPassportDateFocused:false,
+    isPassportAuthorityFocused:false,
+    isPassportRenewalFocused:false,
+    isCertificationNoFocused:false,
+    isCertificationPlaceFocused:false,
+    isCertificationDateFocused:false,
+    isCertificationIssuingAuthorityFocused:false,
+    isCertificationExpiryFocused:false,
+    isDocumentTypeFocused:false,
+    isDocumentNoFocused:false,
+    isDocumentPlaceFocused:false,
+    isDocumentDateFocused:false,
+    isDocumentExpiryFocused:false,
+    isDocumentAuthorityFocused:false,
+    isFamillyDocumentTypeFocused:false,
+    isFamillyDocumentNoFocused:false,
+    isFamillyDocumentPlaceFocused:false,
+    isFamillyDocumentDateFocused:false,
+    isFamillyDocumentExpiryFocused:false,
+    isFamillyDocumentAuthorityFocused:false,
+    isFamilyNameFocused:false,
+    isAscendantTypeFocused:false,
+    isAscendantNoFocused:false,
+    isAscendantPlaceFocused:false,
+    isAscendantDateFocused:false,
+    isAscendantExpiryFocused:false,
+    isAscendantAuthorityFocused:false,
+  });
+
   const [selectedLine, setSelectedLine] = useState("");
   // State to hold the input field label dynamically
   const [inputLabel, setInputLabel] = useState("");
@@ -27,45 +77,98 @@ const Login = () => {
   const [data, setData] = useState({
     name: "",
     email: "",
-    phone: "",
     password: "",
     confirmpassword: "",
+    fatherName: "",
+    grandFatherName:"",
+    nickName:"",
+    sex:"",
+    dateOfBirth:"",
+    region:"",
+    zone:"",
+    wereda:"",
+    city:"",
+    kebele:"",
+    country:"",
+    address:"",
+    state:"",
+    abroadCity:"",
+    height:"",
+    colorOfEye:"",
+    colorOfHair:"",
+    specialMark:"",
+    passportNo:"",
+    passportPlace:"",
+    passportDate:"",
+    passportRenewal:"",
+    passportAuthority:"",
+    certificationNumber:"",
+    certificationPlace:"",
+    certificationDate:"",
+    certificationAuthority:"",
+    certificationExpiry:"",
+    documentNumber:"",
+    documentType:"",
+    documentPlace:"",
+    documentDate:"",
+    documentAuthority:"",
+    documentExpiry:"",
     familyName: "",
-    familyDocumentType: "",
-  });
-  const [formData, setFormData] = useState({
+    famillyDocumentType: "",
+    famillyDocumentNumber:"",
+    famillyDocumentPlace:"",
+    famillyDocumentDate:"",
+    famillyDocumentAuthority:"",
+    famillyDocumentExpiry:"",
     formerNationalities: ["", "", ""],
     presentNationalities: ["", "", ""],
     ethnicGroup: "",
+
   });
+  console.log(data)
 
-  const handleRadioChange = (e) => {
-    setSelectedLine(e.target.value); // Set the selected family line
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setData({ ...data, [name]: value }); // Update input fields
-  };
-  const handleNationalityChange = (e, index, type) => {
-    const value = e.target.value;
-    if (type === "former") {
-      const updatedFormer = [...formData.formerNationalities];
-      updatedFormer[index] = value;
-      setFormData({ ...formData, formerNationalities: updatedFormer });
-    } else if (type === "present") {
-      const updatedPresent = [...formData.presentNationalities];
-      updatedPresent[index] = value;
-      setFormData({ ...formData, presentNationalities: updatedPresent });
-    } else if (type === "ethnic") {
-      setFormData({ ...formData, ethnicGroup: value });
-    }
+  const handleFocusChange = (fieldName, isFocused) => {
+    setFocusStates((prevStates) => ({
+      ...prevStates,
+      [fieldName]: isFocused,
+    }));
   };
 
   const onChangeHandler = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setData((data) => ({ ...data, [name]: value }));
+    const { name, value, type, dataset } = event.target;
+
+    // Handle array fields
+    if (dataset.index !== undefined) {
+      const index = Number(dataset.index);
+      setData((prevData) => ({
+        ...prevData,
+        [name]: prevData[name].map((item, idx) =>
+          idx === index ? value : item
+        ),
+      }));
+    }
+    // Handle radio button changes
+    else if (type === "radio") {
+      setSelectedLine(value);
+    }
+    // Handle focus states
+    else if (name.startsWith("isFocused")) {
+      const focusField = `is${
+        name.charAt(0).toUpperCase() + name.slice(1)
+      }Focused`;
+      setCurrState((prev) => ({ ...prev, [focusField]: value === "true" }));
+    }
+    // Handle step tracking or dynamic inputs
+    else if (name === "step") {
+      setStep(Number(value)); // Set step as a number
+    }
+    // Default handler for regular fields
+    else {
+      setData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const onNext = () => {
@@ -162,12 +265,8 @@ const Login = () => {
                       onChange={(e) =>
                         setData({ ...data, email: e.target.value })
                       }
-                      onBlur={(e) => {
-                        if (!e.target.value) {
-                          setIsFocused(false);
-                        }
-                      }}
-                      onFocus={() => setIsFocused(true)}
+                      onFocus={() => handleFocusChange("isEmailFocused", true)}
+                      onBlur={() => handleFocusChange("isEmailFocused", false)}
                       value={data.email}
                       type="text"
                       id="email"
@@ -179,7 +278,7 @@ const Login = () => {
                     <label
                       htmlFor="email"
                       className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                        isFocused || data.email
+                        focusStates.isEmailFocused || data.email
                           ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                           : "top-1/2 -translate-y-1/2"
                       }`}
@@ -195,12 +294,8 @@ const Login = () => {
                         onChange={(e) =>
                           setData({ ...data, name: e.target.value })
                         }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsFocused(true)}
+                        onFocus={() => handleFocusChange("isNameFocused", true)}
+                        onBlur={() => handleFocusChange("isNameFocused", false)}
                         value={data.name}
                         type="text"
                         id="name"
@@ -212,12 +307,12 @@ const Login = () => {
                       <label
                         htmlFor="name"
                         className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isFocused || data.name
+                          focusStates.isNameFocused || data.name
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
                       >
-                        Name
+                        Name/ ስም
                       </label>
                     </div>
                   ) : (
@@ -234,12 +329,12 @@ const Login = () => {
                           onChange={(e) =>
                             setData({ ...data, fatherName: e.target.value })
                           }
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsPhoneFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsPhoneFocused(true)}
+                          onFocus={() =>
+                            handleFocusChange("isFatherNameFocused", true)
+                          }
+                          onBlur={() =>
+                            handleFocusChange("isFatherNameFocused", false)
+                          }
                           value={data.fatherName}
                           type="text"
                           id="fatherName"
@@ -255,12 +350,12 @@ const Login = () => {
                               ? "left-[50px]"
                               : "left-[10px]"
                           } transform transition-all text-gray-500 text-sm ${
-                            isPhoneFocused || data.fatherName
+                            focusStates.isFatherNameFocused || data.fatherName
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          Father Name
+                          Father Name/ የአባት ስም
                         </label>
                       </div>
                     </div>
@@ -289,12 +384,8 @@ const Login = () => {
                   <input
                     name="password"
                     onChange={onChangeHandler}
-                    onBlur={(e) => {
-                      if (!e.target.value) {
-                        setIsPassFocused(false);
-                      }
-                    }}
-                    onFocus={() => setIsPassFocused(true)}
+                    onFocus={() => handleFocusChange("isPassFocused", true)}
+                    onBlur={() => handleFocusChange("isPassFocused", false)}
                     value={data.password}
                     type={isOpen ? "text" : "password"}
                     id="password"
@@ -305,7 +396,7 @@ const Login = () => {
                   <label
                     htmlFor="password"
                     className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
-                      isPassFocused || data.password
+                      focusStates.isPassFocused || data.password
                         ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                         : "top-1/2 -translate-y-1/2"
                     }`}
@@ -336,12 +427,12 @@ const Login = () => {
                     <input
                       name="confirmpassword"
                       onChange={onChangeHandler}
-                      onBlur={(e) => {
-                        if (!e.target.value) {
-                          setIsConfirmPassFocused(false);
-                        }
-                      }}
-                      onFocus={() => setIsConfirmPassFocused(true)}
+                      onFocus={() =>
+                        handleFocusChange("isConfirmPassFocused", true)
+                      }
+                      onBlur={() =>
+                        handleFocusChange("isConfirmPassFocused", false)
+                      }
                       value={data.confirmpassword}
                       type={isConfirmOpen ? "text" : "password"}
                       id="confirmpassword"
@@ -352,7 +443,7 @@ const Login = () => {
                     <label
                       htmlFor="confirmpassword"
                       className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                        isConfirmPassFocused || data.confirmpassword
+                        focusStates.isConfirmPassFocused || data.confirmpassword
                           ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                           : "top-1/2 -translate-y-1/2"
                       }`}
@@ -373,7 +464,7 @@ const Login = () => {
                   {currState}
                 </button> */}
                 {currState === "signUp" ? (
-                  <div className="absolute bottom-6 right-16 ">
+                  <div className="absolute bottom-6 right-12 ">
                     <button
                       type="button"
                       onClick={onNext}
@@ -404,46 +495,49 @@ const Login = () => {
                         onChange={(e) =>
                           setData({ ...data, grandFatherName: e.target.value })
                         }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsFocused(true)}
+                        onFocus={() => handleFocusChange("isGrandFatherNameFocused", true)}
+                        onBlur={() => handleFocusChange("isGrandFatherNameFocused", false)}
                         value={data.grandFatherName}
                         type="text"
                         id="grandFatherName"
                         placeholder=" "
-                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="peer z-10 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
 
                       {/* Floating Label */}
                       <label
-                        htmlFor="email"
-                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isFocused || data.grandFatherName
-                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                            : "top-1/2 -translate-y-1/2"
-                        }`}
-                      >
-                        Grand Father Name
-                      </label>
+                          htmlFor="grandFatherName"
+                          className={`absolute z-10 ${
+                            currState === "Login"
+                              ? "left-[10px]"
+                              : "left-[10px]"
+                          } transform transition-all text-gray-500 text-sm ${
+                            focusStates.isGrandFatherNameFocused || data.grandFatherName
+                              ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                              : "top-1/2 -translate-y-1/2"
+                          }`}
+                        >
+                          Grand Father Name/ የአያት ስም
+                        </label>
                     </div>
                     <div className="relative z-0 mb-4">
                       <div className="flex items-center gap-2">
                         <input
                           name="nickName"
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsPhoneFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsPhoneFocused(true)}
+                          onChange={(e) =>
+                            setData({ ...data, nickName: e.target.value })
+                          }
+                          onFocus={() =>
+                            handleFocusChange("isNickNameFocused", true)
+                          }
+                          onBlur={() =>
+                            handleFocusChange("isNickNameFocused", false)
+                          }
                           value={data.nickName}
                           type="text"
                           id="nickName"
                           placeholder=" "
-                          className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="peer z-10 w-full py-2 pl-[20px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
 
                         {/* Floating Label */}
@@ -454,63 +548,55 @@ const Login = () => {
                               ? "left-[10px]"
                               : "left-[10px]"
                           } transform transition-all text-gray-500 text-sm ${
-                            isPhoneFocused || data.nickName
+                            focusStates.isNickNameFocused || data.nickName
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          Nick Name
+                          Nick Name/ ልዩ መጠርያ
                         </label>
                       </div>
                     </div>
-                    <div className="border border-blue-500 rounded-sm mb-8">
+                    <div className="border border-blue-500 py-2 rounded-sm mb-8">
                       <p className="pl-4 font-Poppins text-xl text-gray-700 mb-2">
-                        sex
+                        sex/ ፆታ
                       </p>
-                      <div className="flex gap-2 pl-4">
-                        <div className="flex gap-2">
+                      <div className="w-full flex gap-[2px] pl-6">
+                        <div className="w-1/2 flex items-center gap-2">
                           <input
                             name="sex"
-                            onChange={onChangeHandler}
-                            onBlur={(e) => {
-                              if (!e.target.value) {
-                                setIsPassFocused(false);
-                              }
-                            }}
-                            onFocus={() => setIsPassFocused(true)}
-                            value={data.sex}
+                            onChange={(e) =>
+                              setData({ ...data, sex: e.target.value })
+                            }
+                            value="male"
                             type="radio"
-                            id="sex"
+                            id="male"
                             placeholder=" "
-                            className="relative peer z-1 w-full py-2 px-3"
+                            className="relative w-4 h-4 peer z-1"
                           />
 
-                          <label htmlFor="password" className="text-gray-400">
-                            Male
+                          <label htmlFor="male" className="text-sm text-gray-400">
+                            Male/ወንድ
                           </label>
                         </div>
-                        <div className="flex gap-2">
+                        <div className="w-1/2 flex items-center gap-2">
                           <input
                             name="sex"
-                            onChange={onChangeHandler}
-                            onBlur={(e) => {
-                              if (!e.target.value) {
-                                setIsConfirmPassFocused(false);
-                              }
-                            }}
-                            onFocus={() => setIsConfirmPassFocused(true)}
-                            value={data.dateOfBirth}
+                            onChange={(e) =>
+                              setData({ ...data, sex: e.target.value })
+                            }
+                            value="female"
                             type="radio"
-                            id="sex"
+                            id="female"
                             placeholder=" "
-                            className="relative peer z-1 w-full py-2 px-3"
+                            className="relative w-4 h-4 peer z-1"
                           />
 
                           <label
-                            htmlFor="confirmpassword"
-                            className="text-gray-400"
+                            htmlFor="female"
+                            className="text-sm text-gray-400"
                           >
-                            Female
+                            Female/ ሴት
                           </label>
                         </div>
                       </div>
@@ -519,12 +605,11 @@ const Login = () => {
                       <div className="flex items-center gap-2">
                         <input
                           name="placeOfBirth"
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsPhoneFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsPhoneFocused(true)}
+                          onChange={(e) =>
+                            setData({ ...data, placeOfBirth: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isPlaceOfBirthFocused", true)}
+                          onBlur={() => handleFocusChange("isPlaceOfBirthFocused", false)}
                           value={data.placeOfBirth}
                           type="date"
                           id="placeOfBirth"
@@ -540,12 +625,12 @@ const Login = () => {
                               ? "left-[20px]"
                               : "left-[20px]"
                           } transform transition-all text-gray-500 text-sm ${
-                            isPhoneFocused || data.placeOfBirth
+                            focusStates.isPlaceOfBirthFocused || data.placeOfBirth
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-[-10px] bg-white px-1 text-xs text-blue-500"
                           }`}
                         >
-                          DATE OF BIRTH
+                          Date Of Birth/ የትዉልድ ቀን
                         </label>
                       </div>
                     </div>
@@ -559,12 +644,8 @@ const Login = () => {
                         onChange={(e) =>
                           setData({ ...data, email: e.target.value })
                         }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsEmailFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsEmailFocused(true)}
+                        onFocus={() => handleFocusChange("isEmailFocused", true)}
+                         onBlur={() => handleFocusChange("isEmailFocused", false)}
                         value={data.email}
                         type="text"
                         id="email"
@@ -576,7 +657,7 @@ const Login = () => {
                       <label
                         htmlFor="email"
                         className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isEmailFocused || data.email
+                          focusStates.isEmailFocused || data.email
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -604,12 +685,8 @@ const Login = () => {
                       <input
                         name="password"
                         onChange={onChangeHandler}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPassFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPassFocused(true)}
+                        onFocus={() => handleFocusChange("isPassFocused", true)}
+                        onBlur={() => handleFocusChange("isPassFocused", false)}
                         value={data.password}
                         type={isOpen ? "text" : "password"}
                         id="password"
@@ -620,7 +697,7 @@ const Login = () => {
                       <label
                         htmlFor="password"
                         className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
-                          isPassFocused || data.password
+                          focusStates.isPassFocused || data.password
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -642,7 +719,7 @@ const Login = () => {
                     {currState}
                   </button>
                 ) : (
-                  <div className="w-[75%] absolute bottom-6 right-16 flex justify-between">
+                  <div className="w-[75%] absolute bottom-6 right-12 flex justify-between">
                     <button
                       type="button"
                       onClick={onPrevious}
@@ -669,42 +746,7 @@ const Login = () => {
                       <h1 className="font-Poppins  text-gray-600 font-medium text-md mb-2">
                         PLACE OF BIRTH /IF IT IS IN ETHIOPIA/
                       </h1>
-                      {currState === "signUp" ? (
-                        <div className="relative z-1 mb-4">
-                          {/* Input Field */}
-                          <input
-                            name="placeOfBirth"
-                            onChange={(e) =>
-                              setData({ ...data, placeOfBirth: e.target.value })
-                            }
-                            onBlur={(e) => {
-                              if (!e.target.value) {
-                                setIsFocused(false);
-                              }
-                            }}
-                            onFocus={() => setIsFocused(true)}
-                            value={data.placeOfBirth}
-                            type="text"
-                            id="placeOfBirth"
-                            placeholder=" "
-                            className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          />
-
-                          {/* Floating Label */}
-                          <label
-                            htmlFor="email"
-                            className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                              isFocused || data.placeOfBirth
-                                ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                                : "top-1/2 -translate-y-1/2"
-                            }`}
-                          >
-                            Place Of Birth
-                          </label>
-                        </div>
-                      ) : (
-                        ""
-                      )}
+                      
 
                       {/* Phone Input */}
                       <div className="relative z-0">
@@ -714,12 +756,8 @@ const Login = () => {
                             onChange={(e) =>
                               setData({ ...data, region: e.target.value })
                             }
-                            onBlur={(e) => {
-                              if (!e.target.value) {
-                                setIsPhoneFocused(false);
-                              }
-                            }}
-                            onFocus={() => setIsPhoneFocused(true)}
+                            onFocus={() => handleFocusChange("isRegionFocused", true)}
+                            onBlur={() => handleFocusChange("isRegionFocused", false)}
                             value={data.region}
                             type="text"
                             id="region"
@@ -735,12 +773,12 @@ const Login = () => {
                                 ? "left-[20px]"
                                 : "left-[20px]"
                             } transform transition-all text-gray-500 text-sm ${
-                              isPhoneFocused || data.region
+                              focusStates.isRegionFocused || data.region
                                 ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                                 : "top-1/2 -translate-y-1/2"
                             }`}
                           >
-                            region
+                            region/ ክልል
                           </label>
                         </div>
                       </div>
@@ -753,12 +791,8 @@ const Login = () => {
                         <input
                           name="zone"
                           onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
+                          onFocus={() => handleFocusChange("isZoneFocused", true)}
+                          onBlur={() => handleFocusChange("isZoneFocused", false)}
                           value={data.zone}
                           type="text"
                           id="zone"
@@ -769,12 +803,12 @@ const Login = () => {
                         <label
                           htmlFor="zone"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                            isConfirmPassFocused || data.zone
+                            focusStates.isZoneFocused || data.zone
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          zone
+                          zone/ ክ/ከተማ
                         </label>
                       </div>
                     )}
@@ -783,12 +817,8 @@ const Login = () => {
                         <input
                           name="wereda"
                           onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
+                          onFocus={() => handleFocusChange("isWeredaFocused", true)}
+                          onBlur={() => handleFocusChange("isWeredaFocused", false)}
                           value={data.wereda}
                           type="text"
                           id="wereda"
@@ -799,26 +829,56 @@ const Login = () => {
                         <label
                           htmlFor="wereda"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                            isConfirmPassFocused || data.wereda
+                            focusStates.isWeredaFocused || data.wereda
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          wereda
+                          wereda/ ወረዳ
                         </label>
                       </div>
                     )}
+                    {currState === "signUp" ? (
+                        <div className="relative z-1 mb-4">
+                          {/* Input Field */}
+                          <input
+                            name="city"
+                            onChange={(e) =>
+                              setData({ ...data, city: e.target.value })
+                            }
+                            onFocus={() => handleFocusChange("isCityFocused", true)}
+                            onBlur={() => handleFocusChange("isCityFocused", false)}
+                            value={data.city}
+                            type="text"
+                            id="city"
+                            placeholder=" "
+                            className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+
+                          {/* Floating Label */}
+                          <label
+                            htmlFor="city"
+                            className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                              focusStates.isCityFocused|| data.city
+                                ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                                : "top-1/2 -translate-y-1/2"
+                            }`}
+                          >
+                            City/ ከተማ
+                          </label>
+                        </div>
+                      ) : (
+                        ""
+                      )}
                     {currState === "signUp" && (
                       <div className="relative z-1">
                         <input
                           name="kebele"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
+                          onChange={(e) =>
+                            setData({ ...data, kebele: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isKebeleFocused", true)}
+                          onBlur={() => handleFocusChange("isKebeleFocused", false)}
                           value={data.kebele}
                           type="text"
                           id="kebele"
@@ -829,12 +889,12 @@ const Login = () => {
                         <label
                           htmlFor="kebele"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                            isConfirmPassFocused || data.kebele
+                            focusStates.isKebeleFocused|| data.kebele
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          kebele
+                          kebele/ ቀበሌ
                         </label>
                       </div>
                     )}
@@ -849,7 +909,7 @@ const Login = () => {
                 >
                   {currState}
                 </button> */}
-                    <div className="w-[75%] absolute bottom-6 right-16 flex justify-between">
+                    <div className="w-[75%] absolute bottom-6 right-12 flex justify-between">
                       <button
                         type="button"
                         onClick={onPrevious}
@@ -875,12 +935,8 @@ const Login = () => {
                         onChange={(e) =>
                           setData({ ...data, email: e.target.value })
                         }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsEmailFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsEmailFocused(true)}
+                        onFocus={() => handleFocusChange("isEmailFocused", true)}
+                        onBlur={() => handleFocusChange("isEmailFocused", false)}
                         value={data.email}
                         type="text"
                         id="email"
@@ -892,7 +948,7 @@ const Login = () => {
                       <label
                         htmlFor="email"
                         className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isEmailFocused || data.email
+                          focusStates.isEmailFocused || data.email
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -920,12 +976,8 @@ const Login = () => {
                       <input
                         name="password"
                         onChange={onChangeHandler}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPassFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPassFocused(true)}
+                        onFocus={() => handleFocusChange("isPassFocused", true)}
+                        onBlur={() => handleFocusChange("isPassFocused", false)}
                         value={data.password}
                         type={isOpen ? "text" : "password"}
                         id="password"
@@ -936,7 +988,7 @@ const Login = () => {
                       <label
                         htmlFor="password"
                         className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
-                          isPassFocused || data.password
+                          focusStates.isPassFocused || data.password
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -975,12 +1027,8 @@ const Login = () => {
                             onChange={(e) =>
                               setData({ ...data, country: e.target.value })
                             }
-                            onBlur={(e) => {
-                              if (!e.target.value) {
-                                setIsFocused(false);
-                              }
-                            }}
-                            onFocus={() => setIsFocused(true)}
+                            onFocus={() => handleFocusChange("isCountryFocused", true)}
+                            onBlur={() => handleFocusChange("isCountryFocused", false)}
                             value={data.country}
                             type="text"
                             id="country"
@@ -992,12 +1040,12 @@ const Login = () => {
                           <label
                             htmlFor="country"
                             className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                              isFocused || data.country
+                              focusStates.isCountryFocused || data.country
                                 ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                                 : "top-1/2 -translate-y-1/2"
                             }`}
                           >
-                            country
+                            country/ አገር
                           </label>
                         </div>
                       ) : (
@@ -1012,12 +1060,8 @@ const Login = () => {
                             onChange={(e) =>
                               setData({ ...data, address: e.target.value })
                             }
-                            onBlur={(e) => {
-                              if (!e.target.value) {
-                                setIsPhoneFocused(false);
-                              }
-                            }}
-                            onFocus={() => setIsPhoneFocused(true)}
+                            onFocus={() => handleFocusChange("isAdressFocused", true)}
+                            onBlur={() => handleFocusChange("isAdressFocused", false)}
                             value={data.address}
                             type="text"
                             id="address"
@@ -1033,12 +1077,12 @@ const Login = () => {
                                 ? "left-[20px]"
                                 : "left-[20px]"
                             } transform transition-all text-gray-500 text-sm ${
-                              isPhoneFocused || data.address
+                              focusStates.isAdessFocused || data.address
                                 ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                                 : "top-1/2 -translate-y-1/2"
                             }`}
                           >
-                            address
+                            address/ አድራሻ
                           </label>
                         </div>
                       </div>
@@ -1049,30 +1093,28 @@ const Login = () => {
                     {currState === "signUp" && (
                       <div className="relative z-1">
                         <input
-                          name="city"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
-                          value={data.city}
+                          name="abroadCity"
+                          onChange={(e) =>
+                            setData({ ...data, abroadCity: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isCityAbroadFocused", true)}
+                          onBlur={() => handleFocusChange("isCityAbroadFocused", false)}
+                          value={data.abroadCity}
                           type="text"
-                          id="city"
+                          id="abroadCity"
                           placeholder=" "
                           className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
 
                         <label
-                          htmlFor="city"
+                          htmlFor="abroadCity"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                            isConfirmPassFocused || data.city
+                            focusStates.isCityAbroudFocused || data.abroadCity
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          city
+                          city/ ከተማ
                         </label>
                       </div>
                     )}
@@ -1080,13 +1122,11 @@ const Login = () => {
                       <div className="relative z-1">
                         <input
                           name="state"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
+                          onChange={(e) =>
+                            setData({ ...data, state: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isStateFocused", true)}
+                          onBlur={() => handleFocusChange("isStateFocused", false)}
                           value={data.state}
                           type="text"
                           id="state"
@@ -1097,12 +1137,12 @@ const Login = () => {
                         <label
                           htmlFor="state"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                            isConfirmPassFocused || data.state
+                            focusStates.isStateFocused || data.state
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          state
+                          state/ ክልል
                         </label>
                       </div>
                     )}
@@ -1110,13 +1150,11 @@ const Login = () => {
                       <div className="relative z-1">
                         <input
                           name="zipCode"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
+                          onChange={(e) =>
+                            setData({ ...data, zipCode: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isZipCodeFocused", true)}
+                          onBlur={() => handleFocusChange("isZipCodeFocused", false)}
                           value={data.zipCode}
                           type="text"
                           id="zipCode"
@@ -1127,7 +1165,7 @@ const Login = () => {
                         <label
                           htmlFor="zipCode"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                            isConfirmPassFocused || data.zipCode
+                            focusStates.isZipCodeFocused|| data.zipCode
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
@@ -1147,7 +1185,7 @@ const Login = () => {
                 >
                   {currState}
                 </button> */}
-                    <div className="w-[75%] absolute bottom-6 right-16 flex justify-between">
+                    <div className="w-[75%] absolute bottom-6 right-12 flex justify-between">
                       <button
                         type="button"
                         onClick={onPrevious}
@@ -1173,12 +1211,8 @@ const Login = () => {
                         onChange={(e) =>
                           setData({ ...data, email: e.target.value })
                         }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsEmailFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsEmailFocused(true)}
+                        onFocus={() => handleFocusChange("isEmailFocused", true)}
+                        onBlur={() => handleFocusChange("isEmailFocused", false)}
                         value={data.email}
                         type="text"
                         id="email"
@@ -1190,7 +1224,7 @@ const Login = () => {
                       <label
                         htmlFor="email"
                         className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isEmailFocused || data.email
+                          focusStates.isEmailFocused || data.email
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -1217,13 +1251,11 @@ const Login = () => {
 
                       <input
                         name="password"
-                        onChange={onChangeHandler}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPassFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPassFocused(true)}
+                        onChange={(e) =>
+                          setData({ ...data, password: e.target.value })
+                        }
+                        onFocus={() => handleFocusChange("isPassFocused", true)}
+                        onBlur={() => handleFocusChange("isPassFocused", false)}
                         value={data.password}
                         type={isOpen ? "text" : "password"}
                         id="password"
@@ -1234,7 +1266,7 @@ const Login = () => {
                       <label
                         htmlFor="password"
                         className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
-                          isPassFocused || data.password
+                          focusStates.isPassFocused || data.password
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -1263,9 +1295,8 @@ const Login = () => {
                   <>
                     {currState === "signUp" && (
                       <div>
-                        <h3 className="font-semibold text-sm mb-2">
-                          6. ዜግነት{" "}
-                          <span className="text-gray-500">/NATIONALITY</span>
+                        <h3 className="font-semibold text-sm mb-2 uppercase">
+                         Nationality
                         </h3>
 
                         {/* Former Nationality */}
@@ -1279,10 +1310,16 @@ const Login = () => {
                               <input
                                 key={index}
                                 type="text"
-                                value={formData.formerNationalities[index]}
-                                onChange={(e) =>
-                                  handleNationalityChange(e, index, "former")
-                                }
+                                value={data.formerNationalities[index]}
+                                onChange={(e) => {
+                                  // Create a copy of the array and update the specific index
+                                  const updatedNationalities = [...data.formerNationalities];
+                                  updatedNationalities[index] = e.target.value;
+                          
+                                  // Update the state
+                                  setData({ ...data, formerNationalities: updatedNationalities });
+                                }}
+                          
                                 placeholder={`${index + 1}`}
                                 className="w-full border border-blue-300 rounded-sm px-2 py-[2x] focus:outline-none focus:ring-2 focus:ring-blue-500"
                               />
@@ -1301,10 +1338,16 @@ const Login = () => {
                               <input
                                 key={index}
                                 type="text"
-                                value={formData.presentNationalities[index]}
-                                onChange={(e) =>
-                                  handleNationalityChange(e, index, "present")
-                                }
+                                value={data.presentNationalities[index]}
+                                onChange={(e) => {
+                                  // Create a copy of the array and update the specific index
+                                  const updatedNationalities = [...data.presentNationalities];
+                                  updatedNationalities[index] = e.target.value;
+                          
+                                  // Update the state
+                                  setData({ ...data, presentNationalities: updatedNationalities });
+                                }}
+                          
                                 placeholder={`${index + 1}`}
                                 className="w-full border border-blue-300 rounded-sm px-2 py-[2px] focus:outline-none focus:ring-2 focus:ring-blue-500"
                               />
@@ -1320,9 +1363,9 @@ const Login = () => {
                           </label>
                           <input
                             type="text"
-                            value={formData.ethnicGroup}
+                            value={data.ethnicGroup}
                             onChange={(e) =>
-                              handleNationalityChange(e, null, "ethnic")
+                              setData({ ...data, ethnicGroup: e.target.value })
                             }
                             placeholder="Ethnic Group"
                             className="w-full border border-blue-300 rounded-sm px-2 py-[2px] focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -1345,7 +1388,7 @@ const Login = () => {
                 >
                   {currState}
                 </button> */}
-                    <div className="w-[75%] absolute bottom-6 right-16 flex justify-between">
+                    <div className="w-[75%] absolute bottom-6 right-12 flex justify-between">
                       <button
                         type="button"
                         onClick={onPrevious}
@@ -1371,12 +1414,8 @@ const Login = () => {
                         onChange={(e) =>
                           setData({ ...data, email: e.target.value })
                         }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsEmailFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsEmailFocused(true)}
+                        onFocus={() => handleFocusChange("isEmailFocused", true)}
+                        onBlur={() => handleFocusChange("isEmailFocused", false)}
                         value={data.email}
                         type="text"
                         id="email"
@@ -1388,7 +1427,7 @@ const Login = () => {
                       <label
                         htmlFor="email"
                         className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isEmailFocused || data.email
+                          focusStates.isEmailFocused || data.email
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -1415,13 +1454,11 @@ const Login = () => {
 
                       <input
                         name="password"
-                        onChange={onChangeHandler}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPassFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPassFocused(true)}
+                        onChange={(e) =>
+                          setData({ ...data, password: e.target.value })
+                        }
+                        onFocus={() => handleFocusChange("isPassFocused", true)}
+                        onBlur={() => handleFocusChange("isPassFocused", false)}
                         value={data.password}
                         type={isOpen ? "text" : "password"}
                         id="password"
@@ -1432,7 +1469,7 @@ const Login = () => {
                       <label
                         htmlFor="password"
                         className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
-                          isPassFocused || data.password
+                          focusStates.isPassFocused || data.password
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -1462,13 +1499,11 @@ const Login = () => {
                     <div className="relative z-1">
                       <input
                         name="height"
-                        onChange={onChangeHandler}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPassFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPassFocused(true)}
+                        onChange={(e) =>
+                          setData({ ...data, height: e.target.value })
+                        }
+                        onFocus={() => handleFocusChange("isHeightFocused", true)}
+                        onBlur={() => handleFocusChange("isHeightFocused", false)}
                         value={data.height}
                         type="text"
                         id="height"
@@ -1477,14 +1512,14 @@ const Login = () => {
                       />
 
                       <label
-                        htmlFor="password"
+                        htmlFor="height"
                         className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                          isPassFocused || data.height
+                          focusStates.isHeightFocused || data.height
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
                       >
-                        Height
+                        Height/ ቁመት
                       </label>
                     </div>
 
@@ -1493,14 +1528,12 @@ const Login = () => {
                       <div className="relative z-1">
                         <input
                           name="colorOfEyes"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
-                          value={data.colorOfEyes}
+                          onChange={(e) =>
+                            setData({ ...data, colorOfEye: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isColorOfEyesFocused", true)}
+                          onBlur={() => handleFocusChange("isColorOfEyesFocused", false)}
+                          value={data.colorOfEye}
                           type="text"
                           id="colorOfEyes"
                           placeholder=" "
@@ -1508,14 +1541,14 @@ const Login = () => {
                         />
 
                         <label
-                          htmlFor="confirmpassword"
+                          htmlFor="colorOfEyes"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                            isConfirmPassFocused || data.colorOfEyes
+                            focusStates.isColorOfEyesFocused || data.colorOfEye
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          Color Of Eyes
+                          Color Of Eyes/ የአይን ቀለም
                         </label>
                       </div>
                     )}
@@ -1528,12 +1561,8 @@ const Login = () => {
                           onChange={(e) =>
                             setData({ ...data, colorOfHair: e.target.value })
                           }
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsFocused(true)}
+                          onFocus={() => handleFocusChange("isColorOfHairFocused", true)}
+                          onBlur={() => handleFocusChange("isColorOfHairFocused", false)}
                           value={data.colorOfHair}
                           type="text"
                           id="colorOfHair"
@@ -1545,12 +1574,12 @@ const Login = () => {
                         <label
                           htmlFor="colorOfHair"
                           className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                            isFocused || data.colorOfHair
+                            focusStates.isColorOfHairFocused || data.colorOfHair
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          Color Of Hair
+                          Color Of Hair/ የፀጉር ቀለም
                         </label>
                       </div>
                     ) : (
@@ -1560,13 +1589,11 @@ const Login = () => {
                       <div className="relative z-1">
                         <input
                           name="specialMark"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
+                          onChange={(e) =>
+                            setData({ ...data, specialMark: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isSpecialMarkFocused", true)}
+                          onBlur={() => handleFocusChange("isSpecialMarkFocused", false)}
                           value={data.specialMark}
                           type="text"
                           id="specialMark"
@@ -1577,12 +1604,12 @@ const Login = () => {
                         <label
                           htmlFor="specialMark"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                            isConfirmPassFocused || data.specialMark
+                            focusStates.isSpecialMarkFocused || data.specialMark
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          Special Mark
+                          Special Mark/ልዩ ምልክት
                         </label>
                       </div>
                     )}
@@ -1599,7 +1626,7 @@ const Login = () => {
                 >
                   {currState}
                 </button> */}
-                    <div className="w-[75%] absolute bottom-6 right-16 flex justify-between">
+                    <div className="w-[75%] absolute bottom-6 right-12 flex justify-between">
                       <button
                         type="button"
                         onClick={onPrevious}
@@ -1625,12 +1652,8 @@ const Login = () => {
                         onChange={(e) =>
                           setData({ ...data, email: e.target.value })
                         }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsEmailFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsEmailFocused(true)}
+                        onFocus={() => handleFocusChange("isEmailFocused", true)}
+                        onBlur={() => handleFocusChange("isEmailFocused", false)}
                         value={data.email}
                         type="text"
                         id="email"
@@ -1642,7 +1665,7 @@ const Login = () => {
                       <label
                         htmlFor="email"
                         className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isEmailFocused || data.email
+                          focusStates.isEmailFocused || data.email
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -1669,13 +1692,11 @@ const Login = () => {
 
                       <input
                         name="password"
-                        onChange={onChangeHandler}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPassFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPassFocused(true)}
+                        onChange={(e) =>
+                          setData({ ...data, password: e.target.value })
+                        }
+                        onFocus={() => handleFocusChange("isPassFocused", true)}
+                        onBlur={() => handleFocusChange("isPassFocused", false)}
                         value={data.password}
                         type={isOpen ? "text" : "password"}
                         id="password"
@@ -1686,7 +1707,7 @@ const Login = () => {
                       <label
                         htmlFor="password"
                         className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
-                          isPassFocused || data.password
+                          focusStates.isPassFocused || data.password
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -1711,20 +1732,17 @@ const Login = () => {
             {step === 7 && (
               <>
                 {currState === "signUp" ? (
-                  <>
+                  <><h1 className="text-left text-gray-800 text-sm font-Poppins font-medium"> APPLICANT&apos;S FORMER ETHIOPIAN PASSPORT </h1>
                     <div className="relative z-0">
+                    
                       <div className="flex items-center gap-2">
                         <input
                           name="passportNo"
                           onChange={(e) =>
                             setData({ ...data, passportNo: e.target.value })
                           }
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsPhoneFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsPhoneFocused(true)}
+                          onFocus={() => handleFocusChange("isPassportNoFocused", true)}
+                          onBlur={() => handleFocusChange("isPassportNoFocused", false)}
                           value={data.passportNo}
                           type="text"
                           id="passportNo"
@@ -1734,18 +1752,18 @@ const Login = () => {
 
                         {/* Floating Label */}
                         <label
-                          htmlFor="phone"
+                          htmlFor="passportNo"
                           className={`absolute z-10 ${
                             currState === "Login"
                               ? "left-[20px]"
                               : "left-[20px]"
                           } transform transition-all text-gray-500 text-sm ${
-                            isPhoneFocused || data.passportNo
+                            focusStates.isPassportNoFocused || data.passportNo
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          Passport Number
+                          Passport Number/ የፓስፖርት ቁጠር
                         </label>
                       </div>
                     </div>
@@ -1753,30 +1771,26 @@ const Login = () => {
                     {/* Password Input */}
                     <div className="relative z-1">
                       <input
-                        name="placeOfIssue"
+                        name="passportPlace"
                         onChange={onChangeHandler}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPassFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPassFocused(true)}
-                        value={data.placeOfIssue}
+                        onFocus={() => handleFocusChange("isPassportPlaceFocused", true)}
+                        onBlur={() => handleFocusChange("isPassportPlaceFocused", false)}
+                        value={data.passportPlace}
                         type="text"
-                        id="placeOfIssue"
+                        id="passportPlace"
                         placeholder=" "
-                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="relative z-10 peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
 
                       <label
-                        htmlFor="password"
+                        htmlFor="passportPlace"
                         className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                          isPassFocused || data.placeOfIssue
+                          focusStates.isPassportPlaceFocused || data.passportPlace
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
                       >
-                        Place Of Issue
+                        Place Of Issue/የተሰጠበት ቦታ
                       </label>
                     </div>
 
@@ -1784,30 +1798,26 @@ const Login = () => {
                     {currState === "signUp" && (
                       <div className="relative z-1">
                         <input
-                          name="dateOfIssue"
+                          name="passportDate"
                           onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
+                          onFocus={() => handleFocusChange("isPassportDateFocused", true)}
+                          onBlur={() => handleFocusChange("isPassportDateFocused", false)}
                           value={data.dateOfIssue}
                           type="date"
-                          id="dateOfIssue"
+                          id="passportDate"
                           placeholder=" "
                           className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
 
                         <label
-                          htmlFor="confirmpassword"
+                          htmlFor="passportDate"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                            isConfirmPassFocused || data.dateOfIssue
+                            focusStates.isPassportDateFocused || data.passportDate
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-[-10px] bg-white px-1 text-xs text-blue-500"
                           }`}
                         >
-                          Date Of Issue
+                          Date Of Issue/ የተሰጠበት ቀን
                         </label>
                       </div>
                     )}
@@ -1815,33 +1825,29 @@ const Login = () => {
                       <div className="relative z-1 mb-4">
                         {/* Input Field */}
                         <input
-                          name="renewal"
+                          name="passportRenewal"
                           onChange={(e) =>
-                            setData({ ...data, renewal: e.target.value })
+                            setData({ ...data, passportRenewal: e.target.value })
                           }
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsFocused(true)}
+                          onFocus={() => handleFocusChange("isPassportRenewalFocused", true)}
+                          onBlur={() => handleFocusChange("isPassportRenewalFocused", false)}
                           value={data.renewal}
                           type="text"
-                          id="renewal"
+                          id="passportRenewal"
                           placeholder=" "
                           className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
 
                         {/* Floating Label */}
                         <label
-                          htmlFor="renewal"
+                          htmlFor="passportRenewal"
                           className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                            isFocused || data.renewal
+                            focusStates.isPassportRenewalFocused || data.passportRenewal
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          last renewal
+                          last renewal/ የመጨረሻ የታደሰበት ጊዜ
                         </label>
                       </div>
                     ) : (
@@ -1853,36 +1859,32 @@ const Login = () => {
                         <div className="relative z-1 mb-4">
                           {/* Input Field */}
                           <input
-                            name="issuingAuthority"
+                            name="passportAuthority"
                             onChange={(e) =>
                               setData({
                                 ...data,
-                                issuingAuthority: e.target.value,
+                                passportAuthority: e.target.value,
                               })
                             }
-                            onBlur={(e) => {
-                              if (!e.target.value) {
-                                setIsFocused(false);
-                              }
-                            }}
-                            onFocus={() => setIsFocused(true)}
-                            value={data.issuingAuthority}
+                            onFocus={() => handleFocusChange("isPassportAuthorityFocused", true)}
+                            onBlur={() => handleFocusChange("isPassportAuthorityFocused", false)}
+                            value={data.passportAuthority}
                             type="text"
-                            id="emailissuingAuthority"
+                            id="passportAuthority"
                             placeholder=" "
                             className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                           />
 
                           {/* Floating Label */}
                           <label
-                            htmlFor="email"
+                            htmlFor="passportAuthority"
                             className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                              isFocused || data.issuingAuthority
+                              focusStates.isPassportAuthorityFocused || data.passportAuthority
                                 ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                                 : "top-1/2 -translate-y-1/2"
                             }`}
                           >
-                            Issuing Authority
+                            Issuing Authority/ የሰጠው አካል
                           </label>
                         </div>
                       ) : (
@@ -1906,7 +1908,7 @@ const Login = () => {
                 >
                   {currState}
                 </button> */}
-                    <div className="w-[75%] absolute bottom-6 right-16 flex justify-between">
+                    <div className="w-[75%] absolute bottom-6 right-12 flex justify-between">
                       <button
                         type="button"
                         onClick={onPrevious}
@@ -1932,12 +1934,8 @@ const Login = () => {
                         onChange={(e) =>
                           setData({ ...data, email: e.target.value })
                         }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsEmailFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsEmailFocused(true)}
+                        onFocus={() => handleFocusChange("isEmailFocused", true)}
+                        onBlur={() => handleFocusChange("isEmailFocused", false)}
                         value={data.email}
                         type="text"
                         id="email"
@@ -1949,7 +1947,7 @@ const Login = () => {
                       <label
                         htmlFor="email"
                         className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isEmailFocused || data.email
+                          focusStates.isEmailFocused || data.email
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -1976,13 +1974,11 @@ const Login = () => {
 
                       <input
                         name="password"
-                        onChange={onChangeHandler}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPassFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPassFocused(true)}
+                        onChange={(e) =>
+                          setData({ ...data, password: e.target.value })
+                        }
+                        onFocus={() => handleFocusChange("isPassFocused", true)}
+                        onBlur={() => handleFocusChange("isPassFocused", false)}
                         value={data.password}
                         type={isOpen ? "text" : "password"}
                         id="password"
@@ -1993,7 +1989,7 @@ const Login = () => {
                       <label
                         htmlFor="password"
                         className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
-                          isPassFocused || data.password
+                          focusStates.isPassFocused || data.password
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -2026,13 +2022,11 @@ const Login = () => {
                       <div className="relative z-1">
                         <input
                           name="certificationNumber"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
+                          onChange={(e) =>
+                            setData({ ...data, certificationNumber: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isCertificationNoFocused", true)}
+                          onBlur={() => handleFocusChange("isCertifcationNoFocused", false)}
                           value={data.certificationNumber}
                           type="text"
                           id="certificationNumber"
@@ -2043,12 +2037,12 @@ const Login = () => {
                         <label
                           htmlFor="certificationNumber"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                            isConfirmPassFocused || data.certificationNumber
+                            focusStates.isCertificationNoFocused || data.certificationNumber
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          certification number
+                          number/ቁጥር
                         </label>
                       </div>
                     )}
@@ -2056,13 +2050,11 @@ const Login = () => {
                       <div className="relative z-1">
                         <input
                           name="certificationPlace"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
+                          onChange={(e) =>
+                            setData({ ...data, certificationPlace: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isCertificationPlaceFocused", true)}
+                          onBlur={() => handleFocusChange("isCertificationPlaceFocused", false)}
                           value={data.certificationPlace}
                           type="text"
                           id="certificationPlace"
@@ -2073,12 +2065,40 @@ const Login = () => {
                         <label
                           htmlFor="certificationPlace"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                            isConfirmPassFocused || data.certificationPlace
+                            focusStates.isCertificationPlaceFocused || data.certificationPlace
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          Certification Place
+                          Certification Place/ የተሰጠበት ቦታ
+                        </label>
+                      </div>
+                    )}
+                    {currState === "signUp" && (
+                      <div className="relative z-1">
+                        <input
+                          name="certificationDate"
+                          onChange={(e) =>
+                            setData({ ...data, certificationDate: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isCertificationDateFocused", true)}
+                          onBlur={() => handleFocusChange("isCertificationDateFocused", false)}
+                          value={data.certificationDate}
+                          type="date"
+                          id="certificationDate"
+                          placeholder=" "
+                          className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+
+                        <label
+                          htmlFor="certificationDate"
+                          className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
+                            focusStates.isCertificationDateFocused || data.certificationDate
+                              ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                              : "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          }`}
+                        >
+                          Certification Date/ የተሰጠበት ቀን
                         </label>
                       </div>
                     )}
@@ -2086,13 +2106,11 @@ const Login = () => {
                       <div className="relative z-1">
                         <input
                           name="certificationIssuingAuthority"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
+                          onChange={(e) =>
+                            setData({ ...data, certificationIssuingAuthority: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isCertificationIssuingAuthorityFocused", true)}
+                          onBlur={() => handleFocusChange("isCertificationIssuingAuthorityFocused", false)}
                           value={data.certificationIssuingAuthority}
                           type="text"
                           id="certificationIssuingAuthority"
@@ -2103,13 +2121,13 @@ const Login = () => {
                         <label
                           htmlFor="certificationIssuingAuthority"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                            isConfirmPassFocused ||
+                            focusStates.isCertificationIssuingAuthorityFocused ||
                             data.certificationIssuingAuthority
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          Issuing Authority
+                          Issuing Authority/ የሰጠው አካል
                         </label>
                       </div>
                     )}
@@ -2117,13 +2135,11 @@ const Login = () => {
                       <div className="relative z-1">
                         <input
                           name="certificationExpiry"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
+                          onChange={(e) =>
+                            setData({ ...data, certificationExpiry: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isCertificationExpiryFocused", true)}
+                          onBlur={() => handleFocusChange("isCertificationExpiryFocused", false)}
                           value={data.certificationExpiry}
                           type="text"
                           id="certificationExpiry"
@@ -2134,12 +2150,12 @@ const Login = () => {
                         <label
                           htmlFor="certificationExpiry"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                            isConfirmPassFocused || data.certificationExpiry
+                            focusStates.isCertificationExpiryFocused || data.certificationExpiry
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          Date Of Expiry
+                          Date Of Expiry/ የሚፀናበት ጊዜ
                         </label>
                       </div>
                     )}
@@ -2158,7 +2174,7 @@ const Login = () => {
                 >
                   {currState}
                 </button> */}
-                    <div className="w-[75%] absolute bottom-6 right-16 flex justify-between">
+                    <div className="w-[75%] absolute bottom-6 right-12 flex justify-between">
                       <button
                         type="button"
                         onClick={onPrevious}
@@ -2184,12 +2200,8 @@ const Login = () => {
                         onChange={(e) =>
                           setData({ ...data, email: e.target.value })
                         }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsEmailFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsEmailFocused(true)}
+                        onFocus={() => handleFocusChange("isEmailFocused", true)}
+                        onBlur={() => handleFocusChange("isEmailFocused", false)}
                         value={data.email}
                         type="text"
                         id="email"
@@ -2201,7 +2213,7 @@ const Login = () => {
                       <label
                         htmlFor="email"
                         className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isEmailFocused || data.email
+                          focusStates.isEmailFocused || data.email
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -2228,13 +2240,11 @@ const Login = () => {
 
                       <input
                         name="password"
-                        onChange={onChangeHandler}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPassFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPassFocused(true)}
+                        onChange={(e) =>
+                          setData({ ...data, password: e.target.value })
+                        }
+                        onFocus={() => handleFocusChange("isPassFocused", true)}
+                        onBlur={() => handleFocusChange("isPassFocused", false)}
                         value={data.password}
                         type={isOpen ? "text" : "password"}
                         id="password"
@@ -2245,7 +2255,7 @@ const Login = () => {
                       <label
                         htmlFor="password"
                         className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
-                          isPassFocused || data.password
+                          focusStates.isPassFocused || data.password
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -2271,186 +2281,176 @@ const Login = () => {
               <>
                 {currState === "signUp" ? (
                   <>
-                    <h1 className="text-sm font-medium text-gray-800 font-Poppins uppercase">
+                    <h1 className="text-xs font-medium text-gray-800 font-Poppins uppercase">
                       OTHER DOCUMENT CERTIFYING ETHIOPIAN ORIGIN (IF APPLICABLE)
                     </h1>
                     {currState === "signUp" && (
                       <div className="relative z-1">
                         <input
-                          name="otherDocumentType"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
-                          value={data.otherDocumentType}
+                          name="documentType"
+                          onChange={(e) =>
+                            setData({ ...data, documentType: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isDocumentTypeFocused", true)}
+                          onBlur={() => handleFocusChange("isDocumentTypeFocused", false)}
+                          value={data.documentType}
                           type="text"
-                          id="otherDocumentType"
+                          id="documentType"
                           placeholder=" "
                           className="relative peer z-1 w-full py-[4px] px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
 
                         <label
-                          htmlFor="certificationNumber"
+                          htmlFor="documentType"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-xs ${
-                            isConfirmPassFocused || data.otherDocumentType
+                            focusStates.isDocumentTypeFocused || data.documentType
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          Document Type
+                          Document Type/ የሰነዱ አይነት
                         </label>
                       </div>
                     )}
                     {currState === "signUp" && (
                       <div className="relative z-1">
                         <input
-                          name="otherDocumentNumber"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
-                          value={data.otherDocumentNumber}
+                          name="documentNumber"
+                          onChange={(e) =>
+                            setData({ ...data, documentNumber: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isDocumentNoFocused", true)}
+                          onBlur={() => handleFocusChange("isDocumentNoFocused", false)}
+                          value={data.documentNumber}
                           type="text"
-                          id="otherDocumentNumber"
+                          id="documentNumber"
                           placeholder=" "
                           className="relative peer z-1 w-full py-[4px] px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
 
                         <label
-                          htmlFor="otherDocumentNumber"
+                          htmlFor="documentNumber"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-xs ${
-                            isConfirmPassFocused || data.otherDocumentNumber
+                            focusStates.isDocumentNoFocused || data.documentNumber
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          Number
+                          Number/ ቁጥር
                         </label>
                       </div>
                     )}
                     {currState === "signUp" && (
                       <div className="relative z-1">
                         <input
-                          name="certificationPlace"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
-                          value={data.certificationPlace}
+                          name="documentPlace"
+                          onChange={(e) =>
+                            setData({ ...data, documentPlace: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isDocumentPlaceFocused", true)}
+                          onBlur={() => handleFocusChange("isDocumentPlaceFocused", false)}
+                          value={data.documentPlace}
                           type="text"
-                          id="certificationPlace"
+                          id="documentPlace"
                           placeholder=" "
-                          className="relative peer z-1 w-full py-[4px] px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
 
                         <label
-                          htmlFor="certificationPlace"
+                          htmlFor="documentPlace"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-xs ${
-                            isConfirmPassFocused || data.certificationPlace
+                            focusStates.isDocumentPlaceFocused || data.documentPlace
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          Certification Place
+                          Place Of Issue/ የተሰጠበት ቦታ
                         </label>
                       </div>
                     )}
-                    {currState === "signUp" && (
-                      <div className="relative z-1">
-                        <input
-                          name="otherDocumentPlace"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
-                          value={data.otherDocumentPlace}
-                          type="text"
-                          id="otherDocumentPlace"
-                          placeholder=" "
-                          className="relative peer z-1 w-full py-[4px] px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
 
-                        <label
-                          htmlFor="otherDocumentPlace"
-                          className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-xs ${
-                            isConfirmPassFocused || data.otherDocumentPlace
-                              ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                              : "top-1/2 -translate-y-1/2"
-                          }`}
-                        >
-                          Place Of Issue
-                        </label>
-                      </div>
-                    )}
-                    {currState === "signUp" && (
-                      <div className="relative z-1">
-                        <input
-                          name="otherDocumentDate"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
-                          value={data.otherDocumentDate}
-                          type="text"
+                       {currState === "signUp" && (
+                          <div className="relative z-1">
+                          <input
+                          name="documentDate"
+                          onChange={(e) =>
+                            setData({ ...data, documentDate: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isDocumentDateFocused", true)}
+                          onBlur={() => handleFocusChange("isDocumentDateFocused", false)}
+                          value={data.documentDate}
+                          type="date"
                           id="otherDocumentDate"
                           placeholder=" "
                           className="relative peer z-1 w-full py-[4px] px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
+                          />
 
                         <label
-                          htmlFor="otherDocumentDate"
+                          htmlFor="documentDate"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-xs ${
-                            isConfirmPassFocused || data.otherDocumentDate
+                            focusStates.isDocumentDateFocused || data.documentDate
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                              : "top-1/2 -translate-y-1/2"
+                              : "top-[-10px] bg-white px-1 text-xs text-blue-500"
                           }`}
                         >
-                          Date Of Issue
+                          Date Of Issue/ የተሰጠበት ቀን
                         </label>
                       </div>
                     )}
-                    {currState === "signUp" && (
-                      <div className="relative z-1">
+
+                      {currState === "signUp" && (
+                        <div className="relative z-1">
                         <input
-                          name="certificationExpiry"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
-                          value={data.certificationExpiry}
+                          name="documentAuthority"
+                          onChange={(e) =>
+                            setData({ ...data, documentAuthority: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isDocumentAuthorityFocused", true)}
+                          onBlur={() => handleFocusChange("isDocumentAuthorityFocused", false)}
+                          value={data.documentAuthority}
                           type="text"
-                          id="certificationExpiry"
+                          id="documentAuthority"
                           placeholder=" "
                           className="relative peer z-1 w-full py-[4px] px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
 
                         <label
-                          htmlFor="certificationExpiry"
+                          htmlFor="documentAuthority"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-xs ${
-                            isConfirmPassFocused || data.certificationExpiry
+                            focusStates.isDocumentAuthorityFocused || data.documentAuthority
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
-                          Date Of Expiry
+                          Issuing Authority/ የሰጠው አካል
+                        </label>
+                      </div>
+                    )}
+                    
+                    
+                    {currState === "signUp" && (
+                      <div className="relative z-1">
+                        <input
+                          name="documentExpiry"
+                          onChange={onChangeHandler}
+                          onFocus={() => handleFocusChange("isDocumentExpiryFocused", true)}
+                          onBlur={() => handleFocusChange("isDocumentExpiryFocused", false)}
+                          value={data.documentExpiry}
+                          type="date"
+                          id="documentExpiry"
+                          placeholder=" "
+                          className="relative peer z-1 w-full py-[4px] px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+
+                        <label
+                          htmlFor="documentExpiry"
+                          className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-xs ${
+                            focusStates.isDocumentExpiryFocused|| data.documentExpiry
+                              ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                              : "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          }`}
+                        >
+                          Date Of Expiry/ የሚፀናበት ጊዜ
                         </label>
                       </div>
                     )}
@@ -2469,7 +2469,7 @@ const Login = () => {
                 >
                   {currState}
                 </button> */}
-                    <div className="w-[75%] absolute bottom-6 right-16 flex justify-between">
+                    <div className="w-[75%] absolute bottom-6 right-12 flex justify-between">
                       <button
                         type="button"
                         onClick={onPrevious}
@@ -2495,12 +2495,8 @@ const Login = () => {
                         onChange={(e) =>
                           setData({ ...data, email: e.target.value })
                         }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsEmailFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsEmailFocused(true)}
+                        onFocus={() => handleFocusChange("isEmailFocused", true)}
+                        onBlur={() => handleFocusChange("isEmailFocused", false)}
                         value={data.email}
                         type="text"
                         id="email"
@@ -2512,7 +2508,7 @@ const Login = () => {
                       <label
                         htmlFor="email"
                         className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isEmailFocused || data.email
+                          focusStates.isEmailFocused || data.email
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -2539,13 +2535,11 @@ const Login = () => {
 
                       <input
                         name="password"
-                        onChange={onChangeHandler}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPassFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPassFocused(true)}
+                        onChange={(e) =>
+                          setData({ ...data, password: e.target.value })
+                        }
+                        onFocus={() => handleFocusChange("isPassFocused", true)}
+                        onBlur={() => handleFocusChange("isPassFocused", false)}
                         value={data.password}
                         type={isOpen ? "text" : "password"}
                         id="password"
@@ -2556,7 +2550,7 @@ const Login = () => {
                       <label
                         htmlFor="password"
                         className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
-                          isPassFocused || data.password
+                          focusStates.isPassFocused|| data.password
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -2578,71 +2572,258 @@ const Login = () => {
                 )}
               </>
             )}
+            
+
             {step === 10 && (
               <>
                 {currState === "signUp" ? (
                   <>
-                    <div>
-                      {currState === "signUp" ? (
-                        <div className="relative z-1 mb-4">
-                          {/* Input Field */}
-                          <input
-                            name="documentType"
-                            onChange={(e) =>
-                              setData({ ...data, documentType: e.target.value })
-                            }
-                            onBlur={(e) => {
-                              if (!e.target.value) {
-                                setIsFocused(false);
-                              }
-                            }}
-                            onFocus={() => setIsFocused(true)}
-                            value={data.documentType}
-                            type="text"
-                            id="documentType"
-                            placeholder=" "
-                            className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          />
+                    <div className="flex flex-col gap-2">
+                      <p className="font-Poppins text-sm uppercase font-md">
+                      IF APPLICANT IS APPLYING FOR THE IDENTIFICATION CARD BASED ON HIS ASCENDANTS HE WOULD PROVIDE THE DETAILS OF DOCUMENT IDENTIFYING THE ASCENDANT 
 
-                          {/* Floating Label */}
-                          <label
-                            htmlFor="email"
-                            className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                              isFocused || data.email
-                                ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                                : "top-1/2 -translate-y-1/2"
-                            }`}
-                          >
-                            Document Type
-                          </label>
-                        </div>
+                      </p>
+                      <div className="border border-blue-500 py-4 px-4">
+                      <div className="flex items-center gap-2 ">
+                        <input
+                          name="familyLine"
+                          value="father"
+                          type="radio"
+                          id="fatherLine"
+                          onChange={onChangeHandler}
+                          checked={selectedLine === "father"}
+                          className="w-4 h-4 outline-2 outline-blue-500"
+                        />
+                        <label htmlFor="fatherLine" className="text-gray-500">
+                          Through Father&apos;s Line / በአባት ከሆነ
+                        </label>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <input
+                          name="familyLine"
+                          value="mother"
+                          type="radio"
+                          id="motherLine"
+                          onChange={onChangeHandler}
+                          checked={selectedLine === "mother"}
+                          className="w-4 h-4"
+                        />
+                        <label htmlFor="motherLine" className="text-gray-500">
+                          Through Mother&apos;s Line / በአናት ከሆነ
+                        </label>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <input
+                          name="familyLine"
+                          value="grandfather"
+                          type="radio"
+                          id="grandFatherLine"
+                          onChange={onChangeHandler}
+                          checked={selectedLine === "grandfather"}
+                          className="w-4 h-4"
+                        />
+                        <label
+                          htmlFor="grandFatherLine"
+                          className="text-gray-500"
+                        >
+                          Through Grand Father&apos;s Line / በአያት ከሆነ
+                        </label>
+                      </div>
+                    </div>
+                      </div>
+
+                    {/* Dynamic Input */}
+                    <div className="relative z-1 mt-4">
+                      <input
+                        name="familyName"
+                        onChange={(e) =>
+                          setData({ ...data, familyName: e.target.value })
+                        }
+                        onFocus={() => handleFocusChange("isFamillyNameFocused", true)}
+                        onBlur={() => handleFocusChange("isFamillyNameFocused", false)}
+                        value={data.familyName}
+                        type="text"
+                        id="familyName"
+                        placeholder=" "
+                        className="relative z-10 peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      <label
+                        htmlFor="familyName"
+                        className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
+                          focusStates.isFamilyNameFocused|| data.familyName
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        {selectedLine === "father"
+                          ? "Father Full Name/ የአባት ሙሉ ስም"
+                          : selectedLine === "mother"
+                          ? "Mother Full Name/ የአናት ሙሉ ስም"
+                          : selectedLine === "grandfather"
+                          ? "Grand Father Full Name/ የአያት ሙሉ ስም"
+                          : "Family Full Name/ የቤተሰብ ስም"}
+                      </label>
+                    </div>
+
+                    {/* Document Type Input */}
+                    <div className="relative z-1 mt-4">
+                      <input
+                        name="famillyDocumentType"
+                        onChange={(e) =>
+                          setData({ ...data, famillyDocumentType: e.target.value })
+                        }
+                        onFocus={() => handleFocusChange("isFamillyDocumentTypeFocused", true)}
+                        onBlur={() => handleFocusChange("isFamillyDocumentTypeFocused", false)}
+                        value={data.famillyDocumentType}
+                        type="text"
+                        id="famillyDocumentType"
+                        placeholder=" "
+                        className="relative z-10 peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      <label
+                        htmlFor="famillyDocumentType"
+                        className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
+                          focusStates.isFamillyDocumentTypeFocused|| data.famillyDocumentType
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Document Type/ የሰነዱ አይነት
+                      </label>
+                    </div>
+
+                    {/* Navigation Buttons */}
+                    <div className="w-[75%] absolute bottom-6 right-12 flex justify-between">
+                      <button
+                        type="button"
+                        onClick={onPrevious}
+                        className="bg-gray-300 text-black py-2 px-6 rounded hover:bg-gray-400"
+                      >
+                        Back
+                      </button>
+                      <button
+                        type="button"
+                        onClick={onNext}
+                        className="bg-blue-800 text-white py-2 px-6 rounded hover:bg-blue-500"
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="relative z-1 mb-4">
+                      {/* Input Field */}
+                      <input
+                        name="email"
+                        onChange={(e) =>
+                          setData({ ...data, email: e.target.value })
+                        }
+                        
+                        onFocus={() => handleFocusChange("isEmailFocused", true)}
+                        onBlur={() => handleFocusChange("isEmailFocused", false)}
+                        value={data.email}
+                        type="text"
+                        id="email"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      {/* Floating Label */}
+                      <label
+                        htmlFor="email"
+                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                          focusStates.isEmailFocused || data.email
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Email
+                      </label>
+                    </div>
+                    <div className="relative z-1">
+                      {isOpen ? (
+                        <HiEye
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
                       ) : (
-                        ""
+                        <HiEyeOff
+                          size={15}
+                          color="#3B82F6"
+                          onClick={() => setIsOpen(!isOpen)}
+                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                        />
                       )}
+
+                      <input
+                        name="password"
+                        onChange={(e) =>
+                          setData({ ...data, password: e.target.value })
+                        }
+                        onFocus={() => handleFocusChange("isPassFocused", true)}
+                        onBlur={() => handleFocusChange("isPassFocused", false)}
+                        value={data.password}
+                        type={isOpen ? "text" : "password"}
+                        id="password"
+                        placeholder=" "
+                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      <label
+                        htmlFor="password"
+                        className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
+                          focusStates.isPassFocused || data.password
+                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                            : "top-1/2 -translate-y-1/2"
+                        }`}
+                      >
+                        Password
+                      </label>
+                    </div>
+                    {/* Submit Button */}
+                    <p className="text-right text-[10px] text-blue-800">
+                      Forgot Password?
+                    </p>
+                    <button
+                      type="submit"
+                      className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
+                    >
+                      {currState}
+                    </button>
+                  </>
+                )}
+              </>
+            )}
+             {step === 11 && (
+              <>
+                {currState === "signUp" ? (
+                  <>
+                  <h1 className="font-Poppins text-xs text-gray-800">IF APPLICANT IS APPLYING FOR THE IDENTIFICATION CARD BASED ON HIS ASCENDANTS HE WOULD PROVIDE THE DETAILS OF DOCUMENT IDENTIFYING THE ASCENDANT</h1>
+                    <div>
+                      
                       <div className="relative z-0 mb-4">
                         <div className="flex items-center gap-2">
                           <input
-                            name="phone"
+                            name="famillyDocumentNumber"
                             onChange={(e) => {
                               const value = e.target.value;
                               if (/^\d*$/.test(value)) {
-                                setData({ ...data, phone: value });
+                                setData({ ...data, famillyDocumentNumber: value });
                                 setPhoneError("");
                               } else {
                                 setPhoneError("Please enter numbers only.");
                               }
                             }}
-                            onBlur={(e) => {
-                              if (!e.target.value) {
-                                setIsPhoneFocused(false);
-                              }
-                            }}
-                            onFocus={() => setIsPhoneFocused(true)}
-                            value={data.phone}
+                            onFocus={() => handleFocusChange("isFamillyDocumentNoFocused", true)}
+                            onBlur={() => handleFocusChange("isFamillyDocumentNoFocused", false)}
+                            value={data.famillyDocumentNumber}
                             type="text"
-                            id="phone"
+                            id="famillyDocumentNumber"
                             placeholder=" "
-                            className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="peer z-10 w-full py-2 pl-[1px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                           />
 
                           {/* Floating Label */}
@@ -2653,7 +2834,7 @@ const Login = () => {
                                 ? "left-[20px]"
                                 : "left-[20px]"
                             } transform transition-all text-gray-500 text-sm ${
-                              isPhoneFocused || data.phone
+                              focusStates.isFamillyDocumentNoFocused || data.famillyDocumentNumber
                                 ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                                 : "top-1/2 -translate-y-1/2"
                             }`}
@@ -2674,25 +2855,23 @@ const Login = () => {
                     {/* Password Input */}
                     <div className="relative z-1">
                       <input
-                        name="placeOfIssue"
-                        onChange={onChangeHandler}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPassFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPassFocused(true)}
-                        value={data.placeOfIssue}
+                        name="famillyDocumentPlace"
+                        onChange={(e) =>
+                          setData({ ...data, famillyDocumentPlace: e.target.value })
+                        }
+                        onFocus={() => handleFocusChange("isFamillyDocumentPlaceFocused", true)}
+                        onBlur={() => handleFocusChange("isFamillyDocumentPlaceFocused", false)}
+                        value={data.famillyDocumentPlace}
                         type="text"
-                        id="placeOfIssue"
+                        id="famillyDocumentPlace"
                         placeholder=" "
                         className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
 
                       <label
-                        htmlFor="password"
+                        htmlFor="famillyDocumentPlace"
                         className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                          isPassFocused || data.placeOfIssue
+                          focusStates.isFamillyDocumentPlaceFocused || data.famillyDocumentPlace
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -2705,25 +2884,23 @@ const Login = () => {
                     {currState === "signUp" && (
                       <div className="relative z-1">
                         <input
-                          name="dateOfIssue"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
-                          value={data.dateOfIssue}
+                          name="famillyDocumentDate"
+                          onChange={(e) =>
+                            setData({ ...data, famillyDocumentDate: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isFamillyDocumentDateFocused", true)}
+                          onBlur={() => handleFocusChange("isFamillyDocumentDateFocused", false)}
+                          value={data.famillyDocumentDate}
                           type="date"
-                          id="dateOfIssue"
+                          id="famillyDocumentDate"
                           placeholder=" "
                           className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
 
                         <label
-                          htmlFor="confirmpassword"
+                          htmlFor="famillyDocumentDate"
                           className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                            isConfirmPassFocused || data.dateOfIssue
+                            focusStates.isFamillyDocumentDateFocused || data.famillyDocumentDate
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-[-10px] bg-white px-1 text-xs text-blue-500"
                           }`}
@@ -2737,36 +2914,61 @@ const Login = () => {
                       <div className="relative z-1 mb-4">
                         {/* Input Field */}
                         <input
-                          name="issuingAuthority"
+                          name="famillyDocumentAuthority"
                           onChange={(e) =>
-                            setData({
-                              ...data,
-                              issuingAuthority: e.target.value,
-                            })
+                            setData({ ...data, famillyDocumentAuthority: e.target.value })
                           }
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsFocused(true)}
-                          value={data.issuingAuthority}
+                          onFocus={() => handleFocusChange("isFamillyDocumentAuthorityFocused", true)}
+                          onBlur={() => handleFocusChange("isFamillyDocumentAuthorityFocused", false)}
+                          value={data.famillyDocumentAuthority}
                           type="text"
-                          id="issuingAuthority"
+                          id="famillyDocumentAuthority"
                           placeholder=" "
                           className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
 
                         {/* Floating Label */}
                         <label
-                          htmlFor="email"
+                          htmlFor="famillyDocumentAuthority"
                           className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                            isFocused || data.issuingAuthority
+                            focusStates.isFamillyDocumentAuthorityFocused || data.famillyDocumentAuthority
                               ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                               : "top-1/2 -translate-y-1/2"
                           }`}
                         >
                           Issuing Authority
+                        </label>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    {currState === "signUp" ? (
+                      <div className="relative z-1 mb-4">
+                        {/* Input Field */}
+                        <input
+                          name="famillyDocumentExpiry"
+                          onChange={(e) =>
+                            setData({ ...data, famillyDocumentExpiry: e.target.value })
+                          }
+                          onFocus={() => handleFocusChange("isFamillyDocumentExpiryFocused", true)}
+                          onBlur={() => handleFocusChange("isFamillyDocumentExpiryFocused", false)}
+                          value={data.famillyDocumentExpiry}
+                          type="date"
+                          id="famillyDocumentExpiry"
+                          placeholder=" "
+                          className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+
+                        {/* Floating Label */}
+                        <label
+                          htmlFor="famillyDocumentExpiry"
+                          className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
+                            focusStates.isFamillyDocumentExpiryFocused|| data.famillyDocumentExpiry
+                              ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                              : "top-[-10px] bg-white px-1 text-xs text-blue-500"
+                          }`}
+                        >
+                          Document Expiry
                         </label>
                       </div>
                     ) : (
@@ -2783,531 +2985,18 @@ const Login = () => {
                 >
                   {currState}
                 </button> */}
-                    <div className="w-[75%] absolute bottom-6 right-16 flex justify-between">
+                    <div className="w-[75%] absolute bottom-6 right-12 flex justify-between">
                       <button
                         type="button"
                         onClick={onPrevious}
                         className="bg-gray-300 text-black py-2 px-6 rounded hover:bg-gray-400"
-                      >
-                        Back
-                      </button>
-                      <button
-                        type="button"
-                        onClick={onNext}
-                        className="bg-blue-800 text-white py-2 px-6 rounded hover:bg-blue-500"
-                      >
-                        Next
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="relative z-1 mb-4">
-                      {/* Input Field */}
-                      <input
-                        name="email"
-                        onChange={(e) =>
-                          setData({ ...data, email: e.target.value })
-                        }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsEmailFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsEmailFocused(true)}
-                        value={data.email}
-                        type="text"
-                        id="email"
-                        placeholder=" "
-                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-
-                      {/* Floating Label */}
-                      <label
-                        htmlFor="email"
-                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isEmailFocused || data.email
-                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                            : "top-1/2 -translate-y-1/2"
-                        }`}
-                      >
-                        Email
-                      </label>
-                    </div>
-                    <div className="relative z-1">
-                      {isOpen ? (
-                        <HiEye
-                          size={15}
-                          color="#3B82F6"
-                          onClick={() => setIsOpen(!isOpen)}
-                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                        />
-                      ) : (
-                        <HiEyeOff
-                          size={15}
-                          color="#3B82F6"
-                          onClick={() => setIsOpen(!isOpen)}
-                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                        />
-                      )}
-
-                      <input
-                        name="password"
-                        onChange={onChangeHandler}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPassFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPassFocused(true)}
-                        value={data.password}
-                        type={isOpen ? "text" : "password"}
-                        id="password"
-                        placeholder=" "
-                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-
-                      <label
-                        htmlFor="password"
-                        className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
-                          isPassFocused || data.password
-                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                            : "top-1/2 -translate-y-1/2"
-                        }`}
-                      >
-                        Password
-                      </label>
-                    </div>
-                    {/* Submit Button */}
-                    <p className="text-right text-[10px] text-blue-800">
-                      Forgot Password?
-                    </p>
-                    <button
-                      type="submit"
-                      className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
-                    >
-                      {currState}
-                    </button>
-                  </>
-                )}
-              </>
-            )}
-
-            {step === 11 && (
-              <>
-                {currState === "signUp" ? (
-                  <>
-                    <div className="flex flex-col gap-2 py-2 pl-2 border border-blue-500 rounded-sm">
-                      <p>
-                        Through which family line do applicants claim the
-                        certification card?
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <input
-                          name="familyLine"
-                          value="father"
-                          type="radio"
-                          id="fatherLine"
-                          onChange={handleRadioChange}
-                          checked={selectedLine === "father"}
-                          className="w-4 h-4 outline-2 outline-blue-500"
-                        />
-                        <label htmlFor="fatherLine" className="text-gray-500">
-                          Father&apos;s Line
-                        </label>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <input
-                          name="familyLine"
-                          value="mother"
-                          type="radio"
-                          id="motherLine"
-                          onChange={handleRadioChange}
-                          checked={selectedLine === "mother"}
-                          className="w-4 h-4"
-                        />
-                        <label htmlFor="motherLine" className="text-gray-500">
-                          Mother&apos;s Line
-                        </label>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <input
-                          name="familyLine"
-                          value="grandfather"
-                          type="radio"
-                          id="grandFatherLine"
-                          onChange={handleRadioChange}
-                          checked={selectedLine === "grandfather"}
-                          className="w-4 h-4"
-                        />
-                        <label
-                          htmlFor="grandFatherLine"
-                          className="text-gray-500"
-                        >
-                          Grand Father&apos;s Line
-                        </label>
-                      </div>
-                    </div>
-
-                    {/* Dynamic Input */}
-                    <div className="relative z-1 mt-4">
-                      <input
-                        name="familyName"
-                        onChange={handleInputChange}
-                        value={data.familyName}
-                        type="text"
-                        id="familyName"
-                        placeholder=" "
-                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-                      <label
-                        htmlFor="familyName"
-                        className="absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm top-[-10px] bg-white px-1 text-xs text-blue-500"
-                      >
-                        {selectedLine === "father"
-                          ? "Father Full Name"
-                          : selectedLine === "mother"
-                          ? "Mother Full Name"
-                          : selectedLine === "grandfather"
-                          ? "Grand Father Full Name"
-                          : "Family Full Name"}
-                      </label>
-                    </div>
-
-                    {/* Document Type Input */}
-                    <div className="relative z-1 mt-4">
-                      <input
-                        name="familyDocumentType"
-                        onChange={handleInputChange}
-                        value={data.familyDocumentType}
-                        type="text"
-                        id="familyDocumentType"
-                        placeholder=" "
-                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-                      <label
-                        htmlFor="familyDocumentType"
-                        className="absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm top-[-10px] bg-white px-1 text-xs text-blue-500"
-                      >
-                        Document Type
-                      </label>
-                    </div>
-
-                    {/* Navigation Buttons */}
-                    <div className="w-[75%] absolute bottom-6 right-16 flex justify-between">
-                      <button
-                        type="button"
-                        onClick={onPrevious}
-                        className="bg-gray-300 text-black py-2 px-6 rounded hover:bg-gray-400"
-                      >
-                        Back
-                      </button>
-                      <button
-                        type="button"
-                        onClick={onNext}
-                        className="bg-blue-800 text-white py-2 px-6 rounded hover:bg-blue-500"
-                      >
-                        Next
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="relative z-1 mb-4">
-                      {/* Input Field */}
-                      <input
-                        name="email"
-                        onChange={(e) =>
-                          setData({ ...data, email: e.target.value })
-                        }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsEmailFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsEmailFocused(true)}
-                        value={data.email}
-                        type="text"
-                        id="email"
-                        placeholder=" "
-                        className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-
-                      {/* Floating Label */}
-                      <label
-                        htmlFor="email"
-                        className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isEmailFocused || data.email
-                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                            : "top-1/2 -translate-y-1/2"
-                        }`}
-                      >
-                        Email
-                      </label>
-                    </div>
-                    <div className="relative z-1">
-                      {isOpen ? (
-                        <HiEye
-                          size={15}
-                          color="#3B82F6"
-                          onClick={() => setIsOpen(!isOpen)}
-                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                        />
-                      ) : (
-                        <HiEyeOff
-                          size={15}
-                          color="#3B82F6"
-                          onClick={() => setIsOpen(!isOpen)}
-                          className="z-10 absolute right-5 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                        />
-                      )}
-
-                      <input
-                        name="password"
-                        onChange={onChangeHandler}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPassFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPassFocused(true)}
-                        value={data.password}
-                        type={isOpen ? "text" : "password"}
-                        id="password"
-                        placeholder=" "
-                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-
-                      <label
-                        htmlFor="password"
-                        className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
-                          isPassFocused || data.password
-                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                            : "top-1/2 -translate-y-1/2"
-                        }`}
-                      >
-                        Password
-                      </label>
-                    </div>
-                    {/* Submit Button */}
-                    <p className="text-right text-[10px] text-blue-800">
-                      Forgot Password?
-                    </p>
-                    <button
-                      type="submit"
-                      className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
-                    >
-                      {currState}
-                    </button>
-                  </>
-                )}
-              </>
-            )}
-            {step === 12 && (
-              <>
-                {currState === "signUp" ? (
-                  <>
-                    <p>Familly Document</p>
-                    <div className="relative z-0 mb-4">
-                      <div className="flex items-center gap-2">
-                        <input
-                          name="phone"
-                          onChange={(e) => {
-                            const value = e.target.value;
-                            if (/^\d*$/.test(value)) {
-                              setData({ ...data, phone: value });
-                              setPhoneError("");
-                            } else {
-                              setPhoneError("Please enter numbers only.");
-                            }
-                          }}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsPhoneFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsPhoneFocused(true)}
-                          value={data.phone}
-                          type="text"
-                          id="phone"
-                          placeholder=" "
-                          className="peer z-10 w-full py-2 pl-[50px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-
-                        {/* Floating Label */}
-                        <label
-                          htmlFor="familyDocumentNumber"
-                          className={`absolute z-10 ${
-                            currState === "Login"
-                              ? "left-[20px]"
-                              : "left-[20px]"
-                          } transform transition-all text-gray-500 text-sm ${
-                            isPhoneFocused || data.familyDocumentNumber
-                              ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                              : "top-1/2 -translate-y-1/2"
-                          }`}
-                        >
-                          Number
-                        </label>
-                        {phoneError && (
-                          <p className="absolute bottom-[-15px] left-8 text-red-500 text-xs mt-1">
-                            {phoneError}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="relative z-1">
-                      <input
-                        name="placeOfIssue"
-                        onChange={onChangeHandler}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPassFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPassFocused(true)}
-                        value={data.placeOfIssue}
-                        type="text"
-                        id="placeOfIssue"
-                        placeholder=" "
-                        className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      />
-
-                      <label
-                        htmlFor="password"
-                        className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                          isPassFocused || data.placeOfIssue
-                            ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                            : "top-1/2 -translate-y-1/2"
-                        }`}
-                      >
-                        Place Of Issue
-                      </label>
-                    </div>
-
-                    {/* Confirm Password Input */}
-                    {currState === "signUp" && (
-                      <div className="relative z-1">
-                        <input
-                          name="dateOfIssue"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
-                          value={data.dateOfIssue}
-                          type="date"
-                          id="dateOfIssue"
-                          placeholder=" "
-                          className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-
-                        <label
-                          htmlFor="confirmpassword"
-                          className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                            isConfirmPassFocused || data.dateOfIssue
-                              ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                              : "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                          }`}
-                        >
-                          Date Of Issue
-                        </label>
-                      </div>
-                    )}
-
-                    {currState === "signUp" ? (
-                      <div className="relative z-1 mb-4">
-                        {/* Input Field */}
-                        <input
-                          name="issuingAuthority"
-                          onChange={(e) =>
-                            setData({
-                              ...data,
-                              issuingAuthority: e.target.value,
-                            })
-                          }
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsFocused(true)}
-                          value={data.issuingAuthority}
-                          type="text"
-                          id="issuingAuthority"
-                          placeholder=" "
-                          className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-
-                        {/* Floating Label */}
-                        <label
-                          htmlFor="email"
-                          className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                            isFocused || data.issuingAuthority
-                              ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                              : "top-1/2 -translate-y-1/2"
-                          }`}
-                        >
-                          Issuing Authority
-                        </label>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                    {currState === "signUp" && (
-                      <div className="relative z-1">
-                        <input
-                          name="FamilydateOfExpiry"
-                          onChange={onChangeHandler}
-                          onBlur={(e) => {
-                            if (!e.target.value) {
-                              setIsConfirmPassFocused(false);
-                            }
-                          }}
-                          onFocus={() => setIsConfirmPassFocused(true)}
-                          value={data.FamilydateOfExpiry}
-                          type="date"
-                          id="FamilydateOfExpiry"
-                          placeholder=" "
-                          className="relative peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-
-                        <label
-                          htmlFor="FamilydateOfExpiry"
-                          className={`absolute z-10 left-[20px] transform transition-all text-gray-500 text-sm ${
-                            isConfirmPassFocused || data.FamilydateOfExpiry
-                              ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                              : "top-[-10px] bg-white px-1 text-xs text-blue-500"
-                          }`}
-                        >
-                          Date Of Expiry
-                        </label>
-                      </div>
-                    )}
-                    {/* Submit Button */}
-                    <p className="text-right text-[10px] text-blue-800">
-                      Forgot Password?
-                    </p>
-                    {/* <button
-                  type="submit"
-                  className="w-full bg-blue-700 text-white py-1 rounded-sm text-md hover:bg-blue-600"
-                >
-                  {currState}
-                </button> */}
-                    <div className="w-[75%] absolute bottom-6 right-16 flex justify-between">
-                      <button
-                        type="button"
-                        onClick={onPrevious}
-                        className="bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400"
                       >
                         Back
                       </button>
                       <button
                         type="submit"
-                        className="bg-blue-800 text-white py-2 px-4 rounded hover:bg-blue-500"
+                        
+                        className="bg-blue-800 text-white py-2 px-6 rounded hover:bg-blue-500"
                       >
                         {currState}
                       </button>
@@ -3322,12 +3011,8 @@ const Login = () => {
                         onChange={(e) =>
                           setData({ ...data, email: e.target.value })
                         }
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsEmailFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsEmailFocused(true)}
+                        onFocus={() => handleFocusChange("isEmailFocused", true)}
+                        onBlur={() => handleFocusChange("isEmailFocused", false)}
                         value={data.email}
                         type="text"
                         id="email"
@@ -3339,7 +3024,7 @@ const Login = () => {
                       <label
                         htmlFor="email"
                         className={`absolute left-3 transform transition-all text-gray-500 text-sm ${
-                          isEmailFocused || data.email
+                          focusStates.isEmailFocused || data.email
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
@@ -3366,13 +3051,11 @@ const Login = () => {
 
                       <input
                         name="password"
-                        onChange={onChangeHandler}
-                        onBlur={(e) => {
-                          if (!e.target.value) {
-                            setIsPassFocused(false);
-                          }
-                        }}
-                        onFocus={() => setIsPassFocused(true)}
+                        onChange={(e) =>
+                          setData({ ...data, password: e.target.value })
+                        }
+                        onFocus={() => handleFocusChange("isPassFocused", true)}
+                        onBlur={() => handleFocusChange("isPassFocused", false)}
                         value={data.password}
                         type={isOpen ? "text" : "password"}
                         id="password"
@@ -3383,7 +3066,7 @@ const Login = () => {
                       <label
                         htmlFor="password"
                         className={`absolute z-10 left-[10px] transform transition-all text-gray-500 text-sm ${
-                          isPassFocused || data.password
+                          focusStates.isPassFocused || data.password
                             ? "top-[-10px] bg-white px-1 text-xs text-blue-500"
                             : "top-1/2 -translate-y-1/2"
                         }`}
