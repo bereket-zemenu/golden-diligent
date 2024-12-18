@@ -13,7 +13,7 @@ const ServiceCard = ({ title, description, buttonText, image, bg }) => {
         <h2 className="capitalize text-primary group-hover:text-tertiary font-colasta text-primary text-lg font-semibold mb-2 text-left">
           {title}
         </h2>
-        <p className="text-secondary group-hover:text-tertiary text-[13px] mb-4 text-left py-2">
+        <p className="text-secondary text-[#63757CCC] group-hover:text-tertiary text-[13px] mb-4 text-left py-2">
           {description}
         </p>
       </div>

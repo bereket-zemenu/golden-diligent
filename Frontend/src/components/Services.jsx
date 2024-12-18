@@ -49,42 +49,42 @@ function Services() {
           image={icon1}
           bg={bg1}
           title="website development"
-          description="we develop Web apps, and websites for companies and for individuals with SEO optimization, with Attractive UI/UX design, Responsive design."
+          description="Connects job seekers with employers based on skills and requirements, fostering meaningful employment opportunities."
           buttonText="Learn More"
         />
         <ServiceCard
           image={icon2}
           bg={bg2}
           title="mobile app development"
-          description="we develop Web apps, and websites for companies and for individuals with SEO optimization, with Attractive UI/UX design, Responsive design."
+          description="Facilitates seamless data exchange among various stakeholders, enabling comprehensive analysis and collaboration."
           buttonText="Learn More"
         />
         <ServiceCard
           image={icon3}
           bg={bg3}
           title="software as service"
-          description="we develop Web apps, and websites for companies and for individuals with SEO optimization, with Attractive UI/UX design, Responsive design."
+          description="Offers a comprehensive range of career development services, including online examinations and advisory systems, to support individuals in their professional journey."
           buttonText="Learn More"
         />
         <ServiceCard
           image={icon4}
           bg={bg4}
           title="General technology consulting"
-          description="we develop Web apps, and websites for companies and for individuals with SEO optimization, with Attractive UI/UX design, Responsive design."
+          description="Utilizes state-of-the-art biometrics for accurate and secure user identification, ensuring data integrity and privacy."
           buttonText="Learn More"
         />
         <ServiceCard
           image={icon5}
           bg={bg5}
           title="software development training"
-          description="we develop Web apps, and websites for companies and for individuals with SEO optimization, with Attractive UI/UX design, Responsive design."
+          description="Harnesses the power of AI and statistical tools to forecast labor market trends, empowering policymakers and stakeholders with predictive insights."
           buttonText="Learn More"
         />
         <ServiceCard
           image={icon6}
           bg={bg6}
           title="software security tasting"
-          description="we develop Web apps, and websites for companies and for individuals with SEO optimization, with Attractive UI/UX design, Responsive design."
+          description="Provides qualitative and quantitative labor market information for strategic planning and informed decision-making."
           buttonText="Learn More"
         />
       </motion.div>

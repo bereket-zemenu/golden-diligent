@@ -13,7 +13,7 @@ const AboutCard = ({ title, description, buttonText, image, bg }) => {
         <h2 className="capitalize text-[#2289FF] group-hover:text-tertiary font-colasta text-primary text-xl font-semibold mb-2 text-center">
           {title}
         </h2>
-        <p className="text-[#949494] group-hover:text-tertiary text-[17px] mb-4 text-center py-2 px-[1px]">
+        <p className="text-[#949494] group-hover:text-tertiary text-[14px] mb-4 text-center py-2 px-[1px]">
           {description}
         </p>
       </div>

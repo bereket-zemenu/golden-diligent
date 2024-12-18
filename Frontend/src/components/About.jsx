@@ -1,10 +1,8 @@
 import { motion } from "framer-motion";
 import { fadeIn } from "../variants";
-// import shape1 from "../assets/images/shape-01.webp";
 import about1 from "../assets/images/about-1.png";
 import about2 from "../assets/images/about-2.png";
 import about3 from "../assets/images/about-3.png";
-
 import AboutCard from "./AboutCard";
 
 function About() {
