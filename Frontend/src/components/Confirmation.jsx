@@ -1,7 +1,15 @@
 import { useState } from "react";
 import otpImage from "../assets/images/otp-image.svg";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+import { useStores } from "../contexts/storeContext";
+
 const Confirmation = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const location = useLocation();
+  const { email } = location.state || {}; // Get email from passed state
+  const { url } = useStores();
+  console.log(typeof otp.join(""), url);
 
   const handleChange = (index, value) => {
     if (value.length <= 1) {
@@ -16,6 +24,37 @@ const Confirmation = () => {
       const newOtp = [...otp];
       newOtp[index - 1] = "";
       setOtp(newOtp);
+    }
+  };
+
+  const verifyOTP = async (email, otp) => {
+    try {
+      console.log("Request Payload:", { email, otp }); // Debugging logs
+      const response = await axios.post(`${url}/api/user/verify-otp`, {
+        email,
+        otp,
+      });
+      console.log("Response:", response);
+
+      console.log(response.data.message);
+      if (response.data.success) {
+        alert("OTP Verified Successfully!");
+        // Redirect or perform further actions
+      } else {
+        alert("Verification failed. Please try again.");
+      }
+    } catch (error) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        console.error("Error verifying OTP:", error.response.data.message);
+        alert(`Failed to verify OTP: ${error.response.data.message}`);
+      } else {
+        console.error("Error verifying OTP:", error.message);
+        alert("An unexpected error occurred. Please try again.");
+      }
     }
   };
 
@@ -46,12 +85,10 @@ const Confirmation = () => {
               </span>
             </div>
 
-            <h2 className="text-lg font-semibold text-gray-700 mb-2 text-center">
+            <h2 className="font-Poppins text-lg font-semibold text-gray-700 mb-2 text-center">
               We have sent the Code Verification to your email adress
             </h2>
-            <p className="text-blue-600 font-semibold mb-4">
-              kgemechu908@gmail.com
-            </p>
+            <p className="text-blue-600 font-semibold mb-4">{email}</p>
           </div>
 
           {/* OTP Inputs */}
@@ -71,7 +108,7 @@ const Confirmation = () => {
 
           <button
             className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
-            onClick={() => alert("Verifying OTP: " + otp.join(""))}
+            onClick={() => verifyOTP(email, otp.join(""))}
           >
             Verify
           </button>

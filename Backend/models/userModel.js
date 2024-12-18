@@ -1,13 +1,18 @@
 import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  otp: {
+    type: String,
+    required: [true, "OTP is required"], // This error message will be shown when OTP is missing
+  },
+  otpVerified: { type: Boolean, default: false }, // OTP verification flag
   confirmpassword: { type: String, required: true },
   fatherName: { type: String, required: true },
   grandFatherName: { type: String, required: true },
   nickName: { type: String, required: true },
-  sex: { type: String, required: true },
+  sex: { type: String },
   dateOfBirth: { type: Date, required: true },
   region: { type: String, required: true },
   zone: { type: String, required: true },
@@ -32,12 +37,12 @@ const UserSchema = new mongoose.Schema({
   certificationDate: { type: Date, required: true },
   certificationAuthority: { type: String, required: true },
   certificationExpiry: { type: Date, required: true },
-  documentNumber: { type: String},
-  documentType: { type: String},
-  documentPlace: { type: String},
-  documentDate: { type: Date},
-  documentAuthority: { type: String},
-  documentExpiry: { type: Date},
+  documentNumber: { type: String },
+  documentType: { type: String },
+  documentPlace: { type: String },
+  documentDate: { type: Date },
+  documentAuthority: { type: String },
+  documentExpiry: { type: Date },
   familyName: { type: String, required: true },
   famillyDocumentType: { type: String, required: true },
   famillyDocumentNumber: { type: String, required: true },
@@ -45,8 +50,8 @@ const UserSchema = new mongoose.Schema({
   famillyDocumentDate: { type: Date, required: true },
   famillyDocumentAuthority: { type: String, required: true },
   famillyDocumentExpiry: { type: Date, required: true },
-  formerNationalities: { type: [String], required: true },
-  presentNationalities: { type: [String], required: true },
+  formerNationalities: { type: [String] },
+  presentNationalities: { type: [String] },
   ethnicGroup: { type: String, required: true },
 });
 

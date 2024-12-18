@@ -4,13 +4,13 @@ import MapComponent from "./MapComponent";
 
 function Locations() {
   return (
-    <div>
+    <div className="relative">
       <motion.h1
         variants={fadeIn("left", 0.4)}
         initial="hidden"
         whileInView={"show"}
         viewport={{ once: false, amount: 0.5 }}
-        className="z-[-1] absolute top-6 left-1/4 transform -translate-x-1/2 text-[#E6EAEC] font-bold text-6xl text-center leading-none"
+        className="z-[-1] absolute top-[-40px] left-1/4 transform -translate-x-1/2 text-[#E6EAEC] font-bold text-6xl text-center leading-none"
       >
         Discover golden delight
       </motion.h1>

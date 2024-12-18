@@ -41,14 +41,14 @@ function PageNav() {
           isSticky ? "shadow-bottom-only" : ""
         }`}
       >
-        <div className="">
-          <img src="logo.png" className="h-10 mb-4" />
-        </div>
         <ul
           className={`flex gap-20 justify-center items-center visible ${
             isHidden ? "" : "hidden"
           }`}
         >
+          <div className="">
+            <img src="logo.png" className="h-10" />
+          </div>
           <li className="font-colasta group py-2 relative font-bold text-[#000080] capitalize text-base text-base hover:cursor-pointer hover:text-btn-bg-main transition-all duration-200">
             <NavLink
               NavLink
@@ -88,11 +88,11 @@ function PageNav() {
         <div className="flex gap-4 ml-8">
           <NavLink
             to="/auth"
-            className="px-8 py-2 border-2 border-[#000080] text-[#000080] rounded-lg"
+            className="px-8 py-[4px] border-2 border-[#000080] text-[#000080] rounded-lg"
           >
             login
           </NavLink>
-          <button className="px-4 py-2 bg-[#000080]  opacity-[0.6] hover:opacity-[0.7] transition-200 text-white rounded-lg">
+          <button className="px-4 py-[4px] bg-[#000080]  opacity-[0.6] hover:opacity-[0.7] transition-200 text-white rounded-lg">
             Download App
           </button>
         </div>

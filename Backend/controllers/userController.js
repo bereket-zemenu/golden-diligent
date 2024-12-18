@@ -2,6 +2,7 @@ import userModel from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import validator from "validator";
+import nodemailer from "nodemailer";
 
 //creating the token
 const createToken = (id) => {
@@ -11,8 +12,8 @@ const createToken = (id) => {
 //logic for user login
 const loginUser = async (req, res) => {
   try {
-    const { phone, password } = req.body; // Use phone instead of email
-    const user = await userModel.findOne({ phone }); // Find user by phone
+    const { email, password } = req.body; // Use phone instead of email
+    const user = await userModel.findOne({ email }); // Find user by phone
 
     if (!user) {
       return res.json({ success: false, message: "User doesn't exist" });
@@ -32,46 +33,179 @@ const loginUser = async (req, res) => {
   }
 };
 
-//logic for user register
+// Function to generate a 6-digit OTP
+const generateOTP = () =>
+  Math.floor(100000 + Math.random() * 900000).toString();
+
+// Function to send OTP via email
+const sendOTPEmail = async (email, otp) => {
+  const transporter = nodemailer.createTransport({
+    service: "gmail", // Use Gmail as the email service
+    auth: {
+      user: process.env.EMAIL_USER, // Replace with your Gmail address
+      pass: process.env.EMAIL_PASS, // Replace with your Gmail App Password
+    },
+  });
+
+  const mailOptions = {
+    from: "kgemechu908@gmail.com",
+    to: email,
+    subject: "Your OTP Code",
+    text: `Your OTP for registration is: ${otp}`,
+    html: `<p>Your OTP for registration is: <b>${otp}</b></p>`,
+  };
+
+  await transporter.sendMail(mailOptions);
+};
+
 const registerUser = async (req, res) => {
-  const { email, password, phone } = req.body;
+  const { email, password, confirmpassword, dateOfBirth } = req.body;
+
+  // List of required fields
+  const requiredFields = [
+    "name",
+    "fatherName",
+    "grandFatherName",
+    "nickName",
+    "dateOfBirth",
+    "region",
+    "zone",
+    "wereda",
+    "city",
+    "kebele",
+    "country",
+    "address",
+    "state",
+    "abroadCity",
+    "height",
+    "colorOfEye",
+    "colorOfHair",
+    "specialMark",
+    "passportNo",
+    "passportPlace",
+    "passportDate",
+    "passportRenewal",
+    "passportAuthority",
+    "certificationNumber",
+    "certificationPlace",
+    "certificationDate",
+    "certificationAuthority",
+    "certificationExpiry",
+    "familyName",
+    "famillyDocumentType",
+    "famillyDocumentNumber",
+    "famillyDocumentPlace",
+    "famillyDocumentDate",
+    "famillyDocumentAuthority",
+    "famillyDocumentExpiry",
+    "formerNationalities",
+    "presentNationalities",
+    "ethnicGroup",
+  ];
+
   try {
+    // Check for required fields
+    for (const field of requiredFields) {
+      if (!req.body[field]) {
+        return res.status(400).json({
+          success: false,
+          message: `The field ${field} is required.`,
+        });
+      }
+    }
+
+    // Check if the user already exists
     const exists = await userModel.findOne({ email });
     if (exists) {
-      return res.json({ success: false, message: "user already exists" });
+      return res
+        .status(400)
+        .json({ success: false, message: "User already exists" });
     }
+
+    // Validate email format
     if (!validator.isEmail(email)) {
-      return res.json({
-        success: false,
-        message: "please enter a valid email",
-      });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid email format" });
     }
 
+    // Validate password
     if (password.length < 8) {
-      return res.json({
+      return res.status(400).json({
         success: false,
-        message: "please enter a strong password",
+        message: "Password must be at least 8 characters long",
       });
     }
 
-    //hashing password
-    const salt = await bcrypt.genSalt(10);
-    const hashPasword = await bcrypt.hash(password, salt);
+    if (password !== confirmpassword) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Passwords do not match" });
+    }
 
+    // Validate dateOfBirth format
+    if (!validator.isDate(dateOfBirth)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid date format for dateOfBirth",
+      });
+    }
+
+    // Generate and send OTP
+    const otp = generateOTP();
+    await sendOTPEmail(email, otp);
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create new user
     const newUser = new userModel({
-      image: "",
-
-      email: email,
-      password: hashPasword,
-      phone: phone,
+      ...req.body,
+      password: hashedPassword, // Save hashed password
+      otp, // Save OTP for later verification
+      otpVerified: false, // Flag to indicate whether OTP is verified
     });
 
-    const user = await newUser.save();
-    const token = createToken(user._id);
-    res.json({ success: true, token });
+    // Save user to database
+    await newUser.save();
+
+    res.status(201).json({
+      success: true,
+      message: "User registered successfully. OTP sent to email.",
+      userId: newUser._id, // Return user ID for frontend to use in OTP verification
+      email: email,
+    });
   } catch (error) {
-    console.log(error);
-    res.json({ success: false, mssage: "Error" });
+    console.error(error);
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
+  }
+};
+
+const verifyOTP = async (req, res) => {
+  try {
+    const { otp, email } = req.body; // Ensure otp and userId are sent from the client
+    if (!otp) {
+      return res.status(400).json({ error: "OTP is required" });
+    }
+
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (user.otp === otp) {
+      // Success logic
+      res
+        .status(200)
+        .json({ success: true, message: "OTP verified successfully" });
+    } else {
+      res.status(400).json({ success: false, error: "Invalid OTP" });
+    }
+  } catch (error) {
+    console.error("Error verifying OTP:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -98,4 +232,4 @@ const getUserCount = async (req, res) => {
   }
 };
 
-export { registerUser, loginUser, usersList, getUserCount };
+export { registerUser, verifyOTP, loginUser, usersList, getUserCount };
