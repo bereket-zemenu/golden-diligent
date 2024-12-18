@@ -5,6 +5,7 @@ import Home from "./pages/home";
 import Login from "./components/Login";
 import Confirmation from "./components/Confirmation";
 import RegistrationForm from "./components/RegistrationForm";
+import OssList from "./components/ossList";
 // import "leaflet/dist/leaflet.css";
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/auth" element={<Login />} />
           <Route path="otp-confirmation" element={<Confirmation />} />
           <Route path="/register" element={<RegistrationForm />} />
+          <Route path="/list" element={<OssList />} />
         </Routes>
       </div>
     </StoreProvider>

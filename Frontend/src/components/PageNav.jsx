@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MdMenu } from "react-icons/md";
 import { IoCloseOutline } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
-
+import { Link } from "react-scroll";
 function PageNav() {
   const [isSticky, setIsSticky] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,23 +32,47 @@ function PageNav() {
         className={`hidden tablet:flex gap-6 laptop:gap-10 items-center transition-all duration-300`}
       >
         <li className="group relative font-bold text-gray-500 hover:text-[#000080] capitalize">
-          <NavLink
+          <Link
             to="/"
+            spy={true}
+            smooth={true}
+            offset={50}
+            duration={500}
             className="before:block before:content-[''] before:absolute before:bottom-[-2px] 
               before:w-full before:h-[2px] before:bg-btn-bg-main before:scale-x-0 
               group-hover:before:scale-x-100 before:transition-transform duration-300"
           >
             Home
+          </Link>
+        </li>
+        <li className="group relative font-bold text-gray-500 hover:text-[#000080] capitalize">
+          <Link
+            to="about"
+            spy={true}
+            smooth={true}
+            offset={-50}
+            duration={500}
+            className="cursor-pointer"
+          >
+            About
+          </Link>
+        </li>
+        <li className="group relative font-bold text-gray-500 hover:text-[#000080] capitalize">
+          <Link
+            to="location"
+            spy={true}
+            smooth={true}
+            offset={-50}
+            duration={1000}
+            className="cursor-pointer"
+          >
+            OSSC Locations
+          </Link>
+        </li>
+        <li className="group relative font-bold text-gray-500 hover:text-[#000080] capitalize">
+          <NavLink to="/list" className="cursor-pointer">
+            OSSC Lists
           </NavLink>
-        </li>
-        <li className="group relative font-bold text-gray-500 hover:text-[#000080] capitalize">
-          <NavLink to="/about">About</NavLink>
-        </li>
-        <li className="group relative font-bold text-gray-500 hover:text-[#000080] capitalize">
-          <NavLink to="/locations">OSSC Locations</NavLink>
-        </li>
-        <li className="group relative font-bold text-gray-500 hover:text-[#000080] capitalize">
-          <NavLink to="/lists">OSSC Lists</NavLink>
         </li>
       </ul>
 

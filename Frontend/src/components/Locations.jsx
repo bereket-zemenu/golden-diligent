@@ -4,7 +4,7 @@ import MapComponent from "./MapComponent";
 
 function Locations() {
   return (
-    <div className="relative px-4 phone:px-2 py-8">
+    <div className="relative px-4 phone:px-2 py-8" id="location">
       {/* Heading Section */}
       <motion.h1
         variants={fadeIn("left", 0.4)}
