@@ -3,8 +3,7 @@ import { IoHeadsetSharp } from "react-icons/io5";
 const Footer = () => {
   return (
     <footer className="relative bg-[#0b1727] mt-10 py-16 px-6">
-      {/* <div className="absolute">kaleab</div> */}
-      <div className="max-w-5xl m-auto">
+      <div className="max-w-5xl mx-auto">
         <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start space-y-10 lg:space-y-0">
           {/* Left Section */}
           <div className="w-full flex-1">
@@ -15,28 +14,23 @@ const Footer = () => {
             />
             <p className="text-gray-400 text-sm mb-6">
               Illuminating pathways to success - Unleashing a world of
-              opportunities, empowering entrepreneurs and driving sustainable
+              opportunities, empowering entrepreneurs, and driving sustainable
               economic growth.
             </p>
-            <div className="relative w-[130%] flex items-center space-x-2">
+            <div className="relative flex items-center">
               <input
                 type="text"
                 placeholder="Subscribe now"
-                className="px-6 py-4 bg-gray-800 rounded-l-md border-none outline-none outline-[3.5px] focus:outine-[8px] focus:outline-blue-900 text-sm w-2/3 rounded-md "
+                className="px-6 py-4 bg-gray-800 rounded-md text-sm w-2/3 border-none outline-none focus:outline-blue-900"
               />
-              <button className="absolute right-[224px] bg-blue-600 px-6 py-[13px] rounded-md text-sm font-medium hover:bg-blue-500 text-white">
+              <button className="absolute right-0 lg:right-[34%] bg-blue-600 px-4 py-[13px] rounded-md text-sm font-medium hover:bg-blue-500 text-white">
                 Subscribe Now
               </button>
             </div>
-            {/* <img
-              src="/ministry-logo.png" // Replace with the appropriate path for the Ministry of Labor logo
-              alt="Ministry of Labor"
-              className="h-10 mt-4"
-            /> */}
           </div>
 
           {/* Right Sections */}
-          <div className="flex-1 grid grid-cols-3 gap-6 text-sm">
+          <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-6 text-sm">
             {/* Customer Service */}
             <div>
               <h4 className="font-semibold mb-6 text-white text-[17px]">
@@ -92,7 +86,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom Section */}
-        <dvi className="absolute bottom-[25%] h-[1.5px] w-[90%] bg-gray-400 left-1/2 transform -translate-x-1/2"></dvi>
+        <div className="absolute phone:bottom-[15%] tablet:bottom-[25%] h-[1.5px] w-[90%] bg-gray-400 left-1/2 transform -translate-x-1/2"></div>
         <div className="mt-8 pt-4 text-center lg:text-left">
           <div className="flex flex-col lg:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
@@ -106,14 +100,13 @@ const Footer = () => {
         </div>
 
         {/* Contact Info */}
-        <div className="z-[1] absolute w-[31%] -top-[80px] right-0 bg-blue-600 p-4 polygon">
-          <div className="pl-12 flex gap-4 items-center">
+        <div className="z-[1] absolute w-[80%] md:w-[50%] lg:w-[31%] -top-[80px] right-0 bg-blue-600 p-4 polygon">
+          <div className="pl-4 md:pl-12 flex gap-4 items-center">
             <IoHeadsetSharp
               size={50}
               color="white"
               className="p-4 bg-black rounded-3xl"
             />
-
             <div className="flex flex-col">
               <p className="text-white text-sm font-medium font-Poppins">
                 Get in touch
@@ -124,7 +117,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className="bg-[#0b1727] z-[0] absolute w-[35%] h-[50px] -top-[50px] right-0 p-4 polygon-1"></div>
+        <div className="bg-[#0b1727] z-[0] absolute w-[90%] md:w-[60%] lg:w-[35%] h-[50px] -top-[50px] right-0 polygon-1"></div>
       </div>
     </footer>
   );
