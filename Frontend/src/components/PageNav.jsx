@@ -23,9 +23,9 @@ function PageNav() {
         py-4 transition-all duration-300 ${isSticky ? "shadow-md" : ""}`}
     >
       {/* Logo */}
-      <div>
+      <NavLink to="/">
         <img src="logo.png" className="h-8 tablet:h-10" alt="Logo" />
-      </div>
+      </NavLink>
 
       {/* Navigation Links */}
       <ul
@@ -40,7 +40,7 @@ function PageNav() {
             duration={500}
             className="before:block before:content-[''] before:absolute before:bottom-[-2px] 
               before:w-full before:h-[2px] before:bg-btn-bg-main before:scale-x-0 
-              group-hover:before:scale-x-100 before:transition-transform duration-300"
+              group-hover:before:scale-x-100 before:transition-transform duration-300 cursor-pointer"
           >
             Home
           </Link>

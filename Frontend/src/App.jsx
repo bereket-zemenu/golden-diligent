@@ -6,12 +6,14 @@ import Login from "./components/Login";
 import Confirmation from "./components/Confirmation";
 import RegistrationForm from "./components/RegistrationForm";
 import OssList from "./components/ossList";
+// import PageNav from "./components/PageNav";
 // import "leaflet/dist/leaflet.css";
 
 function App() {
   return (
     <StoreProvider>
       <div className="relative">
+        {/* <PageNav /> */}
         <Routes>
           {" "}
           <Route path="/" element={<Home />} />

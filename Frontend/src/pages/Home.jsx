@@ -3,7 +3,6 @@ import DownloadSection from "../components/DownloadSection";
 import Footer from "../components/Footer";
 import Gallery from "../components/Gallery";
 import Header from "../components/Header";
-// import AutoSlider from "../components/AutoSlider";
 import InfiniteScroll from "../components/InfiniteScroll";
 import Locations from "../components/Locations";
 import Services from "../components/Services";

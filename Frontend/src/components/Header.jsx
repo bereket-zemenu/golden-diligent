@@ -4,10 +4,6 @@ import { motion } from "framer-motion";
 import { fadeIn } from "../variants";
 import { MdOutlineArrowRightAlt } from "react-icons/md";
 import { FaVideo } from "react-icons/fa";
-// import MySvg from "../assets/images/pic-1.svg";
-
-// import Navbar from "./Navbar";
-// import cube from "../assets/images/cube.png";
 
 function Header() {
   return (
