@@ -48,21 +48,21 @@ function Services() {
         <ServiceCard
           image={icon1}
           bg={bg1}
-          title="website development"
+          title="Job Matching Facility"
           description="Connects job seekers with employers based on skills and requirements, fostering meaningful employment opportunities."
           buttonText="Learn More"
         />
         <ServiceCard
           image={icon2}
           bg={bg2}
-          title="mobile app development"
+          title="Interoperability"
           description="Facilitates seamless data exchange among various stakeholders, enabling comprehensive analysis and collaboration."
           buttonText="Learn More"
         />
         <ServiceCard
           image={icon3}
           bg={bg3}
-          title="software as service"
+          title="Service-Driven Approach"
           description="Offers a comprehensive range of career development services, including online examinations and advisory systems, to support individuals in their professional journey."
           buttonText="Learn More"
         />
@@ -76,14 +76,14 @@ function Services() {
         <ServiceCard
           image={icon5}
           bg={bg5}
-          title="software development training"
+          title="Enhanced Security"
           description="Harnesses the power of AI and statistical tools to forecast labor market trends, empowering policymakers and stakeholders with predictive insights."
           buttonText="Learn More"
         />
         <ServiceCard
           image={icon6}
           bg={bg6}
-          title="software security tasting"
+          title="Future Forecasting"
           description="Provides qualitative and quantitative labor market information for strategic planning and informed decision-making."
           buttonText="Learn More"
         />

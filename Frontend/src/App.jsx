@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import Login from "./components/Login";
 import Confirmation from "./components/Confirmation";
 import RegistrationForm from "./components/RegistrationForm";
-import OssList from "./components/ossList";
+import OssList from "./components/OssList";
 
 function App() {
   return (

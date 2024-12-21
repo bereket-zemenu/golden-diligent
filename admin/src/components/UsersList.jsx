@@ -9,8 +9,10 @@ const UsersList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/user/list");
-        console.log(response); // Debug API response
+        const response = await axios.get(
+          "https://golden-delight-backend.onrender.com/api/user/list"
+        );
+        console.log(response.data); // Debug API response
         setUsers(Array.isArray(response.data.data) ? response.data.data : []); // Safeguard for non-array response
         setLoading(false);
       } catch (err) {
