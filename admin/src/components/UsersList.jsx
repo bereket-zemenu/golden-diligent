@@ -9,7 +9,7 @@ const UsersList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/user/list"); // Replace with your API endpoint
+        const response = await axios.get("https://golden-delight-backend.onrender.com"); // Replace with your API endpoint
         setUsers(response.data.data); // Adjust based on your API response structure
         setLoading(false);
       } catch (err) {
