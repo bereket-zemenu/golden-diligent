@@ -33,19 +33,19 @@ function About() {
       >
         <AboutCard
           image={about1}
-          title="website development"
+          title="service driven"
           description="The Service-Driven Approach (SDA) is focused on services as primary units of value creation, design, development and operation."
           buttonText="Learn More"
         />
         <AboutCard
           image={about2}
-          title="mobile app development"
+          title="Data Generation"
           description="Generation of data in accordance with an AI system that can forecast future demands for human resources in many fields."
           buttonText="Learn More"
         />
         <AboutCard
           image={about3}
-          title="software as service"
+          title="Advanced Plus"
           description="A comprehensive Platform integrating both data and services driven approaches."
           buttonText="Learn More"
         />
