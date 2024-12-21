@@ -64,6 +64,7 @@ const registerUser = async (req, res) => {
   // List of required fields
   const requiredFields = [
     "name",
+    "phone",
     "fatherName",
     "grandFatherName",
     "nickName",
