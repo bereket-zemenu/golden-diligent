@@ -36,7 +36,7 @@ function DownloadSection() {
           alt="Background"
         />
         <div className="z-20 w-full flex flex-col justify-center items-center gap-10 phone:gap-6 py-24 px-6 phone:py-12">
-          <img src="logo.png" className="h-16 phone:w-20" alt="Logo" />
+          <img src="logo.png" className="h-16 phone:w-32" alt="Logo" />
           <h1 className="text-[#FFFFFFB3] opacity-[0.7] text-4xl phone:text-2xl mdphone:text-3xl text-center leading-tight font-bold max-w-xl">
             Download, Register, discover tailored job offers
           </h1>
