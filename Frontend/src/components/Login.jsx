@@ -262,14 +262,14 @@ const Login = () => {
 
   return (
     <div className="flex h-screen bg-gray-100 phone:w-full">
-      <div className="relative w-full phone:w-[95%] mdphone:w-[90%] ptab:w-[85%] tablet:w-[75%] laptop:w-[63%] h-[90%] m-auto flex gap-2">
+      <div className="relative w-full smPhone:w-[80%] phone:w-[95%] mdphone:w-[90%] ptab:w-[85%] tablet:w-[75%] laptop:w-[63%] smPhone:h-[100%] phone:h-[100%] tablet:h-[90%] m-auto flex gap-2">
         {/* Left Section */}
-        <div className="relative w-full px-4 mx-auto">
+        <div className="relative w-full h-full px-2 mx-auto">
           <div
             className={`z-[10] absolute h-full w-full laptop:w-1/2 bg-white flex flex-col items-center p-4 ptab:p-6 tablet:p-8 pt-4 rounded-lg shadow-md ${
               move
-                ? "phone:translate-x-0 transform laptop:translate-x-full transition-all duration-1000 ml-2"
-                : "transform translate-x-0 transition-all duration-1000 -ml-2"
+                ? "phone:translate-x-0 transform laptop:translate-x-full transition-all duration-1000 phone:ml-0 tablet:ml-2"
+                : "transform translate-x-0 transition-all duration-1000 phone:ml-0 tablet:-ml-2"
             }`}
           >
             {currState === "Login" && (
@@ -335,7 +335,7 @@ const Login = () => {
               {step === 1 && (
                 <>
                   <div>
-                    <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                    <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                       {/* Input Field */}
                       <input
                         name="email"
@@ -385,7 +385,7 @@ const Login = () => {
                       )}
                     </div>
                     {currState === "signUp" ? (
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {/* Input Field */}
                         <input
                           name="name"
@@ -403,7 +403,7 @@ const Login = () => {
                           id="name"
                           placeholder=" "
                           required
-                          className="relative peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="relative peer z-1 smPhone:w-[70%] smPhone:ml-4 phone:ml-0 phone:w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
 
                         {/* Floating Label */}
@@ -423,7 +423,7 @@ const Login = () => {
                     )}
 
                     {currState === "signUp" && (
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         <div className="flex items-center gap-2">
                           <input
                             name="phone"
@@ -476,7 +476,7 @@ const Login = () => {
 
                     {/* Phone Input */}
                     {currState === "signUp" && (
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         <div className="flex items-center gap-2">
                           {/* {currState === "signUp" && <FlagImoji countryCode="ET" />} */}
                           <input
@@ -520,7 +520,7 @@ const Login = () => {
 
                   {/* Password Input */}
 
-                  <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                  <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                     {isOpen ? (
                       <HiEye
                         size={15}
@@ -564,7 +564,7 @@ const Login = () => {
 
                   {/* Confirm Password Input */}
                   {currState === "signUp" && (
-                    <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                    <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                       {isConfirmOpen ? (
                         <HiEye
                           size={15}
@@ -613,12 +613,12 @@ const Login = () => {
                   )}
 
                   {/* Submit Button */}
-                  <p className="phone:text-center tablet:text-right text-[10px] text-blue-800">
+                  <p className="phone:text-center phone:pr-10 tablet:pr-0 tablet:text-right text-[10px] text-blue-800">
                     Forgot Password?
                   </p>
 
                   {currState === "signUp" ? (
-                    <div className="absolute bottom-6 right-12 ">
+                    <div className="absolute phone:bottom-2 tablet:bottom-6 right-12 ">
                       <button
                         type="button"
                         onClick={onNext}
@@ -642,7 +642,7 @@ const Login = () => {
                 <>
                   {currState === "signUp" ? (
                     <div>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {/* Input Field */}
                         <input
                           name="grandFatherName"
@@ -681,7 +681,7 @@ const Login = () => {
                           Grand Father Name/ የአያት ስም
                         </label>
                       </div>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         <div className="flex items-center gap-2">
                           <input
                             name="nickName"
@@ -768,7 +768,7 @@ const Login = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         <div className="flex items-center gap-2">
                           <input
                             name="dateOfBirth"
@@ -810,7 +810,7 @@ const Login = () => {
                     </div>
                   ) : (
                     <>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {/* Input Field */}
                         <input
                           name="email"
@@ -843,7 +843,7 @@ const Login = () => {
                           Email
                         </label>
                       </div>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {isOpen ? (
                           <HiEye
                             size={15}
@@ -933,7 +933,7 @@ const Login = () => {
                         </h1>
 
                         {/* Phone Input */}
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <div className="flex items-center gap-2">
                             <input
                               name="region"
@@ -976,7 +976,7 @@ const Login = () => {
                       {/* Password Input */}
 
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="zone"
                             onChange={onChangeHandler}
@@ -1007,7 +1007,7 @@ const Login = () => {
                         </div>
                       )}
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="wereda"
                             onChange={onChangeHandler}
@@ -1038,7 +1038,7 @@ const Login = () => {
                         </div>
                       )}
                       {currState === "signUp" ? (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           {/* Input Field */}
                           <input
                             name="city"
@@ -1075,7 +1075,7 @@ const Login = () => {
                         ""
                       )}
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="kebele"
                             onChange={(e) =>
@@ -1137,7 +1137,7 @@ const Login = () => {
                     </>
                   ) : (
                     <>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {/* Input Field */}
                         <input
                           name="email"
@@ -1170,7 +1170,7 @@ const Login = () => {
                           Email
                         </label>
                       </div>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {isOpen ? (
                           <HiEye
                             size={15}
@@ -1239,7 +1239,7 @@ const Login = () => {
                           PLACE OF BIRTH /IF IT IS ABROAD/
                         </h1>
                         {currState === "signUp" ? (
-                          <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                          <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                             {/* Input Field */}
                             <input
                               name="country"
@@ -1276,7 +1276,7 @@ const Login = () => {
                         )}
 
                         {/* Phone Input */}
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <div className="flex items-center gap-2">
                             <input
                               name="address"
@@ -1318,7 +1318,7 @@ const Login = () => {
                       {/* Password Input */}
 
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="abroadCity"
                             onChange={(e) =>
@@ -1350,7 +1350,7 @@ const Login = () => {
                         </div>
                       )}
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="state"
                             onChange={(e) =>
@@ -1382,7 +1382,7 @@ const Login = () => {
                         </div>
                       )}
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="zipCode"
                             onChange={(e) =>
@@ -1438,7 +1438,7 @@ const Login = () => {
                     </>
                   ) : (
                     <>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {/* Input Field */}
                         <input
                           name="email"
@@ -1471,7 +1471,7 @@ const Login = () => {
                           Email
                         </label>
                       </div>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {isOpen ? (
                           <HiEye
                             size={15}
@@ -1539,13 +1539,13 @@ const Login = () => {
                     <>
                       {currState === "signUp" && (
                         <div>
-                          <h3 className="font-semibold text-sm mb-2 uppercase">
+                          <h3 className="font-semibold text-sm mb-2 uppercase ml-8">
                             Nationality
                           </h3>
 
                           {/* Former Nationality */}
                           <div className="mb-2">
-                            <label className="block font-medium mb-1 text-sm">
+                            <label className="block font-medium mb-1 text-sm ml-8">
                               ሀ. ቀድሞው /{" "}
                               <span className="text-gray-500">FORMER</span>
                             </label>
@@ -1571,7 +1571,7 @@ const Login = () => {
                                   }}
                                   placeholder={`${index + 1}`}
                                   required
-                                  className="w-full border border-blue-300 rounded-sm px-2 py-[2x] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="phone:w-[80%] tablet:w-full mx-auto border border-blue-300 rounded-sm px-2 py-[2x] focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
                               ))}
                             </div>
@@ -1579,7 +1579,7 @@ const Login = () => {
 
                           {/* Present Nationality */}
                           <div className="mb-2">
-                            <label className="block font-medium mb-1 text-sm">
+                            <label className="block font-medium mb-1 text-sm ml-8">
                               ለ. አሁን /{" "}
                               <span className="text-gray-500">PRESENT</span>
                             </label>
@@ -1605,15 +1605,15 @@ const Login = () => {
                                     });
                                   }}
                                   placeholder={`${index + 1}`}
-                                  className="w-full border border-blue-300 rounded-sm px-2 py-[2px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                  className="phone:w-[80%] tablet:w-full mx-auto border border-blue-300 rounded-sm px-2 py-[2px] focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
                               ))}
                             </div>
                           </div>
 
                           {/* Ethnic Group */}
-                          <div className="mb-2 ">
-                            <label className="block font-medium mb-1 text-sm">
+                          <div className="mb-2">
+                            <label className="block font-medium mb-1 text-sm ml-8">
                               ሐ. ብሄር/ብሄረሰብ{" "}
                               <span className="text-gray-500">
                                 /ETHNIC GROUP
@@ -1629,7 +1629,7 @@ const Login = () => {
                                 })
                               }
                               placeholder="Ethnic Group"
-                              className="w-full border border-blue-300 rounded-sm px-2 py-[2px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              className="phone:w-[80%] tablet:w-full phone:ml-8 tablet:ml-0 border border-blue-300 rounded-sm px-2 py-[2px] focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
                           </div>
 
@@ -1640,11 +1640,11 @@ const Login = () => {
                       {/* Password Input */}
 
                       {/* Submit Button */}
-                      <p className="text-right text-[10px] text-blue-800">
+                      <p className="text-right phone:text-center text-[10px] text-blue-800">
                         Forgot Password?
                       </p>
 
-                      <div className="w-[75%] absolute bottom-6 right-12 flex justify-between">
+                      <div className="w-[75%] absolute phone:bottom-2 tablet:bottom-6 right-12 flex justify-between">
                         <button
                           type="button"
                           onClick={onPrevious}
@@ -1663,7 +1663,7 @@ const Login = () => {
                     </>
                   ) : (
                     <>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {/* Input Field */}
                         <input
                           name="email"
@@ -1696,7 +1696,7 @@ const Login = () => {
                           Email
                         </label>
                       </div>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {isOpen ? (
                           <HiEye
                             size={15}
@@ -1762,7 +1762,7 @@ const Login = () => {
                 <>
                   {currState === "signUp" ? (
                     <>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         <input
                           name="height"
                           onChange={(e) =>
@@ -1796,7 +1796,7 @@ const Login = () => {
 
                       {/* Confirm Password Input */}
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="colorOfEyes"
                             onChange={(e) =>
@@ -1831,7 +1831,7 @@ const Login = () => {
                       )}
 
                       {currState === "signUp" ? (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           {/* Input Field */}
                           <input
                             name="colorOfHair"
@@ -1869,7 +1869,7 @@ const Login = () => {
                         ""
                       )}
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="specialMark"
                             onChange={(e) =>
@@ -1929,7 +1929,7 @@ const Login = () => {
                     </>
                   ) : (
                     <>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {/* Input Field */}
                         <input
                           name="email"
@@ -1962,7 +1962,7 @@ const Login = () => {
                           Email
                         </label>
                       </div>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {isOpen ? (
                           <HiEye
                             size={15}
@@ -2031,7 +2031,7 @@ const Login = () => {
                         {" "}
                         APPLICANT&apos;S FORMER ETHIOPIAN PASSPORT{" "}
                       </h1>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         <div className="flex items-center gap-2">
                           <input
                             name="passportNo"
@@ -2082,7 +2082,7 @@ const Login = () => {
                       </div>
 
                       {/* Password Input */}
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         <input
                           name="passportPlace"
                           onChange={onChangeHandler}
@@ -2115,7 +2115,7 @@ const Login = () => {
 
                       {/* Confirm Password Input */}
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="passportDate"
                             onChange={onChangeHandler}
@@ -2147,7 +2147,7 @@ const Login = () => {
                         </div>
                       )}
                       {currState === "signUp" ? (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           {/* Input Field */}
                           <input
                             name="passportRenewal"
@@ -2196,7 +2196,7 @@ const Login = () => {
 
                       <div>
                         {currState === "signUp" ? (
-                          <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                          <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                             {/* Input Field */}
                             <input
                               name="passportAuthority"
@@ -2279,7 +2279,7 @@ const Login = () => {
                     </>
                   ) : (
                     <>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {/* Input Field */}
                         <input
                           name="email"
@@ -2312,7 +2312,7 @@ const Login = () => {
                           Email
                         </label>
                       </div>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {isOpen ? (
                           <HiEye
                             size={15}
@@ -2381,7 +2381,7 @@ const Login = () => {
                         Birth Cirtification
                       </h1>
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="certificationNumber"
                             onChange={(e) => {
@@ -2435,7 +2435,7 @@ const Login = () => {
                         </div>
                       )}
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="certificationPlace"
                             onChange={(e) =>
@@ -2478,7 +2478,7 @@ const Login = () => {
                         </div>
                       )}
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="certificationDate"
                             onChange={(e) =>
@@ -2521,7 +2521,7 @@ const Login = () => {
                         </div>
                       )}
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="certificationIssuingAuthority"
                             onChange={(e) =>
@@ -2564,7 +2564,7 @@ const Login = () => {
                         </div>
                       )}
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="certificationExpiry"
                             onChange={(e) =>
@@ -2640,7 +2640,7 @@ const Login = () => {
                     </>
                   ) : (
                     <>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {/* Input Field */}
                         <input
                           name="email"
@@ -2673,7 +2673,7 @@ const Login = () => {
                           Email
                         </label>
                       </div>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {isOpen ? (
                           <HiEye
                             size={15}
@@ -2743,7 +2743,7 @@ const Login = () => {
                         APPLICABLE)
                       </h1>
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="documentType"
                             onChange={(e) =>
@@ -2776,7 +2776,7 @@ const Login = () => {
                         </div>
                       )}
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="documentNumber"
                             onChange={(e) => {
@@ -2820,7 +2820,7 @@ const Login = () => {
                         </div>
                       )}
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="documentPlace"
                             onChange={(e) =>
@@ -2857,7 +2857,7 @@ const Login = () => {
                       )}
 
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="documentDate"
                             onChange={(e) =>
@@ -2891,7 +2891,7 @@ const Login = () => {
                       )}
 
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="documentAuthority"
                             onChange={(e) =>
@@ -2934,7 +2934,7 @@ const Login = () => {
                       )}
 
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="documentExpiry"
                             onChange={onChangeHandler}
@@ -3001,7 +3001,7 @@ const Login = () => {
                     </>
                   ) : (
                     <>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {/* Input Field */}
                         <input
                           name="email"
@@ -3034,7 +3034,7 @@ const Login = () => {
                           Email
                         </label>
                       </div>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {isOpen ? (
                           <HiEye
                             size={15}
@@ -3261,7 +3261,7 @@ const Login = () => {
                     </>
                   ) : (
                     <>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {/* Input Field */}
                         <input
                           name="email"
@@ -3294,7 +3294,7 @@ const Login = () => {
                           Email
                         </label>
                       </div>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {isOpen ? (
                           <HiEye
                             size={15}
@@ -3365,7 +3365,7 @@ const Login = () => {
                         DOCUMENT IDENTIFYING THE ASCENDANT
                       </h1>
                       <div>
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <div className="flex items-center gap-2">
                             <input
                               name="famillyDocumentNumber"
@@ -3429,7 +3429,7 @@ const Login = () => {
                       </div>
 
                       {/* Password Input */}
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         <input
                           name="famillyDocumentPlace"
                           onChange={(e) =>
@@ -3473,7 +3473,7 @@ const Login = () => {
 
                       {/* Confirm Password Input */}
                       {currState === "signUp" && (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="famillyDocumentDate"
                             onChange={(e) =>
@@ -3517,7 +3517,7 @@ const Login = () => {
                       )}
 
                       {currState === "signUp" ? (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           {/* Input Field */}
                           <input
                             name="famillyDocumentAuthority"
@@ -3564,7 +3564,7 @@ const Login = () => {
                         ""
                       )}
                       {currState === "signUp" ? (
-                        <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                        <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           {/* Input Field */}
                           <input
                             name="famillyDocumentExpiry"
@@ -3639,7 +3639,7 @@ const Login = () => {
                     </>
                   ) : (
                     <>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {/* Input Field */}
                         <input
                           name="email"
@@ -3672,7 +3672,7 @@ const Login = () => {
                           Email
                         </label>
                       </div>
-                      <div className="relative phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
+                      <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         {isOpen ? (
                           <HiEye
                             size={15}
