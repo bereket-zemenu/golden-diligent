@@ -10,7 +10,7 @@ const ServiceCard = ({ title, description, buttonText, image, bg }) => {
             <img src={image} alt={title} className="h-[50px] w-[50px]" />
           </div>
         </div>
-        <h2 className="capitalize text-primary group-hover:text-tertiary font-colasta text-primary text-lg font-semibold mb-2 text-left">
+        <h2 className="font-Poppins capitalize text-primary group-hover:text-tertiary font-colasta text-primary text-lg font-semibold mb-2 text-left">
           {title}
         </h2>
         <p className="text-secondary text-[#63757CCC] group-hover:text-tertiary text-[13px] mb-4 text-left py-2">
