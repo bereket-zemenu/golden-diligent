@@ -9,12 +9,10 @@ const UsersList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("https://golden-delight-backend.onrender.com");
-        console.log(response.data); // Debug API response
-        setUsers(response.data.data || []); // Ensure users is always an array
+        const response = await axios.get("https://golden-delight-backend.onrender.com"); // Replace with your API endpoint
+        setUsers(response.data.data); // Adjust based on your API response structure
         setLoading(false);
       } catch (err) {
-        console.error(err); // Log the error
         setError(err.message);
         setLoading(false);
       }
@@ -28,14 +26,6 @@ const UsersList = () => {
     return (
       <div className="text-center text-xl text-red-500">Error: {error}</div>
     );
-
-  if (!Array.isArray(users) || users.length === 0) {
-    return (
-      <div className="text-center text-gray-500">
-        No users found. Please check back later.
-      </div>
-    );
-  }
 
   return (
     <div className="p-6 pt-24 max-w-7xl m-auto">
@@ -66,9 +56,9 @@ const UsersList = () => {
                           .toISOString()
                           .split("T")[0]
                           .replace(/-/g, "/")
-                          .slice(2)
+                          .slice(2) // Format date to yy/mm/dd
                       : Array.isArray(value)
-                      ? value.join(", ")
+                      ? value.join(", ") // Handle array fields
                       : value?.toString() || "-"}
                   </span>
                 </div>
