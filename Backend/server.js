@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, "../Frontend/dist")));
 // Catch-all route to serve the React index.html file for any route
 // Handle React routing, return all requests to React's index.html
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../Frontend/dist/index.html"));
+  res.sendFile(path.join(__dirname, "../Frontend/index.html"));
 });
 
 // Start the server
