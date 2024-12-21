@@ -10,7 +10,7 @@ const UsersList = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get("https://golden-delight-backend.onrender.com"); // Replace with your API endpoint
-        setUsers(response.data.data); // Adjust based on your API response structure
+        setUsers(Array.isArray(response.data.data) ? response.data.data : []); // Safeguard for non-array response
         setLoading(false);
       } catch (err) {
         setError(err.message);
