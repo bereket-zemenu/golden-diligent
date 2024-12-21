@@ -21,7 +21,7 @@ app.use("/api/user", userRouter);
 
 // Serve static files from the React build directory
 const __dirname = path.resolve();  // This emulates __dirname in ES Modules
-app.use(express.static(path.join(__dirname, "../Frontend/dist")));
+app.use(express.static(path.join(__dirname, "../Frontend/")));
 
 // Catch-all route to serve the React index.html file for any route
 // Handle React routing, return all requests to React's index.html
