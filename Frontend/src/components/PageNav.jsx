@@ -32,7 +32,7 @@ function PageNav() {
         className={`hidden tablet:flex gap-6 laptop:gap-10 items-center transition-all duration-300`}
       >
         <li className="group relative font-bold text-gray-500 hover:text-[#000080] capitalize">
-          <Link
+          <NavLink
             to="/"
             spy={true}
             smooth={true}
@@ -43,7 +43,7 @@ function PageNav() {
               group-hover:before:scale-x-100 before:transition-transform duration-300 cursor-pointer"
           >
             Home
-          </Link>
+          </NavLink>
         </li>
         <li className="group relative font-bold text-gray-500 hover:text-[#000080] capitalize">
           <Link
