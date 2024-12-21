@@ -9,6 +9,7 @@ function StoreProvider({ children }) {
   const [move, setMove] = useState(false);
   const [currState, setCurrState] = useState("Login");
   const [token, setToken] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const url = "http://localhost:4000";
 
   console.log(isOpen);
@@ -30,6 +31,8 @@ function StoreProvider({ children }) {
         token,
         setToken,
         url,
+        isMenuOpen,
+        setIsMenuOpen,
       }}
     >
       {children}

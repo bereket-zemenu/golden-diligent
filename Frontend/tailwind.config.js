@@ -16,6 +16,7 @@ export default {
         "footer-image": "url('./assets/images/ethio.png')",
       },
       screens: {
+        smPhone: "100px",
         phone: "320px",
         // => @media (min-width: 640px) { ... }
         mdphone: "400px",

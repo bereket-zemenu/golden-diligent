@@ -1,7 +1,7 @@
 // import { StoreProvider } from "./contexts/storeContext";
 import { Route, Routes } from "react-router-dom";
 import { StoreProvider } from "./contexts/storeContext";
-import Home from "./pages/home";
+import Home from "./pages/Home";
 import Login from "./components/Login";
 import Confirmation from "./components/Confirmation";
 import RegistrationForm from "./components/RegistrationForm";
@@ -11,7 +11,6 @@ function App() {
   return (
     <StoreProvider>
       <div className="relative">
-        {/* <PageNav /> */}
         <Routes>
           {" "}
           <Route path="/" element={<Home />} />

@@ -3,6 +3,7 @@ import { useState } from "react";
 import CustomDropdown from "./CustomDropdown";
 import LocationCard from "./LocationCard";
 import PageNav from "./PageNav";
+import MobileMenu from "./MobileMenu";
 
 const data = [
   {
@@ -126,8 +127,10 @@ const OssList = () => {
   // const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <>
+    <div className="relative">
       <PageNav />
+      <MobileMenu />
+
       <div className="p-8 pt-36">
         {/* Header */}
         <h1 className="text-3xl font-bold text-center mb-4">
@@ -209,7 +212,7 @@ const OssList = () => {
           </nav>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
