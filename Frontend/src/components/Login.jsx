@@ -539,7 +539,9 @@ const Login = () => {
 
                     <input
                       name="password"
-                      onChange={onChangeHandler}
+                      onChange={(e) =>
+                          setData({ ...data, password: e.target.value })
+                        }
                       onFocus={() => handleFocusChange("isPassFocused", true)}
                       onBlur={() => handleFocusChange("isPassFocused", false)}
                       value={data.password}
@@ -583,7 +585,9 @@ const Login = () => {
 
                       <input
                         name="confirmpassword"
-                        onChange={onChangeHandler}
+                         onChange={(e) =>
+                          setData({ ...data, confirmPassword: e.target.value })
+                        }
                         onFocus={() =>
                           handleFocusChange("isConfirmPassFocused", true)
                         }
@@ -979,7 +983,9 @@ const Login = () => {
                         <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="zone"
-                            onChange={onChangeHandler}
+                             onChange={(e) =>
+                          setData({ ...data, zone: e.target.value })
+                        }
                             onFocus={() =>
                               handleFocusChange("isZoneFocused", true)
                             }
@@ -1010,7 +1016,9 @@ const Login = () => {
                         <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="wereda"
-                            onChange={onChangeHandler}
+                             onChange={(e) =>
+                          setData({ ...data, wereda: e.target.value })
+                        }
                             onFocus={() =>
                               handleFocusChange("isWeredaFocused", true)
                             }
@@ -1189,7 +1197,9 @@ const Login = () => {
 
                         <input
                           name="password"
-                          onChange={onChangeHandler}
+                           onChange={(e) =>
+                          setData({ ...data, password: e.target.value })
+                        }
                           onFocus={() =>
                             handleFocusChange("isPassFocused", true)
                           }
@@ -2085,7 +2095,9 @@ const Login = () => {
                       <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         <input
                           name="passportPlace"
-                          onChange={onChangeHandler}
+                           onChange={(e) =>
+                          setData({ ...data, pssportPlace: e.target.value })
+                        }
                           onFocus={() =>
                             handleFocusChange("isPassportPlaceFocused", true)
                           }
@@ -2118,7 +2130,9 @@ const Login = () => {
                         <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="passportDate"
-                            onChange={onChangeHandler}
+                             onChange={(e) =>
+                          setData({ ...data, passportDate: e.target.value })
+                        }
                             onFocus={() =>
                               handleFocusChange("isPassportDateFocused", true)
                             }
@@ -2937,7 +2951,9 @@ const Login = () => {
                         <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="documentExpiry"
-                            onChange={onChangeHandler}
+                             onChange={(e) =>
+                          setData({ ...data, documentExpiry: e.target.value })
+                        }
                             onFocus={() =>
                               handleFocusChange("isDocumentExpiryFocused", true)
                             }
