@@ -665,7 +665,7 @@ const Login = () => {
                           id="grandFatherName"
                           placeholder=" "
                           required
-                          className="peer z-10 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
 
                         {/* Floating Label */}
@@ -701,7 +701,7 @@ const Login = () => {
                             id="nickName"
                             placeholder=" "
                             required
-                            className="peer z-10 w-full py-2 pl-[20px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="peer z-1 w-full py-2 pl-[20px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                           />
 
                           {/* Floating Label */}
@@ -788,7 +788,7 @@ const Login = () => {
                             id="dateOfBirth"
                             placeholder=" "
                             required
-                            className="peer z-10 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                           />
 
                           {/* Floating Label */}
@@ -953,7 +953,7 @@ const Login = () => {
                               id="region"
                               placeholder=" "
                               required
-                              className="peer z-10 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              className="peer z-1 w-full py-2 px-3 pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
 
                             {/* Floating Label */}
@@ -981,7 +981,9 @@ const Login = () => {
                         <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="zone"
-                            onChange={onChangeHandler}
+                             onChange={(e) =>
+                          setData({ ...data, zone: e.target.value })
+                        }
                             onFocus={() =>
                               handleFocusChange("isZoneFocused", true)
                             }
@@ -1012,7 +1014,9 @@ const Login = () => {
                         <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="wereda"
-                            onChange={onChangeHandler}
+                             onChange={(e) =>
+                          setData({ ...data, wereda: e.target.value })
+                        }
                             onFocus={() =>
                               handleFocusChange("isWeredaFocused", true)
                             }
@@ -1191,7 +1195,9 @@ const Login = () => {
 
                         <input
                           name="password"
-                          onChange={onChangeHandler}
+                           onChange={(e) =>
+                          setData({ ...data, password: e.target.value })
+                        }
                           onFocus={() =>
                             handleFocusChange("isPassFocused", true)
                           }
@@ -1295,7 +1301,7 @@ const Login = () => {
                               type="text"
                               id="address"
                               placeholder=" "
-                              className="peer z-10 w-full py-2 pl-[15px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              className="peer z-1 w-full py-2 pl-[15px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
 
                             {/* Floating Label */}
@@ -2057,7 +2063,7 @@ const Login = () => {
                             id="passportNo"
                             placeholder=" "
                             required
-                            className="peer z-10 w-full py-2 pl-[10px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="peer z-1 w-full py-2 pl-[10px] pr-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                           />
 
                           {/* Floating Label */}
@@ -2087,7 +2093,9 @@ const Login = () => {
                       <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                         <input
                           name="passportPlace"
-                          onChange={onChangeHandler}
+                           onChange={(e) =>
+                          setData({ ...data, pssportPlace: e.target.value })
+                        }
                           onFocus={() =>
                             handleFocusChange("isPassportPlaceFocused", true)
                           }
@@ -2099,7 +2107,7 @@ const Login = () => {
                           id="passportPlace"
                           placeholder=" "
                           required
-                          className="relative z-10 peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="relative z-1 peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
 
                         <label
@@ -2120,7 +2128,9 @@ const Login = () => {
                         <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="passportDate"
-                            onChange={onChangeHandler}
+                             onChange={(e) =>
+                          setData({ ...data, passportDate: e.target.value })
+                        }
                             onFocus={() =>
                               handleFocusChange("isPassportDateFocused", true)
                             }
@@ -2939,7 +2949,9 @@ const Login = () => {
                         <div className="relative smPhone:w-[80%] phone:w-[95%] tablet:w-full pl-4 z-1 mb-4">
                           <input
                             name="documentExpiry"
-                            onChange={onChangeHandler}
+                             onChange={(e) =>
+                          setData({ ...data, documentExpiry: e.target.value })
+                        }
                             onFocus={() =>
                               handleFocusChange("isDocumentExpiryFocused", true)
                             }
@@ -3181,7 +3193,7 @@ const Login = () => {
                           id="familyName"
                           placeholder=" "
                           required
-                          className="relative z-10 peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="relative z-1 peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         <label
                           htmlFor="familyName"
@@ -3228,7 +3240,7 @@ const Login = () => {
                           id="famillyDocumentType"
                           placeholder=" "
                           required
-                          className="relative z-10 peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="relative z-1 peer z-1 w-full py-2 px-3 border border-blue-500 rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         <label
                           htmlFor="famillyDocumentType"
