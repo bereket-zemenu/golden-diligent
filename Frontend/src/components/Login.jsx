@@ -2094,7 +2094,7 @@ const Login = () => {
                         <input
                           name="passportPlace"
                            onChange={(e) =>
-                          setData({ ...data, pssportPlace: e.target.value })
+                          setData({ ...data, passportPlace: e.target.value })
                         }
                           onFocus={() =>
                             handleFocusChange("isPassportPlaceFocused", true)
@@ -3183,10 +3183,10 @@ const Login = () => {
                             setData({ ...data, familyName: e.target.value })
                           }
                           onFocus={() =>
-                            handleFocusChange("isFamillyNameFocused", true)
+                            handleFocusChange("isFamilyNameFocused", true)
                           }
                           onBlur={() =>
-                            handleFocusChange("isFamillyNameFocused", false)
+                            handleFocusChange("isFamilyNameFocused", false)
                           }
                           value={data.familyName}
                           type="text"
