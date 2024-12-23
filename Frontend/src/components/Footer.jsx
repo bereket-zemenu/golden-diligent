@@ -90,7 +90,7 @@ const Footer = () => {
         <div className="mt-8 pt-4 text-center lg:text-left">
           <div className="flex flex-col lg:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
-              &copy; 2024 E-LMIS. All rights reserved.
+              &copy; 2024 GOLDEN DILIGENT. All rights reserved.
             </p>
             <div className="space-x-4 text-sm text-gray-400">
               <a href="#">Terms & conditions</a>
@@ -112,7 +112,7 @@ const Footer = () => {
                 Get in touch
               </p>
               <p className="text-white text-lg font-bold font-Poppins">
-                +251916163516
+                0968247189
               </p>
             </div>
           </div>

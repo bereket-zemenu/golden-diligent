@@ -20,7 +20,7 @@ function PageNav() {
     >
       {/* Logo */}
       <div className="pl-10">
-        <img src="logo.png" className="h-8 tablet:h-32" alt="Logo" />
+        <img src="logo.png" className="h-8 tablet:h-10" alt="Logo" />
       </div>
     </div>
   );

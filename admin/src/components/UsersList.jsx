@@ -1,87 +1,84 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const UsersList = () => {
-  const [users, setUsers] = useState([]); // Default to an empty array
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+const UserList = () => {
+  const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        setLoading(true); // Set loading to true at the start
-        const response = await axios.get(
-          "https://golden-delight-backend.onrender.com/api/user/list"
-        );
-        console.log(response.data); // Debug API response
-        setUsers(Array.isArray(response.data.data) ? response.data.data : []); // Safeguard for non-array response
-      } catch (err) {
-        console.error(
-          "Error fetching users:",
-          err.response?.data || err.message
-        );
-        setError(err.message);
-      } finally {
-        setLoading(false); // Set loading to false after the request completes
-      }
-    };
-
-    fetchUsers();
+    axios
+      .get("http://localhost:4000/api/user/list")
+      .then((response) => {
+        if (response.data.success) {
+          setUsers(response.data.data); // Access the correct 'data' array
+        } else {
+          console.error("API responded with success: false");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
   }, []);
 
-  if (loading) return <div className="text-center text-xl">Loading...</div>;
-  if (error)
-    return (
-      <div className="text-center text-xl text-red-500">Error: {error}</div>
-    );
+  const handleRowClick = (userId) => {
+    navigate(`/user-details?id=${userId}`);
+  };
 
   return (
-    <div className="p-6 pt-24 max-w-7xl m-auto">
-      <h1 className="text-2xl font-semibold mb-4 text-gray-600 font-Poppins">
+    <div className="p-4 mt-20">
+      <h1 className="text-2xl font-bold mb-6 text-center text-blue-500 font-Poppins">
         User List
       </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {Array.isArray(users) && users.length > 0 ? (
-          users.map((user, userIndex) => (
-            <div
-              key={user._id || userIndex}
-              className="border border-gray-300 rounded-lg p-4 shadow-sm"
-            >
-              {Object.entries(user)
-                .filter(
-                  ([key]) =>
-                    !["_id", "password", "confirmpassword", "__v"].includes(key) // Exclude sensitive fields
-                )
-                .map(([key, value]) => (
-                  <div
-                    key={key}
-                    className="flex justify-between py-2 border-b last:border-b-0"
-                  >
-                    <span className="font-medium text-gray-700 text-sm">
-                      {key.replace(/([A-Z])/g, " $1").toUpperCase()}:
-                    </span>
-                    <span className="text-gray-600">
-                      {value instanceof Date ||
-                      /^\d{4}-\d{2}-\d{2}T/.test(value)
-                        ? new Date(value)
-                            .toISOString()
-                            .split("T")[0]
-                            .replace(/-/g, "/")
-                            .slice(2)
-                        : Array.isArray(value)
-                        ? value.join(", ")
-                        : value?.toString() || "-"}
-                    </span>
-                  </div>
-                ))}
-            </div>
-          ))
-        ) : (
-          <div className="text-center text-gray-500">No users found.</div>
-        )}
+      <div className="w-[85%] m-auto overflow-x-auto rounded-lg border border-gray-200 shadow-md">
+        <table className="w-full m-auto border-collapse text-sm text-left">
+          <thead className="bg-gray-100 text-gray-700">
+            <tr>
+              <th className="p-2 smPhone:p-1 phone:p-2 border">Name</th>
+              <th className="p-2 smPhone:p-1 phone:p-2 border">Email</th>
+              <th className="p-2 smPhone:p-1 phone:p-2 border">Phone</th>
+              <th className="p-2 smPhone:hidden phone:hidden ptab:table-cell border">
+                Address
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.length > 0 ? (
+              users.map((user) => (
+                <tr
+                  key={user._id}
+                  className="cursor-pointer hover:bg-gray-100 transition"
+                  onClick={() => handleRowClick(user._id)}
+                >
+                  <td className="p-2 smPhone:p-1 phone:p-2 border">
+                    {user.name || "N/A"}
+                  </td>
+                  <td className="p-2 smPhone:p-1 phone:p-2 border">
+                    {user.email || "N/A"}
+                  </td>
+                  <td className="p-2 smPhone:p-1 phone:p-2 border">
+                    {user.phone || "N/A"}
+                  </td>
+                  <td className="p-2 smPhone:hidden phone:hidden ptab:table-cell border">
+                    {user.address || "N/A"}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td
+                  colSpan="5"
+                  className="text-center p-6 text-gray-500 smPhone:p-4"
+                >
+                  No users found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );
 };
 
-export default UsersList;
+export default UserList;

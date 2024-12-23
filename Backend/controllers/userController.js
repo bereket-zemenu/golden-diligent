@@ -48,7 +48,7 @@ const sendOTPEmail = async (email, otp) => {
   });
 
   const mailOptions = {
-    from: "kgemechu908@gmail.com",
+    from: "Goldendiligent1@gmail.com",
     to: email,
     subject: "Your OTP Code",
     text: `Your OTP for registration is: ${otp}`,
@@ -221,6 +221,23 @@ const usersList = async (req, res) => {
     res.json({ success: false, mesage: error });
   }
 };
+const userDetail = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const user = await userModel.findById(userId).select("-password"); // Exclude password field
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    res.json({ success: true, data: user });
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
 
 const getUserCount = async (req, res) => {
   try {
@@ -233,4 +250,11 @@ const getUserCount = async (req, res) => {
   }
 };
 
-export { registerUser, verifyOTP, loginUser, usersList, getUserCount };
+export {
+  registerUser,
+  verifyOTP,
+  loginUser,
+  usersList,
+  userDetail,
+  getUserCount,
+};
