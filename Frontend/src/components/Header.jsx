@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { fadeIn } from "../variants";
 import { MdOutlineArrowRightAlt } from "react-icons/md";
 import { FaVideo } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
 function Header() {
   return (
@@ -50,10 +51,13 @@ function Header() {
           viewport={{ once: false, amount: 0.7 }}
           className="relative z-[999] flex flex-col phone:flex-row gap-4 mt-6 tablet:mt-8 laptop:mt-10"
         >
-          <button className="flex items-center justify-center gap-2 bg-[#000080] opacity-[0.6] px-6 py-2 rounded-lg text-sm mdphone:text-base">
+          <NavLink
+            to="/auth"
+            className="flex items-center justify-center gap-2 bg-[#000080] hover:bg-opacity-[0.8] opacity-[0.6] px-6 py-2 rounded-lg text-sm mdphone:text-base"
+          >
             <p className="text-white font-semibold">Register</p>
             <MdOutlineArrowRightAlt color="white" size={20} />
-          </button>
+          </NavLink>
           <button className="flex items-center gap-2 bg-[#2289FF]/15 px-4 py-2 rounded-lg text-sm mdphone:text-base">
             <FaVideo size={25} color="yellow" />
             <p>National Job Portal ላይ እንዴት ሥራ ማግኘት እንደሚቻል ይመልከቱ።</p>
