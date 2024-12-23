@@ -9,19 +9,20 @@ const UsersList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
+        setLoading(true); // Set loading to true at the start
         const response = await axios.get(
           "https://golden-delight-backend.onrender.com/api/user/list"
         );
         console.log(response.data); // Debug API response
         setUsers(Array.isArray(response.data.data) ? response.data.data : []); // Safeguard for non-array response
-        setLoading(false);
       } catch (err) {
         console.error(
           "Error fetching users:",
           err.response?.data || err.message
         );
         setError(err.message);
-        setLoading(false);
+      } finally {
+        setLoading(false); // Set loading to false after the request completes
       }
     };
 
@@ -49,7 +50,7 @@ const UsersList = () => {
               {Object.entries(user)
                 .filter(
                   ([key]) =>
-                    !["_id", "password", "confirmpassword"].includes(key)
+                    !["_id", "password", "confirmpassword", "__v"].includes(key) // Exclude sensitive fields
                 )
                 .map(([key, value]) => (
                   <div
