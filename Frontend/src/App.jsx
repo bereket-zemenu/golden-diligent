@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import Confirmation from "./components/Confirmation";
 import RegistrationForm from "./components/RegistrationForm";
 import OssList from "./components/OssList";
+import LoginMessage from "./components/LoginMessage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="otp-confirmation" element={<Confirmation />} />
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/list" element={<OssList />} />
+          <Route path="/login-message" element={<LoginMessage />} />
         </Routes>
       </div>
     </StoreProvider>
