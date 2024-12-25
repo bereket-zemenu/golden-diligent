@@ -10,7 +10,7 @@ function StoreProvider({ children }) {
   const [currState, setCurrState] = useState("Login");
   const [token, setToken] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const url = "https://golden-delight-backend.onrender.com";
+  const url = "https://golden-diligent-backend.onrender.com";
 
   console.log(isOpen);
   function handleIsOpen() {
