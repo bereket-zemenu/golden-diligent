@@ -8,7 +8,7 @@ const UserList = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/user/list")
+      .get("https://golden-diligent-backend.onrender.com/api/user/list")
       .then((response) => {
         if (response.data.success) {
           setUsers(response.data.data); // Access the correct 'data' array
