@@ -18,7 +18,7 @@ const UserDetails = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/api/user/list/${userId}`)
+      .get(`https://golden-diligent-backend.onrender.com/api/user/list/${userId}`)
       .then((response) => {
         const userArray = Object.entries(response.data.data).filter(
           ([key]) => key !== "_id" && key !== "__v" // Exclude _id and __v
